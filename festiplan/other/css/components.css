@@ -1,0 +1,208 @@
+.icon {
+    color: var(--primary);
+}
+
+#iconeMenu {
+    width: 3em;
+    height: 3em;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.oubli {
+    font-size: calc(0.75em);
+}
+
+.eye:hover {
+    cursor: pointer;
+}
+
+.liste {
+    border-radius: var(--border-small);
+    padding: 1em;
+}
+
+.liste-item {
+    border-radius: var(--border-small);
+    padding: 0.5em;
+}
+
+.liste-icon > button:hover {
+    transform: scale(1.2);
+
+}
+
+.liste-icon {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.liste-verticale {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .25em;
+
+    overflow-y: scroll;
+    max-height: 100px;
+}
+
+.liste-verticale > div {
+    width: 50%;
+    display: inherit;
+    align-items: inherit;
+    justify-content: space-between;
+}
+
+.fond-background, .fond-secondary, .fond-primary {
+    border-radius: var(--border-very-small);
+}
+
+.fond-background {
+    background-color: var(--background);
+    color: var(--primary);
+}
+
+.color-primary {
+    color: var(--primary);
+}
+
+.fond-primary {
+    background-color: var(--primary);
+    color: var(--text);
+}
+
+.fond-blanc {
+    background-color: var(--text);
+    color: var(--primary);
+}
+
+.fond-blanc > label {
+    color: var(--primary);
+}
+
+.grid-x-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /*gap: 1em;*/
+}
+
+.grid-x-2 > div {
+    border: solid 1px var(--primary);
+}
+
+
+.grid-x-2 > div, .input-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: .9em 1em;
+}
+
+.input-container {
+    padding-top: 1em;
+    overflow-y: scroll;
+    height: 150px;
+    max-height: 150px;
+}
+
+.input-container > label {
+    color: black;
+}
+
+
+.inputs {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    color: var(--primary);
+}
+
+.param > .fond-secondary > div > .liste-verticale {
+    max-height: 100px;
+    width: 100%;
+}
+
+.liste-verticale > div {
+    width: 75%;
+    display: inherit;
+    align-items: inherit;
+    justify-content: space-between;
+}
+
+#liste-grilles > div {
+    width: 90%;
+}
+
+.img-fest {
+    width: min(300px, 12vw);
+    height: 200px;
+    object-fit: contain;
+}
+
+.img-spectacle {
+    width: 500px;
+    height: 250px;
+    object-fit: contain;
+}
+
+.description {
+    word-break: break-word;
+    height: 5.5em;
+    overflow-y: hidden;
+}
+
+#menu_compte {
+    z-index: 100;
+    position: fixed;
+    left: calc(100% - 21vw);
+
+    width: 21vw;
+    height: 100%;
+
+    border: none;
+}
+
+.btn {
+    text-align: left;
+}
+
+#spectacle-cate-1 {
+    border-right: solid 1px var(--primary);
+}
+
+#radioIntervenant {
+    display: flex;
+    flex-direction: column;
+
+    border-radius: var(--border-very-small);
+    padding: .7em .8em;
+    gap: .5em;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.ajout-container {
+    height: max-content;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.creaGrij {
+    padding: 1em;
+    height: calc(100% - 1.5em);
+}
+
+.nom{
+    overflow-y: hidden;
+}

@@ -1,0 +1,30 @@
+:root {
+    --fond: #c2d1dc;
+    --gris-clair: #ACACB1; 
+    --rouge-fonce: #F35353;
+    --border: 15px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.btn-annuler {
+    background-color: var(--gris-clair);
+    margin-top : 20%;
+    height : 60px;
+    width : 33%;
+    align-items: center;
+}
+
+.btn-supprimer {
+    background-color: var(--rouge-fonce);
+    margin-top : 20%;
+    height : 60px;
+    width : 33%;
+    align-items: center;
+}
+
+.message {
+    padding-top: 70px;
+}

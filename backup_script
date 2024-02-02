@@ -1,0 +1,21 @@
+#!/bin/bash
+
+db_host="mysql-festiplan-sauvegarde.alwaysdata.net"
+db_user="342731"
+db_pass="Saes3web"
+db_name="festiplan-sae_festiplan"
+
+backup_dir="./backup"
+backup_file="backup_$(date + \%Y\%m\%d\%H\%M\%S).sql"
+
+backup_name="festiplan-sauvegarde"
+backup_url="ssh-festiplan-sauvegarde.alwaysdata.net"
+backup_pass="Saes3web"
+
+mysqldump --host=$db_host --user=$db_user --password=$db_pass $db_name > $backup_dir/$backup_file
+
+sshpass -p $backup_pass sftp -o "PasswordAuthentification=no" $backup_name@$backup_url <<EOL
+    cd /home/festiplan-sauvegarde/sauvegarde
+    put $backup_dir/$backup_file
+    bye
+EOL

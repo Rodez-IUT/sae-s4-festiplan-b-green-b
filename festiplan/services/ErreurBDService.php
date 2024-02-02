@@ -1,0 +1,1 @@
+<?php namespace services; class ErreurBDService{}
