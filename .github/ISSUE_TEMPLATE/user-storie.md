@@ -21,12 +21,8 @@ Afin de
 **Quand ** 
 **Alors **
 
-### Cas limite
+### Cas limite 🟢
 
+### Cas d'erreur 🟡
 
-
-### Cas d'erreur
-
-
-
-## Pondération
+## Pondération 🔴
