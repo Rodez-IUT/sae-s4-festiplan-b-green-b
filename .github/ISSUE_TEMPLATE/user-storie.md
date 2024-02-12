@@ -15,14 +15,14 @@ Afin de
 
 ## Test d'acceptation
 
-### Cas nominal
+### Cas nominal 🟢
 
-**Étant donné **
-**Quand ** 
-**Alors **
+**Étant donné** 
+**Quand** 
+**Alors**
 
-### Cas limite 🟢
+### Cas limite 🟡
 
-### Cas d'erreur 🟡
+### Cas d'erreur 🔴
 
-## Pondération 🔴
+## Pondération ⏱️
