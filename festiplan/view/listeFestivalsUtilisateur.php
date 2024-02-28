@@ -15,7 +15,7 @@ $_SESSION["organisateur"] = $organisateur;
     <meta charset="UTF-8">
     <title>Liste des Festivals</title>
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 
 </head>

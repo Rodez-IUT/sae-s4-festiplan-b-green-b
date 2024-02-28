@@ -15,7 +15,7 @@ if (!isset($_SESSION["session_id"])
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
     
     <title>Créer un spectacle</title>
 </head>

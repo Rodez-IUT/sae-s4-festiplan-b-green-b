@@ -6,7 +6,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="../other/css/style.css">
+        <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
     </head>
     <body>
@@ -15,7 +15,8 @@
 
         <?php
             require("header.php");
-            SetupHeadersAndDialog($titre, $controller, $open);
+        /** @noinspection PhpUndefinedVariableInspection */
+        SetupHeadersAndDialog($titre, $controller, $open);
         ?>
 
         <br>
@@ -107,7 +108,7 @@
 
                                 <div class="col-12">
                                     <img class="col-12 img-fest"
-                                         src="../stockage/images/<?php echo $image_name; ?>"
+                                         src="../festiplan/stockage/images/<?php echo $image_name; ?>"
                                          alt="<?php echo $row["nomFestival"]; ?>">
                                 </div>
 

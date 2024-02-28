@@ -15,7 +15,7 @@ if (!isset($_SESSION["session_id"])
     <meta charset="UTF-8">
     <title>Créer un festival</title>
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>
@@ -291,6 +291,6 @@ if (!isset($_SESSION["session_id"])
 
     <?php require("footer.php"); ?>
 
-    <script src="../other/js/creationFestival.js"></script>
+    <script src="../festiplan/other/js/creationFestival.js"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@ if(!$_SESSION["organisateur"]){
     <meta charset="UTF-8">
     <title>Liste de tous les spectacles</title>
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>

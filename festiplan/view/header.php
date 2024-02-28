@@ -17,7 +17,7 @@ function SetupHeadersAndDialog(string $nomPage="festiplan", string $controller="
 
         <div class="row col-12">
 
-            <img class="col-5" src="../ressources/images/user.png" alt="">
+            <img class="col-5" src="../festiplan/ressources/images/user.png" alt="">
 
             <div class="col-5">
                 <?php echo isset($_SESSION["user_nom"]) ? $_SESSION["user_nom"] : "" ?>
@@ -155,7 +155,7 @@ function SetupHeadersAndDialog(string $nomPage="festiplan", string $controller="
         <div class="col-3 row">
             <div class="col-5">
                 <a href="?controller=Home">
-                    <img src ="../ressources/images/logo.png" alt="logo" id="logo">
+                    <img src ="../festiplan/ressources/images/logo.png" alt="logo" id="logo">
                 </a>
             </div>
             <div class="col-3"></div>
@@ -175,7 +175,7 @@ function SetupHeadersAndDialog(string $nomPage="festiplan", string $controller="
                 <input hidden name="action" value="showMenu">
 
                 <button type="submit" class="normal">
-                    <img src="../ressources/images/user_profil.png"
+                    <img src="../festiplan/ressources/images/user_profil.png"
                         alt="icone utilisateur"
                         id="iconeMenu">
 

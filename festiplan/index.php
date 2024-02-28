@@ -1,6 +1,6 @@
 <?php
 
-const PREFIX_TO_RELATIVE_PATH = "/festiplan";
+const PREFIX_TO_RELATIVE_PATH = "sae-s4-festiplan-b-green-b/festiplan";
 
 require 'autoload.php';
 

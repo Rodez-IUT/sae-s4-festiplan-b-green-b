@@ -1,26 +1,6 @@
--- Intervenants table
-INSERT INTO intervenants (nomIntervenant, prenomIntervenant, emailIntervenant, estSurScene)
-VALUES 
-    ('Doe', 'John', 'john.doe@example.com', 1),
-    ('Smith', 'Jane', 'jane.smith@example.com', 0),
-    ('Johnson', 'Alice', 'alice.johnson@example.com', 1),
-    ('Williams', 'Emily', 'emily.williams@example.com', 1),
-    ('Brown', 'Christopher', 'chris.brown@example.com', 0),
-    ('Lee', 'Sophia', 'sophia.lee@example.com', 1);
-
--- GrilleJournaliere table
-INSERT INTO grilleJournaliere (heureDebut, heureFin, dureeMinimaleEntreDeuxSpectacles)
-VALUES 
-    ('08:00:00', '12:00:00', 30),
-    ('14:00:00', '18:00:00', 45),
-    ('20:00:00', '23:00:00', 60),
-    ('10:00:00', '14:00:00', 60),
-    ('16:30:00', '20:30:00', 45),
-    ('22:00:00', '01:00:00', 75);
-
 -- Users table
 INSERT INTO users (nomUser, prenomUser, emailUser, loginUser, passwordUser)
-VALUES 
+VALUES
     ('Johnson', 'Michael', 'michael.johnson@example.com', 'michaelj', 'hashed_password'),
     ('Garcia', 'Maria', 'maria.garcia@example.com', 'mariag', 'hashed_password'),
     ('Chen', 'David', 'david.chen@example.com', 'davidc', 'hashed_password'),
@@ -28,9 +8,30 @@ VALUES
     ('Martinez', 'Olivia', 'olivia.martinez@example.com', 'oliviam', 'hashed_password'),
     ('Liu', 'Kevin', 'kevin.liu@example.com', 'kevinl', 'hashed_password');
 
+
+-- Intervenants table
+INSERT INTO intervenants (nomIntervenant, prenomIntervenant, emailIntervenant, estSurScene, idCreateur)
+VALUES
+    ('Doe', 'John', 'john.doe@example.com', 1, 1),
+    ('Smith', 'Jane', 'jane.smith@example.com', 0, 1),
+    ('Johnson', 'Alice', 'alice.johnson@example.com', 1, 1),
+    ('Williams', 'Emily', 'emily.williams@example.com', 1, 1),
+    ('Brown', 'Christopher', 'chris.brown@example.com', 0, 1),
+    ('Lee', 'Sophia', 'sophia.lee@example.com', 1, 1);
+
+-- GrilleJournaliere table
+INSERT INTO grilleJournaliere (heureDebut, heureFin, dureeMinimaleEntreDeuxSpectacles)
+VALUES
+    ('08:00:00', '12:00:00', 30),
+    ('14:00:00', '18:00:00', 45),
+    ('20:00:00', '23:00:00', 60),
+    ('10:00:00', '14:00:00', 60),
+    ('16:30:00', '20:30:00', 45),
+    ('22:00:00', '01:00:00', 75);
+
 -- Images table
 INSERT INTO images (nomImage)
-VALUES 
+VALUES
     ('image1.jpg'),
     ('image2.jpg'),
     ('image3.jpg'),
@@ -40,7 +41,7 @@ VALUES
 
 -- Categories table
 INSERT INTO categories (nomCategorie)
-VALUES 
+VALUES
     ('Musique'),
     ('Danse'),
     ('Theatre'),
@@ -51,7 +52,7 @@ VALUES
 
 -- Scenes table
 INSERT INTO scenes (nomScene, tailleScene, spectateurMax, coordonneesGPS)
-VALUES 
+VALUES
     ('Scene Principale', '3', 1000, '40.7128° N, 74.0060° W'),
     ('Petite Scene', '1', 200, '34.0522° N, 118.2437° W'),
     ('Scene Exterieur', '2', 500, '51.5074° N, 0.1278° W'),

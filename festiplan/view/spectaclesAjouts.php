@@ -6,12 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Spectacles ajouts</title>
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>
 
-<?php
 require("header.php");
 SetupHeadersAndDialog($titre, $controller, $open);
 ?>

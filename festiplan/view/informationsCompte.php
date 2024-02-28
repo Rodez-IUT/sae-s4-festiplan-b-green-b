@@ -17,7 +17,7 @@ if (!isset($_SESSION["session_id"])
 
     <title>Information Compte</title>
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>

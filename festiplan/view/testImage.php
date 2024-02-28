@@ -1,7 +1,7 @@
 <?php
 // var_dump($_FILES);
 
-require ('../utils/fonctions.php');
+require ('../festiplan/utils/fonctions.php');
 
 $path = "";
 

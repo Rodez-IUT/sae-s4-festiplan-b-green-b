@@ -7,7 +7,7 @@
 
     <title>Erreur</title>
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>

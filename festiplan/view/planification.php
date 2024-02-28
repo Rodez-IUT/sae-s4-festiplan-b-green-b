@@ -16,7 +16,7 @@ if (!isset($_SESSION["session_id"])
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Planification</title>
 
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>
@@ -46,7 +46,7 @@ SetupHeadersAndDialog($titre, $controller, $open);
                             ?>
                             <div class="col-6">
                                 <img class="img-fest"
-                                    src="../stockage/images/<?php echo $image_name; ?>"
+                                    src="../festiplan/stockage/images/<?php echo $image_name; ?>"
                                     alt="<?php echo $spectacle["titreSpectacle"]; ?>"
                                 >
                             </div>

@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Suppression festival </title>
-        <link rel="stylesheet" href="../other/css/messageConfirmation.css">
-        <link rel="stylesheet" href="../lib/bootstrap-5.3.2-dist/css/bootstrap.css">
-        <link rel="stylesheet" href="../other/css/style.css">
+        <link rel="stylesheet" href="../festiplan/other/css/messageConfirmation.css">
+        <link rel="stylesheet" href="../festiplan/lib/bootstrap-5.3.2-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../festiplan/other/css/style.css">
     </head>
     <body>
         <div class="container-fluid">

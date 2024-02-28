@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Création d'un Compte</title>
     
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>
@@ -14,7 +14,7 @@
             <div class="col-4 row">
             <div class="col-5">
                     <a href="?controller=Home">
-                        <img src="../ressources/images/logo.png" alt="logo" id="logo">
+                        <img src="../festiplan/ressources/images/logo.png" alt="logo" id="logo">
                     </a>
                 </div>
                 <div class="col-3"></div>
@@ -154,7 +154,7 @@
 
     <?php require("footer.php"); ?>
 
-    <script src="../other/js/creationCompte.js"></script>
+    <script src="../festiplan/other/js/creationCompte.js"></script>
 
 </body>
 </html>

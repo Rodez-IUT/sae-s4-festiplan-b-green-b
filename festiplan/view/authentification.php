@@ -20,10 +20,10 @@ if (isset($user_ok) && $user_ok) {
     <meta charset="UTF-8">
     <title>Page Authentification</title>
     
-    <link rel="stylesheet" href="../lib/bootstrap-5.3.2-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../lib/fontawesome-free-6.2.1-web/css/all.css">
+    <link rel="stylesheet" href="../festiplan/lib/bootstrap-5.3.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../festiplan/lib/fontawesome-free-6.2.1-web/css/all.css">
     
-    <link rel="stylesheet" href="../other/css/style.css">
+    <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>
@@ -33,7 +33,7 @@ if (isset($user_ok) && $user_ok) {
             <div class="col-4 row">
             <div class="col-5">
                     <a href="?controller=Home">
-                        <img src ="../ressources/images/logo.png" alt="logo" id="logo">
+                        <img src ="../festiplan/ressources/images/logo.png" alt="logo" id="logo">
                     </a>
                 </div>
                 <div class="col-3"></div>
@@ -155,7 +155,7 @@ if (isset($user_ok) && $user_ok) {
 
     <?php require("footer.php"); ?>
 
-    <script src="../js/authentification.js"></script>
+    <script src="../festiplan/js/authentification.js"></script>
 
 </body>
 </html>
