@@ -2,24 +2,40 @@
 
 namespace api;
 
+use PDOException;
+use services\api\FestivalService;
 use yasmf\DataSource;
 
 class API
 {
 
-    private $dataSource;
+    private DataSource $dataSource;
 
     public function __construct()
     {
-        $this->dataSource = new DataSource(
-            $host = 'localhost',
-            $port = '3306',
-            $db = 'festiplan',
-            $user = 'root',
-            $pass = '',
-            $charset = 'utf8mb4'
-        );
-        // TODO: gerer plusieurs utilisateurs
+        try {
+            $this->dataSource = new DataSource('localhost', '3306', 'festiplan', 'root', '', 'utf8mb4');
+        } catch (PDOException $e) {
+            API::send_json($e, 500);
+        }
+    }
+
+    public function getAllFestival(): array|PDOException
+    {
+        try {
+            return FestivalService::getAllFestival($this->dataSource->getpdo());
+        } catch (PDOException $e) {
+            return $e;
+        }
+    }
+
+    public function getOrganizerFestival($id): array|PDOException
+    {
+        try {
+            return FestivalService::getOrganizerFestival($this->dataSource->getpdo(), $id);
+        } catch (PDOException $e) {
+            return $e;
+        }
     }
 
     public static function send_json($data, $status)
