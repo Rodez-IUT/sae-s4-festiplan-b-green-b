@@ -1,6 +1,7 @@
 <?php
 
-require_once 'functions.php';
+use api\API;
+
 
 if (!empty($_GET["demande"])) {
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -8,13 +9,13 @@ if (!empty($_GET["demande"])) {
             $url = explode('/', filter_var($_GET['demande'], FILTER_SANITIZE_URL));
 
             switch ($url[0]) {
-                case '' :
+                case 'allFestivals':
                     // TODO: à compléter
                     break;
                 default:
                     $info['status'] = "KO";
                     $info['message'] = $url[0] . "inexistant";
-                    send_json($info, 404);
+                    API::send_json($info, 404);
             }
             break;
         case 'PUT':
@@ -25,13 +26,13 @@ if (!empty($_GET["demande"])) {
             } else {
                 $info['status'] = "KO";
                 $info['message'] = "URL non valide";
-                send_json($info, 404);
+                API::send_json($info, 404);
             }
             break;
         default:
             $info['status'] = "KO";
             $info['message'] = "URL non valide";
-            send_json($info, 404);
+            API::send_json($info, 404);
     }
 }
 
