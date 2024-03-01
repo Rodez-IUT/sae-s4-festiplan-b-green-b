@@ -16,17 +16,13 @@ class API
             $port = '3306',
             $db = 'festiplan',
             $user = 'root',
-            $pass = 'root',
+            $pass = '',
             $charset = 'utf8mb4'
         );
+        // TODO: gerer plusieurs utilisateurs
     }
 
-    public function getDataSource(): DataSource
-    {
-        return $this->dataSource;
-    }
-
-    public function send_json($data, $status)
+    public static function send_json($data, $status)
     {
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json; charset=UTF-8');
