@@ -1,7 +1,9 @@
 <?php
 
+require_once "../autoload.php";
 use api\API;
 
+$API = new API();
 
 if (!empty($_GET["demande"])) {
     switch ($_SERVER['REQUEST_METHOD']) {
@@ -10,7 +12,15 @@ if (!empty($_GET["demande"])) {
 
             switch ($url[0]) {
                 case 'allFestivals':
-                    // TODO: à compléter
+                    $result =  $API->getAllFestival();
+                    if (is_array($result)) {
+                        API::send_json($result, 200);
+                    } else {
+                        API::send_json([
+                            "status" => "KO",
+                            "message" => "Erreur lors de la récupération des festivals"
+                        ], 500);
+                    }
                     break;
                 default:
                     $info['status'] = "KO";
