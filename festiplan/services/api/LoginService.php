@@ -4,7 +4,7 @@ namespace services\api;
 
 class LoginService
 {
-    function login(): bool
+    public static function login(): bool
     {
         return true;
     }
