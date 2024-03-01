@@ -4,15 +4,15 @@ namespace services\api;
 
 class FavorisServices
 {
-    function getFavoris() {
+    public static function getFavoris() {
 
     }
 
-    function addFavori() {
+    public static function addFavori() {
 
     }
 
-    function deleteFavori() {
+    public static function deleteFavori() {
 
     }
 
