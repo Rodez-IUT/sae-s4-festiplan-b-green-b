@@ -38,6 +38,24 @@ class API
         }
     }
 
+    public function getScenesFestival($id): array|PDOException
+    {
+        try {
+            return FestivalService::getScenesFestival($this->dataSource->getpdo(), $id);
+        } catch (PDOException $e) {
+            return $e;
+        }
+    }
+
+    public function getShowsFestival($id): array|PDOException
+    {
+        try {
+            return FestivalService::getShowsFestival($this->dataSource->getpdo(), $id);
+        } catch (PDOException $e) {
+            return $e;
+        }
+    }
+
     public static function send_json($data, $status)
     {
         header('Access-Control-Allow-Origin: *');
