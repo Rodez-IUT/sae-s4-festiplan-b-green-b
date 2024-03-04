@@ -1,41 +1,34 @@
 <?php
 
 require_once "../autoload.php";
+
 use api\API;
 
 $API = new API();
 
+// on vérifie que la demande est bien présente
 if (!empty($_GET["demande"])) {
+    $url = explode('/', filter_var($_GET['demande'], FILTER_SANITIZE_URL));
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            $url = explode('/', filter_var($_GET['demande'], FILTER_SANITIZE_URL));
-
-            switch ($url[0]) {
-                case 'allFestivals':
-                    $result =  $API->getAllFestival();
-                    if (is_array($result)) {
-                        API::send_json($result, 200);
-                    } else {
-                        API::send_json([
-                            "status" => "KO",
-                            "message" => "Erreur lors de la récupération des festivals"
-                        ], 500);
-                    }
-                    break;
-                default:
-                    $info['status'] = "KO";
-                    $info['message'] = $url[0] . "inexistant";
-                    API::send_json($info, 404);
+            // si le contenu de $url[0] existe dans le dossier routes/GET
+            if (file_exists("routes/GET/{$url[0]}.php")) {
+                // on inclut le fichier correspondant
+                include_once "routes/GET/{$url[0]}.php";
+            } else {
+                $info['status'] = "KO";
+                $info['message'] = $url[0] . " inexistant";
+                API::send_json($info, 404);
             }
             break;
         case 'PUT':
-            $url = explode('/', filter_var($_GET['demande'], FILTER_SANITIZE_URL));
-
-            if ($url[0] === '' && isset($url[1])) {
-                // TODO: à compléter
+            // si le contenu de $url[0] existe dans le dossier routes/PUT
+            if (file_exists("routes/PUT/{$url[0]}.php")) {
+                // on inclut le fichier correspondant
+                include_once "routes/PUT/{$url[0]}.php";
             } else {
                 $info['status'] = "KO";
-                $info['message'] = "URL non valide";
+                $info['message'] = $url[0] . " inexistant";
                 API::send_json($info, 404);
             }
             break;
@@ -44,5 +37,8 @@ if (!empty($_GET["demande"])) {
             $info['message'] = "URL non valide";
             API::send_json($info, 404);
     }
+} else {
+    $info['status'] = "KO";
+    $info['message'] = "URL non valide";
+    API::send_json($info, 404);
 }
-
