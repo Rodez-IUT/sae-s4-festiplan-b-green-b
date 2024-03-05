@@ -16,29 +16,22 @@ if (!empty($_GET["demande"])) {
                 // on inclut le fichier correspondant
                 include_once "routes/GET/{$url[0]}.php";
             } else {
-                $info['status'] = "KO";
-                $info['message'] = $url[0] . " inexistant";
-                API::send_json($info, 404);
+                API::sendError($url[0] . " inexistant", 404);
             }
             break;
         case 'PUT':
             // si le contenu de $url[0] existe dans le dossier routes/PUT
             if (file_exists("routes/PUT/{$url[0]}.php")) {
                 // on inclut le fichier correspondant
+                // TODO: mettre un clé
                 include_once "routes/PUT/{$url[0]}.php";
             } else {
-                $info['status'] = "KO";
-                $info['message'] = $url[0] . " inexistant";
-                API::send_json($info, 404);
+                API::sendError($url[0] . " inexistant", 404);
             }
             break;
         default:
-            $info['status'] = "KO";
-            $info['message'] = "URL non valide";
-            API::send_json($info, 404);
+            API::sendError("Appel non valide", 404);
     }
 } else {
-    $info['status'] = "KO";
-    $info['message'] = "URL non valide";
-    API::send_json($info, 404);
+    API::sendError("URL non valide", 404);
 }
