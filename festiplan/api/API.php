@@ -2,6 +2,7 @@
 
 namespace api;
 
+use JetBrains\PhpStorm\NoReturn;
 use PDOException;
 use services\api\FestivalService;
 use yasmf\DataSource;
@@ -30,7 +31,7 @@ class API
         try {
             $this->dataSource = new DataSource('localhost', '3306', 'festiplan', 'root', '', 'utf8mb4');
         } catch (PDOException $e) {
-            API::sendError("Erreur lors de la connexion à la base de données", 500);
+            API::send_error("Erreur lors de la connexion à la base de données", 500);
         }
     }
 
@@ -99,7 +100,7 @@ class API
      * @param string $message Le message d'erreur.
      * @param int $status Le code de statut HTTP.
      */
-    public static  function sendError($message, $status): void
+    public static  function send_error(string $message, int $status): void
     {
         $info['status'] = "KO";
         $info['message'] = $message;
@@ -112,7 +113,7 @@ class API
      * @param mixed $data Les données à envoyer dans la réponse.
      * @param int $status Le code de statut HTTP.
      */
-    public static function send_json($data, $status)
+    public static function send_json(mixed $data, int $status): void
     {
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json; charset=UTF-8');
