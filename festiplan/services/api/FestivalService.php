@@ -1,15 +1,28 @@
 <?php
 
+// Déclaration de l'espace de noms
 namespace services\api;
 
+// Importation de la classe PDOException
 use PDOException;
 
+/**
+ * Classe FestivalService
+ *
+ * Cette classe fournit des méthodes pour interagir avec la base de données des festivals.
+ */
 class FestivalService
 {
+    /**
+     * Récupère tous les festivals de la base de données.
+     *
+     * @param $pdo L'objet PDO pour la connexion à la base de données.
+     * @return array|PDOException Les festivals récupérés ou une exception PDO en cas d'erreur.
+     */
     public static function getAllFestival($pdo): array | PDOException
     {
         try {
-            $stmt = $pdo->prepare("SELECT * FROM festivals");
+            $stmt = $pdo->prepare("SELECT * FROM festivals ORDER BY dateDebutFestival");
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
@@ -17,6 +30,13 @@ class FestivalService
         }
     }
 
+    /**
+     * Récupère l'organisateur d'un festival spécifique.
+     *
+     * @param $pdo L'objet PDO pour la connexion à la base de données.
+     * @param $id L'ID du festival.
+     * @return array|PDOException L'organisateur du festival ou une exception PDO en cas d'erreur.
+     */
     public static function getOrganizerFestival($pdo, $id): array | PDOException
     {
         try {
@@ -29,6 +49,13 @@ class FestivalService
         }
     }
 
+    /**
+     * Récupère les scènes d'un festival spécifique.
+     *
+     * @param $pdo L'objet PDO pour la connexion à la base de données.
+     * @param $id L'ID du festival.
+     * @return array|PDOException Les scènes du festival ou une exception PDO en cas d'erreur.
+     */
     public static function getScenesFestival($pdo, $id): array | PDOException
     {
         try {
@@ -41,6 +68,13 @@ class FestivalService
         }
     }
 
+    /**
+     * Récupère les spectacles d'un festival spécifique.
+     *
+     * @param $pdo L'objet PDO pour la connexion à la base de données.
+     * @param $id L'ID du festival.
+     * @return array|PDOException Les spectacles du festival ou une exception PDO en cas d'erreur.
+     */
     public static function getShowsFestival($pdo, $id): array | PDOException
     {
         try {
