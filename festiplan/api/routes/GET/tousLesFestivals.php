@@ -6,8 +6,5 @@ $result =  $API->getAllFestival();
 if (is_array($result)) {
     API::send_json($result, 200);
 } else {
-    API::send_json([
-        "status" => "KO",
-        "message" => "Erreur lors de la récupération des festivals"
-    ], 500);
+    API::send_error("Erreur lors de la récupération des festivals : " . $result->getMessage(), 500);
 }

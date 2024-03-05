@@ -16,7 +16,7 @@ if (!empty($_GET["demande"])) {
                 // on inclut le fichier correspondant
                 include_once "routes/GET/{$url[0]}.php";
             } else {
-                API::sendError($url[0] . " inexistant", 404);
+                API::send_error($url[0] . " inexistant", 404);
             }
             break;
         case 'PUT':
@@ -26,12 +26,12 @@ if (!empty($_GET["demande"])) {
                 // TODO: mettre un clé
                 include_once "routes/PUT/{$url[0]}.php";
             } else {
-                API::sendError($url[0] . " inexistant", 404);
+                API::send_error($url[0] . " inexistant", 404);
             }
             break;
         default:
-            API::sendError("Appel non valide", 404);
+            API::send_error("Appel non valide", 404);
     }
 } else {
-    API::sendError("URL non valide", 404);
+    API::send_error("URL non valide", 404);
 }

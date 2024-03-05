@@ -9,14 +9,8 @@ if (isset($url[1])) {
     if (is_array($result)) {
         API::send_json($result, 200);
     } else {
-        API::send_json([
-            "status" => "KO",
-            "message" => "Erreur lors de la récupération des festivals"
-        ], 500);
+        API::send_error("Erreur lors de la récupération des spectacles : " . $result->getMessage(), 500);
     }
 } else {
-    API::send_json([
-        "status" => "KO",
-        "message" => "URL non valide, id manquant"
-    ], 400);
+    API::send_error("L'id du festival est manquant", 400);
 }
