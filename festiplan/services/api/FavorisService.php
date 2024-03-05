@@ -2,7 +2,7 @@
 
 namespace services\api;
 
-class FavorisServices
+class FavorisService
 {
     public static function getFavoris() {
 
