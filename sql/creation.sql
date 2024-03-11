@@ -28,7 +28,7 @@ CREATE TABLE intervenants (
     estSurScene BOOLEAN NOT NULL,
     idCreateur INT NOT NULL, -- foreign key
     PRIMARY KEY (idIntervenant),
-    CONSTRAINT fk_createur FOREIGN KEY (idCreateur) REFERENCES users(idUser)
+    CONSTRAINT fk_createur FOREIGN KEY (idCreateur) REFERENCES users(idUser) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE images (
@@ -64,8 +64,8 @@ CREATE TABLE spectacles (
     -- une liste d'intervenants dans une autre table
         -- les intervenants peuvent être sur scene ou en coulisse
         -- mais ici ils sont considérés pareil
-    FOREIGN KEY (idImage) references images(idImage),
-    FOREIGN KEY (idResponsableSpectacle) references users(idUser),
+    FOREIGN KEY (idImage) references images(idImage) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idResponsableSpectacle) references users(idUser) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idSpectacle)
 );
 
@@ -85,9 +85,9 @@ CREATE TABLE festivals (
     -- une liste de scenes dans une autre table
     -- une liste de membres dans une autre table
     -- une liste de spectacles dans une autre table
-    FOREIGN KEY (idImage) references images(idImage),
-    FOREIGN KEY (idGriJ) references grilleJournaliere(idGriJ),
-    FOREIGN KEY (idResponsable) references users(idUser),
+    FOREIGN KEY (idImage) references images(idImage) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idGriJ) references grilleJournaliere(idGriJ) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idResponsable) references users(idUser) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idFestival)
 );
 
@@ -95,47 +95,47 @@ CREATE TABLE festivals (
 CREATE TABLE accueillir (
     idFestival INT NOT NULL, -- foreign key
     idScene INT NOT NULL, -- foreign key
-    FOREIGN KEY (idFestival) references festivals(idFestival),
-    FOREIGN KEY (idScene) references scenes(idScene),
+    FOREIGN KEY (idFestival) references festivals(idFestival) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idScene) references scenes(idScene) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idFestival, idScene)
 );
 
 CREATE TABLE organiser (
     idFestival INT NOT NULL, -- foreign key
     idUser INT NOT NULL, -- foreign key
-    FOREIGN KEY (idFestival) references festivals(idFestival),
-    FOREIGN KEY (idUser) references users(idUser),
+    FOREIGN KEY (idFestival) references festivals(idFestival) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idUser) references users(idUser) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idFestival, idUser)
 );
 
 CREATE TABLE categorieSpectacle (
     idSpectacle INT NOT NULL, -- foreign key
     idCategorie INT NOT NULL, -- foreign key
-    FOREIGN KEY (idSpectacle) references spectacles(idSpectacle),
-    FOREIGN KEY (idCategorie) references categories(idCategorie),
+    FOREIGN KEY (idSpectacle) references spectacles(idSpectacle) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idCategorie) references categories(idCategorie) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idSpectacle, idCategorie)
 );
 
 CREATE TABLE categorieFestival (
     idFestival INT NOT NULL, -- foreign key
     idCategorie INT NOT NULL, -- foreign key
-    FOREIGN KEY (idFestival) references festivals(idFestival),
-    FOREIGN KEY (idCategorie) references categories(idCategorie),
+    FOREIGN KEY (idFestival) references festivals(idFestival) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idCategorie) references categories(idCategorie) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idFestival, idCategorie)
 );
 
 CREATE TABLE intervenir (
     idSpectacle INT NOT NULL, -- foreign key
     idIntervenant INT NOT NULL, -- foreign key
-    FOREIGN KEY (idSpectacle) references spectacles(idSpectacle),
-    FOREIGN KEY (idIntervenant) references intervenants(idIntervenant),
+    FOREIGN KEY (idSpectacle) references spectacles(idSpectacle) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idIntervenant) references intervenants(idIntervenant) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idSpectacle, idIntervenant)
 );
 
 CREATE TABLE composer (
     idSpectacle INT NOT NULL, -- foreign key
     idFestival INT NOT NULL, -- foreign key
-    FOREIGN KEY (idSpectacle) references spectacles(idSpectacle),
-    FOREIGN KEY (idFestival) references festivals(idFestival),
+    FOREIGN KEY (idSpectacle) references spectacles(idSpectacle) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idFestival) references festivals(idFestival) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idSpectacle, idFestival)
 );
