@@ -5,6 +5,7 @@ namespace api;
 use JetBrains\PhpStorm\NoReturn;
 use PDOException;
 use services\api\FestivalService;
+use services\api\LoginService;
 use yasmf\DataSource;
 
 /**
@@ -95,6 +96,22 @@ class API
     }
 
     /**
+     * Obtenir les favoris d'un utilisateur spécifique.
+     *
+     * @param string $login
+     * @param string $mdp
+     * @return PDOException|bool|array Renvoie un tableau de favoris ou une PDOException s'il y a une erreur.
+     */
+    public function login(string $login, string $mdp): PDOException|bool|array
+    {
+        try {
+            return LoginService::login($this->dataSource->getpdo(), $login, $mdp);
+        } catch (PDOException $e) {
+            return $e;
+        }
+    }
+
+    /**
      * Envoyer une réponse d'erreur.
      *
      * @param string $message Le message d'erreur.
@@ -123,5 +140,4 @@ class API
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
-
 }
