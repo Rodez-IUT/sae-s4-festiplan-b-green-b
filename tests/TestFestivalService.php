@@ -25,8 +25,6 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        // Donné un PDO pour les tests
         // Création d'un nouvel objet DataSource avec les paramètres nécessaires
         $datasource = new DataSource(
             'localhost',
@@ -264,4 +262,96 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
             $this->fail($e->getMessage());
         }
     }
+
+    public function testGetOrganizerFestivalWithIncorrectId()
+    {
+        // GIVEN: un id de festival incorrect
+        $incorrectId = -1;
+
+        // WHEN: on essaie de récupérer les organisateurs du festival avec l'id incorrect
+        $organizers = $this->festivalService->getOrganizerFestival($this->pdo, $incorrectId);
+
+        // THEN: on devrait obtenir un tableau vide
+        $this->assertEmpty($organizers);
+    }
+
+    public function testGetScenesFestivalWithIncorrectId()
+    {
+        // GIVEN: un id de festival incorrect
+        $incorrectId = -1;
+
+        // WHEN: on essaie de récupérer les scènes du festival avec l'id incorrect
+        $scenes = $this->festivalService->getScenesFestival($this->pdo, $incorrectId);
+
+        // THEN: we should get an empty array
+        $this->assertEmpty($scenes);
+    }
+
+    public function testGetShowsFestivalWithIncorrectId()
+    {
+        // GIVEN: un id de festival incorrect
+        $incorrectId = -1;
+
+        // WHEN: on essaie de récupérer les spectacles du festival avec l'id incorrect
+        $shows = $this->festivalService->getShowsFestival($this->pdo, $incorrectId);
+
+        // THEN: on devrait obtenir un tableau vide
+        $this->assertEmpty($shows);
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    public function testGetOrganizerFestivalWithDatabaseFailure()
+    {
+        // GIVEN: un objet PDO qui lance une exception lorsqu'on prépare une requête
+        $this->pdo = $this->createMock(PDO::class);
+        $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
+
+        // WHEN: on essaie de récupérer les organisateurs du festival
+        $organizers = $this->festivalService->getOrganizerFestival($this->pdo, 1);
+
+        // THEN: on recupere une PDOException
+        $this->assertInstanceOf(PDOException::class, $organizers);
+    }
+
+    public function testGetAllFestivalsWithDatabaseFailure()
+    {
+        // GIVEN: un objet PDO qui lance une exception lorsqu'on prépare une requête
+        $this->pdo = $this->createMock(PDO::class);
+        $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
+
+        // WHEN: on essaie de récupérer tous les festivals
+        $festivals = $this->festivalService->getAllFestival($this->pdo);
+
+        // THEN: on recupere une PDOException
+        $this->assertInstanceOf(PDOException::class, $festivals);
+    }
+
+    public function testGetScenesFestivalWithDatabaseFailure()
+    {
+        // GIVEN: un objet PDO qui lance une exception lorsqu'on prépare une requête
+        $this->pdo = $this->createMock(PDO::class);
+        $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
+
+        // WHEN: on essaie de récupérer les scènes du festival
+        $scenes = $this->festivalService->getScenesFestival($this->pdo, 1);
+
+        // THEN: on recupere une PDOException
+        $this->assertInstanceOf(PDOException::class, $scenes);
+    }
+
+    public function testGetShowsFestivalWithDatabaseFailure()
+    {
+        // GIVEN: un objet PDO qui lance une exception lorsqu'on prépare une requête
+        $this->pdo = $this->createMock(PDO::class);
+        $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
+
+        // WHEN: on essaie de récupérer les spectacles du festival
+        $shows = $this->festivalService->getShowsFestival($this->pdo, 1);
+
+        // THEN: on recupere une PDOException
+        $this->assertInstanceOf(PDOException::class, $shows);
+    }
+
 }
