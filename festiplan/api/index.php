@@ -5,7 +5,6 @@ require_once "../autoload.php";
 use api\API;
 
 $API = new API();
-
 // on vérifie que la demande est bien présente
 if (!empty($_GET["demande"])) {
     $url = explode('/', filter_var($_GET['demande'], FILTER_SANITIZE_URL));
@@ -23,7 +22,7 @@ if (!empty($_GET["demande"])) {
             // si le contenu de $url[0] existe dans le dossier routes/PUT
             if (file_exists("routes/PUT/{$url[0]}.php")) {
                 // on inclut le fichier correspondant
-                // TODO: mettre un clé
+                // TODO: mettre un clé ???
                 include_once "routes/PUT/{$url[0]}.php";
             } else {
                 API::send_error($url[0] . " inexistant", 404);
