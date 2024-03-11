@@ -2,7 +2,6 @@
 
 use api\API;
 
-$url = explode('/', filter_var($_GET['demande'], FILTER_SANITIZE_URL));
 
 if (isset($url[1])) {
     $result = $API->getOrganizerFestival($url[1]);
@@ -12,5 +11,5 @@ if (isset($url[1])) {
         API::send_error("Erreur lors de la récupération des festivals : " . $result->getMessage(), 500);
     }
 } else {
-    API::send_error("L'id du festival est manquant", 400);
+    API::send_error("ID manquant", 400);
 }

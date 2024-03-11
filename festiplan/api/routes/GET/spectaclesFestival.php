@@ -2,7 +2,6 @@
 
 use api\API;
 
-$url = explode('/', filter_var($_GET['demande'], FILTER_SANITIZE_URL));
 
 if (isset($url[1])) {
     $result = $API->getShowsFestival($url[1]);
