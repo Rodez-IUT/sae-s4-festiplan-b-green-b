@@ -2,7 +2,6 @@
 
 namespace api;
 
-use JetBrains\PhpStorm\NoReturn;
 use PDOException;
 use services\api\FestivalService;
 use services\api\LoginService;
