@@ -62,7 +62,7 @@ class ListeFestivalController
 
         unset($_GET['cree']);
         // Initialise la vue avec la liste des festivals et d'autres variables nécessaires.
-        $view = new View("view/listeFestivalsUtilisateur");
+        $view = new View("view/festival/listeFestivalsUtilisateur");
         $view->setVar('cree', $cree);
         $view->setVar("liste_festivals", $festivals);
         $view->setVar("controller", "ListeFestival");
