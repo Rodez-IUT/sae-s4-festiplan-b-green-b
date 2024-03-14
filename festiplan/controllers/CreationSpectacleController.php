@@ -60,7 +60,7 @@ class CreationSpectacleController
         $liste_valeurs = $this->creationSpectacleServices->getListeValeurs($pdo, $_POST);
 
         // Initialisation de la vue avec les données nécessaires.
-        $view = new View("view/creationSpectacle");
+        $view = new View("view/spectacle/creationSpectacle");
         $view->setVar("liste_categories", $listeCategorieSpectacle);
         $view->setVar("listeIntervenantHors", $listeIntervenantHors);
         $view->setVar("listeIntervenantScene", $listeIntervenantScene);

@@ -63,7 +63,7 @@ class ListeSpectacleController
         }
 
         // Initialise la vue avec la liste des spectacles et d'autres variables nécessaires.
-        $view = new View("view/listeSpectaclesUtilisateur");
+        $view = new View("view/spectacle/listeSpectaclesUtilisateur");
         $view->setVar("organisateur", $est_organisateur);
         $view->setVar("liste_spectacles", $liste_spectacles);
         $view->setVar("titre", "Liste des spectacles");
