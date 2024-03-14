@@ -2,42 +2,21 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Création d'un Compte</title>
-    
+    <title>Modifier Information</title>
+
     <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
 </head>
 <body>
-
-    <header class="container-fluid">
-        <div class="row">
-            <div class="col-4 row">
-            <div class="col-5">
-                    <a href="?controller=Home">
-                        <img src="../festiplan/ressources/images/logo.png" alt="logo" id="logo">
-                    </a>
-                </div>
-                <div class="col-3"></div>
-
-            </div>
-
-            <div class="col-4 text-center">
-                <div class="col-12">&nbsp;</div>
-                <h1>
-                    Créer un compte
-                </h1>
-
-            </div>
-
-        </div>
-    </header>
+    <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/header.php");
+    SetupHeadersAndDialog($titre, $controller, $open);?>
 
     <br><br>
     <div class="container">
         <div class="row">
 
-            <form method="post" 
-                action="?controller=CreationCompte&action=createAccount"
+            <form method="post"
+                action="?controller=ModifInfoPerso"
                 class="col-md-6 offset-md-3
                         col-sm-8 offset-sm-2
                         col-10 offset-1 fond-primary">
@@ -52,12 +31,12 @@
                             Nom :
                         </label>
                         <input required class="col-12"
-                            type="text" placeholder="Entrez votre nom" 
-                            value="<?php echo $liste_valeurs["nom"] ?>" 
+                            type="text" placeholder="Entrez votre nom"
+                            value="<?php echo $liste_valeurs["nomUser"] ?>"
                             name="nom" id="inputNom">
                     </div>
-    
-<!--                     <div class="col-12">&nbsp;</div>-->
+
+                    <div class="col-12">&nbsp;</div>
 
                     <div class="col-10 offset-1">
                         <label for="prenom" id="labelPrenom"
@@ -65,12 +44,12 @@
                             Prenom :
                         </label>
                         <input required class="col-12"
-                            value="<?php echo $liste_valeurs["prenom"]; ?>" 
-                            type="text" placeholder="Entrez votre prénom" 
+                            value="<?php echo $liste_valeurs["prenomUser"]; ?>"
+                            type="text" placeholder="Entrez votre prénom"
                             name="prenom" id="inputPrenom">
                     </div>
 
-<!--                     <div class="col-12">&nbsp;</div>-->
+                    <div class="col-12">&nbsp;</div>
 
                     <div class="col-10 offset-1">
                         <label for="email" id="labelEmail"
@@ -81,12 +60,12 @@
                             <?php } ?>
                         </label>
                         <input required class="col-12"
-                            value="<?php echo $liste_valeurs["email"]; ?>"
-                            type="email" placeholder="Entrez votre email" 
+                            value="<?php echo $liste_valeurs["emailUser"]; ?>"
+                            type="email" placeholder="Entrez votre email"
                             name="email" id="inputEmail">
                     </div>
 
-<!--                     <div class="col-12">&nbsp;</div>-->
+                    <div class="col-12">&nbsp;</div>
 
                     <div class="col-10 offset-1">
                         <label for="identifiant" id="labelIdentifiant"
@@ -97,23 +76,23 @@
                             <?php } ?>
                         </label>
                         <input required class="col-12"
-                            value="<?php echo $liste_valeurs["identifiant"]; ?>"
-                            type="text" placeholder="Entrez votre identifiant" 
+                            value="<?php echo $liste_valeurs["loginUser"]; ?>"
+                            type="text" placeholder="Entrez votre identifiant"
                             name="identifiant" id="inputIdentifiant">
                     </div>
 
-<!--                     <div class="col-12">&nbsp;</div>-->
+                    <div class="col-12">&nbsp;</div>
 
                     <div class="col-10 offset-1">
-                        <label for="motDePasse" id="labelMotDePasse"
+                        <label for="motDePasse" id="labelAncienMotDePasse"
                         class="<?php echo $liste_classes["motDePasse"]; ?>">
-                            Mot de passe :
+                            Mot de passe actuel :
                         </label>
                         <span>
                             <input required class="col-12"
-                                type="password" placeholder="Entrez votre mot de passe" 
-                                name="motDePasse" id="inputMotDePasse">
-                            
+                                type="password" placeholder="Mot de passe actuel"
+                                name="ancienMotDePasse" id="inputAncienMotDePasse">
+
                             <span id="eyeMDP" class="fa fa-eye eye"></span>
                         </span>
                     </div>
@@ -121,25 +100,44 @@
 <!--                     <div class="col-12">&nbsp;</div>-->
 
                     <div class="col-10 offset-1">
-                        <label for="confirMotDePasse" id="labelConfirmationMotDePasse"
+                        <label for="confirMotDePasse" id="labelNouveauMotDePasse"
                         class="<?php echo $liste_classes["confirMotDePasse"]; ?>">
-                            Confirmez votre mot de passe :
+                            Nouveau mot de passe :
                         </label>
                         <span>
-                            <input required class="col-12"
-                                type="password" placeholder="Entrez votre mot de passe" 
+                            <input class="col-12"
+                                type="password" placeholder="Nouveau mot de passe"
+                                name="nouveauMotDePasse" id="inputNouveauMotDePasse">
+
+                            <span id="eyeConfirmMDP" class="fa fa-eye eye"></span>
+                        </span>
+                    </div>
+
+                    <div class="col-10 offset-1">
+                        <label for="confirMotDePasse" id="labelConfirmationMotDePasse"
+                        class="<?php echo $liste_classes["confirMotDePasse"]; ?>">
+                            Confirmez votre nouveau mot de passe :
+                        </label>
+                        <span>
+                            <input class="col-12"
+                                type="password" placeholder="Confirmer nouveau mot de passe"
                                 name="confirMotDePasse" id="inputConfirmationMotDePasse">
 
                             <span id="eyeConfirmMDP" class="fa fa-eye eye"></span>
                         </span>
                     </div>
 
+
+
                     <div class="col-12">&nbsp;</div>
+
+
 
                     <div class="col-4 offset-7">
                         <button class="btn-creer col-12"
-                            type="submit" id="boutonValider">
-                            Créer
+                                name="action" value="changeAccount"
+                                type="submit" id="boutonValider">
+                            Changer
                         </button>
                     </div>
                     <div class="col-12">&nbsp;</div>
@@ -152,9 +150,7 @@
 
     <br><br>
 
-    <?php require("footer.php"); ?>
-
-    <script src="../festiplan/other/js/creationCompte.js"></script>
+    <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
 </body>
 </html>

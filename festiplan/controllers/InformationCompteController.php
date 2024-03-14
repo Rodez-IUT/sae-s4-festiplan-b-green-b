@@ -63,7 +63,7 @@ class InformationCompteController
         }
 
         // Initialise la vue avec les informations du compte utilisateur.
-        $view = new View("view/informationsCompte");
+        $view = new View("view/compte_utilisateur/informationsCompte");
         $view->setVar("identifiant", $data["loginUser"]);
         $view->setVar("nom", $data["nomUser"]);
         $view->setVar("prenom", $data["prenomUser"]);

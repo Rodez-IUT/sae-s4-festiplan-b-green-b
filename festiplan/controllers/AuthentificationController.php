@@ -37,7 +37,7 @@ class AuthentificationController {
      */
     public function index($pdo): View
     {
-        $view = new View("view/authentification");
+        $view = new View("view/compte_utilisateur/authentification");
         return $view;
     }
 
@@ -63,7 +63,7 @@ class AuthentificationController {
             exit();
         }
 
-        $view = new View("view/authentification");
+        $view = new View("view/compte_utilisateur/authentification");
 
         if (isset($result) && $result) {
             // L'utilisateur est valide, configure la vue avec les informations de l'utilisateur.
@@ -93,7 +93,7 @@ class AuthentificationController {
      */
     public function deconnexion($pdo): View
     {
-        $view = new View("view/authentification");
+        $view = new View("view/compte_utilisateur/authentification");
         return $view;
     }
 
@@ -139,7 +139,7 @@ class AuthentificationController {
             $reussite_suppression = $this->authentificationService->delete_account($pdo, $id);
         }
 
-        $view = new View("view/authentification");
+        $view = new View("view/compte_utilisateur/authentification");
         return $view;
 
     }

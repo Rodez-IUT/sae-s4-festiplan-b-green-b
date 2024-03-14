@@ -153,7 +153,7 @@ if (isset($user_ok) && $user_ok) {
 
     <br><br>
 
-    <?php require("footer.php"); ?>
+    <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
     <script src="../festiplan/js/authentification.js"></script>
 
