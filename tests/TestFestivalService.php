@@ -309,10 +309,9 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
         $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
 
         // WHEN: on essaie de récupérer les organisateurs du festival
-        $organizers = $this->festivalService->getOrganizerFestival($this->pdo, 1);
-
-        // THEN: on recupere une PDOException
-        $this->assertInstanceOf(PDOException::class, $organizers);
+        // THEN: une exception PDO est levée
+        $this->expectException(PDOException::class);
+        $this->festivalService->getOrganizerFestival($this->pdo, 1);
     }
 
     public function testGetAllFestivalsWithDatabaseFailure()
@@ -322,10 +321,9 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
         $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
 
         // WHEN: on essaie de récupérer tous les festivals
-        $festivals = $this->festivalService->getAllFestival($this->pdo);
-
-        // THEN: on recupere une PDOException
-        $this->assertInstanceOf(PDOException::class, $festivals);
+        // THEN: une exception PDO est levée
+        $this->expectException(PDOException::class);
+        $this->festivalService->getAllFestival($this->pdo);
     }
 
     public function testGetScenesFestivalWithDatabaseFailure()
@@ -335,10 +333,9 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
         $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
 
         // WHEN: on essaie de récupérer les scènes du festival
-        $scenes = $this->festivalService->getScenesFestival($this->pdo, 1);
-
-        // THEN: on recupere une PDOException
-        $this->assertInstanceOf(PDOException::class, $scenes);
+        // THEN: une exception PDO est levée
+        $this->expectException(PDOException::class);
+        $this->festivalService->getScenesFestival($this->pdo, 1);
     }
 
     public function testGetShowsFestivalWithDatabaseFailure()
@@ -348,10 +345,9 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
         $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
 
         // WHEN: on essaie de récupérer les spectacles du festival
-        $shows = $this->festivalService->getShowsFestival($this->pdo, 1);
-
-        // THEN: on recupere une PDOException
-        $this->assertInstanceOf(PDOException::class, $shows);
+        // THEN: une exception PDO est levée
+        $this->expectException(PDOException::class);
+        $this->festivalService->getShowsFestival($this->pdo, 1);
     }
 
 }

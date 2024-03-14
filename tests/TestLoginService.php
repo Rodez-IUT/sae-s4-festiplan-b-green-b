@@ -102,9 +102,8 @@ class TestLoginService extends \PHPUnit\Framework\TestCase
         $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
 
         // WHEN: on essaie de récupérer les spectacles du festival
-        $shows = $this->loginService->login($this->pdo, 'johndoe', 'password');
-
-        // THEN: on recupere une PDOException
-        $this->assertInstanceOf(PDOException::class, $shows);
+        // THEN: on obtient une exception PDO
+        $this->expectException(PDOException::class);
+        $this->loginService->login($this->pdo, 'johndoe', 'passwordInconnu');
     }
 }
