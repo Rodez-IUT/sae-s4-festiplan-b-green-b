@@ -2,7 +2,9 @@
 
 namespace services;
 
+use Exception;
 use PDO;
+use PDOException;
 use yasmf\HttpHelper;
 use other\classes\User;
 
@@ -144,7 +146,7 @@ class CreationCompteServices
         try {
             $user = new User($liste["nom"], $liste["prenom"], $liste["email"], $liste["identifiant"], $liste["motDePasse"]);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
 
@@ -156,7 +158,7 @@ class CreationCompteServices
      *
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param User $user Objet User à insérer en base de données.
-     * @throws \PDOException En cas d'erreur lors de l'insertion en base de données.
+     * @throws PDOException En cas d'erreur lors de l'insertion en base de données.
      */
     public function insertUser(PDO $pdo, User $user): void
     {
@@ -180,8 +182,8 @@ class CreationCompteServices
 
             $stmt->execute();
 
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), (int) $e->getCode());
         }
 
     }

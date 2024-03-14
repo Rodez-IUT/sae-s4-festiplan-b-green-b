@@ -3,6 +3,7 @@
 namespace services;
 
 use PDO;
+use PDOStatement;
 
 /**
  * Service de gestion de l'accueil pour les festivals.
@@ -28,7 +29,7 @@ class AccueilService
         $searchStmt = $pdo->prepare("SELECT * FROM festivals
                                     -- WHERE dateDebutFestival > :today 
                                     ORDER BY dateDebutFestival
-                                    ASC LIMIT 10");
+                                    LIMIT 10");
 
         // $searchStmt->execute(["today" => $today]);
         $searchStmt->execute();
@@ -52,9 +53,9 @@ class AccueilService
      *
      * @param PDO $pdo Objet PDO pour la connexion à la base de données.
      * @param int $id_image L'ID de l'image à récupérer.
-     * @return \PDOStatement Le nom de l'image ou null s'il n'est pas trouvé.
+     * @return PDOStatement Le nom de l'image ou null s'il n'est pas trouvé.
      */
-    function getImageName(PDO $pdo, int $id_image): \PDOStatement
+    function getImageName(PDO $pdo, int $id_image): PDOStatement
     {
         $today = date("Y-m-d");
 
@@ -71,9 +72,9 @@ class AccueilService
      *
      * @param PDO $pdo Objet PDO pour la connexion à la base de données.
      * @param int $id_festival L'ID du festival.
-     * @return \PDOStatement Les catégories du festival.
+     * @return PDOStatement Les catégories du festival.
      */
-    function getCategories(PDO $pdo, int $id_festival): \PDOStatement
+    function getCategories(PDO $pdo, int $id_festival): PDOStatement
     {
         $searchStmt = $pdo->prepare("SELECT nomCategorie 
                                     FROM categories

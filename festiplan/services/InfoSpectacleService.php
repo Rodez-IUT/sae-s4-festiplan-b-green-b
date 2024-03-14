@@ -3,6 +3,7 @@
 namespace services;
 
 use PDO;
+use PDOStatement;
 
 /**
  * La classe InfoSpectacleService fournit des méthodes 
@@ -20,10 +21,10 @@ class InfoSpectacleService
      * Récupère la présentation d'un spectacle en fonction de son identifiant.
      *
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
-     * @param mixed $idSpectacle Identifiant du spectacle dont les informations sont recherchées.
+     * @param int $idSpectacle Identifiant du spectacle dont les informations sont recherchées.
      * @return array|null Tableau contenant les informations sur le spectacle, ou null s'il n'existe pas.
      */
-    function getSpectaclePresentation(PDO $pdo, $idSpectacle): ?array
+    function getSpectaclePresentation(PDO $pdo, int $idSpectacle): ?array
     {
 
         $searchStmt = $pdo->prepare("SELECT * 
@@ -59,9 +60,9 @@ class InfoSpectacleService
      *
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param int $id_image Identifiant de l'image.
-     * @return \PDOStatement Résultat de la requête PDOStatement pour récupérer le nom de l'image.
+     * @return PDOStatement Résultat de la requête PDOStatement pour récupérer le nom de l'image.
      */
-    function getImageName(PDO $pdo, int $id_image): \PDOStatement
+    function getImageName(PDO $pdo, int $id_image): PDOStatement
     {
 
         $searchStmt = $pdo->prepare("SELECT nomImage 
@@ -77,9 +78,9 @@ class InfoSpectacleService
      *
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param int $id_spectacle Identifiant du spectacle.
-     * @return \PDOStatement Résultat de la requête PDOStatement pour récupérer les catégories du spectacle.
+     * @return PDOStatement Résultat de la requête PDOStatement pour récupérer les catégories du spectacle.
      */
-    function getCategories(PDO $pdo, int $id_spectacle): \PDOStatement
+    function getCategories(PDO $pdo, int $id_spectacle): PDOStatement
     {
         $searchStmt = $pdo->prepare("SELECT nomCategorie 
                                     FROM categories
@@ -96,9 +97,9 @@ class InfoSpectacleService
      *
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param int $id_spectacle Identifiant du spectacle.
-     * @return \PDOStatement Résultat de la requête PDOStatement pour récupérer les intervenants sur scène du spectacle.
+     * @return PDOStatement Résultat de la requête PDOStatement pour récupérer les intervenants sur scène du spectacle.
      */
-    function getIntervenantScene(PDO $pdo, int $id_spectacle): \PDOStatement
+    function getIntervenantScene(PDO $pdo, int $id_spectacle): PDOStatement
     {
         $searchStmt = $pdo->prepare("SELECT nomIntervenant, prenomIntervenant 
                                     FROM intervenants
@@ -116,9 +117,9 @@ class InfoSpectacleService
      *
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param int $id_spectacle Identifiant du spectacle.
-     * @return \PDOStatement Résultat de la requête PDOStatement pour récupérer les intervenants hors scène du spectacle.
+     * @return PDOStatement Résultat de la requête PDOStatement pour récupérer les intervenants hors scène du spectacle.
      */
-    function getIntervenantHors(PDO $pdo, int $id_spectacle): \PDOStatement
+    function getIntervenantHors(PDO $pdo, int $id_spectacle): PDOStatement
     {
         $searchStmt = $pdo->prepare("SELECT nomIntervenant, prenomIntervenant
                                     FROM intervenants

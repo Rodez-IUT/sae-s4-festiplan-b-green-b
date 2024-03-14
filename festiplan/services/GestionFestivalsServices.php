@@ -47,7 +47,7 @@ class GestionFestivalsServices
      * @param string $id Identifiant du festival à récupérer.
      * @return array Tableau contenant les informations du festival.
      */
-    public function getFestival(PDO $pdo, string $id)
+    public function getFestival(PDO $pdo, string $id): array
     {
         $requetes = array(
             "SELECT nomFestival as nom, descriptionFestival as description, idImage as image, 
@@ -209,7 +209,7 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return string Identifiant de l'image enregistrée.
      */
-    private function verif_image($pdo): string
+    private function verif_image(PDO $pdo): string
     {
         $image_id = 1;
         if (isset($_FILES["image"])) {
@@ -235,7 +235,7 @@ class GestionFestivalsServices
      * @param array $liste Tableau associatif contenant les valeurs du festival.
      * @return array Tableau associatif contenant les classes CSS pour chaque champ.
      */
-    public function getListeClasses($pdo, array $liste): array
+    public function getListeClasses(PDO $pdo, array $liste): array
     {
         $liste_classes = $this->verif_inputs($liste);
 
@@ -266,15 +266,13 @@ class GestionFestivalsServices
      * @param array $liste Tableau associatif contenant les valeurs du festival.
      * @return array Tableau associatif contenant les valeurs du festival à utiliser.
      */
-    public function getListeValeurs($pdo, array $liste): array
+    public function getListeValeurs(PDO $pdo, array $liste): array
     {
         $liste_valeurs = [];
         foreach ($this::LISTE_CHAMPS as $key) {
-            if (isset($liste[$key])) {
-                $value = $liste[$key];
-            } else {
-                $value = null;
-            }
+
+            $value = $liste[$key] ?? null;
+
             if (isset($value)) {
                 if (gettype($value) == "array" || in_array($key, ["categories", "scenes", "spectacles", "membres"])) {
                     $values = array();
@@ -307,14 +305,13 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Tableau contenant la liste des catégories de festivals.
      */
-    public function getCategories($pdo): array
+    public function getCategories(PDO $pdo): array
     {
-        $liste_categories = [];
         $requete = "SELECT * FROM categories";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $liste_categories = $stmt->fetchAll();
-        return $liste_categories;
+
+        return $stmt->fetchAll();
     }
 
     /**
@@ -323,14 +320,12 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Tableau contenant la liste des scènes de festivals.
      */
-    public function getScenes($pdo): array
+    public function getScenes(PDO $pdo): array
     {
-        $liste_scenes = [];
         $requete = "SELECT * FROM scenes";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $liste_scenes = $stmt->fetchAll();
-        return $liste_scenes;
+        return $stmt->fetchAll();
     }
 
     /**
@@ -339,14 +334,13 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Tableau contenant la liste des grilles horaires de festivals.
      */
-    public function getGrilles($pdo): array
+    public function getGrilles(PDO $pdo): array
     {
-        $liste_grilles = [];
         $requete = "SELECT * FROM grilleJournaliere";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $liste_grilles = $stmt->fetchAll();
-        return $liste_grilles;
+
+        return $stmt->fetchAll();
     }
 
     /**
@@ -355,14 +349,13 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Tableau contenant la liste des spectacles de festivals.
      */
-    public function getSpectacles($pdo): array
+    public function getSpectacles(PDO $pdo): array
     {
-        $liste_spectacles = [];
         $requete = "SELECT * FROM spectacles";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $liste_spectacles = $stmt->fetchAll();
-        return $liste_spectacles;
+
+        return $stmt->fetchAll();
     }
 
     /**
@@ -371,14 +364,13 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Tableau contenant la liste des utilisateurs de festivals.
      */
-    public function getUsers($pdo): array
+    public function getUsers(PDO $pdo): array
     {
-        $liste_users = [];
         $requete = "SELECT * FROM users";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $liste_users = $stmt->fetchAll();
-        return $liste_users;
+
+        return $stmt->fetchAll();
     }
 
     /**
@@ -399,7 +391,7 @@ class GestionFestivalsServices
      * @param string $id Identifiant du festival à mettre à jour.
      * @param array $nouvelles Tableau associatif contenant les nouvelles valeurs du festival.
      */
-    public function update_festival(PDO $pdo, string $id, array $nouvelles)
+    public function update_festival(PDO $pdo, string $id, array $nouvelles): void
     {
         $festival = creer_festival($nouvelles);
 
@@ -414,7 +406,7 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string $idFestival Identifiant du festival à supprimer.
      */
-    public function supprimerFestival(PDO $pdo, string $idFestival)
+    public function supprimerFestival(PDO $pdo, string $idFestival): void
     {
         $requetes = array(
             "DELETE FROM festivals WHERE idFestival = :id",
@@ -429,10 +421,10 @@ class GestionFestivalsServices
     /**
      * Insère un nouvel objet Festival dans la base de données.
      *
-     * @param mixed $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param Festival $festival Objet Festival à insérer dans la base de données.
      */
-    public function insert_festival($pdo, Festival $festival): void
+    public function insert_festival(PDO $pdo, Festival $festival): void
     {
         insertion_festival($pdo, $festival);
     }
@@ -443,7 +435,7 @@ class GestionFestivalsServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return bool Renvoie vrai si toutes les valeurs sont valides, sinon faux.
      */
-    public function getEverythingOK($pdo)
+    public function getEverythingOK(PDO $pdo): bool
     {
         $everything_ok = true;
 

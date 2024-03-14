@@ -2,6 +2,8 @@
 
 namespace services;
 
+use PDO;
+
 /**
  * Service pour la gestion des ajouts liés aux festivals (spectacles, membres, scènes).
  *
@@ -16,11 +18,11 @@ class FestivalsAjoutsService
     /**
      * Récupère les scènes avec leur taille pour un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
-     * @param string $idFestival Identifiant du festival.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param int $idFestival Identifiant du festival.
      * @return array Tableau des scènes avec leur taille pour le festival.
      */
-    private function getScenesTaille(\PDO $pdo, $idFestival): array
+    private function getScenesTaille(PDO $pdo, int $idFestival): array
     {
         $requete = "SELECT idScene, tailleScene from scenes WHERE idScene IN (
                         SELECT idScene FROM accueillir WHERE idFestival = :idFestival
@@ -30,20 +32,18 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        $scenes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $scenes;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }
 
     /**
      * Récupère les scènes possibles pour un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
-     * @param string $idFestival Identifiant du festival.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param int $idFestival Identifiant du festival.
      * @return array Tableau des scènes possibles pour le festival.
      */
-    public function getScenesPossibles(\PDO $pdo, $idFestival): array
+    public function getScenesPossibles(PDO $pdo, int $idFestival): array
     {
         $requete = "SELECT idScene, nomScene from scenes WHERE idScene IN (
                         SELECT idScene FROM accueillir WHERE idFestival = :idFestival
@@ -53,40 +53,36 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        $scenes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $scenes;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }
 
     /**
      * Récupère toutes les scènes enregistrées.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
-     * @param string $idFestival Identifiant du festival.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param int $idFestival Identifiant du festival.
      * @return array Tableau de toutes les scènes enregistrées.
      */
-    public function getScenes(\PDO $pdo, $idFestival): array
+    public function getScenes(PDO $pdo, int $idFestival): array
     {
         $requete = "SELECT idScene, nomScene from scenes";
 
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        $scenes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $scenes;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }
 
     /**
      * Récupère les spectacles possibles pour un festival en fonction des scènes disponibles.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
-     * @param string $idFestival Identifiant du festival.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param int $idFestival Identifiant du festival.
      * @return array Tableau des spectacles possibles pour le festival.
      */
-    public function getSpectaclesPossibles(\PDO $pdo, $idFestival): array
+    public function getSpectaclesPossibles(PDO $pdo, int $idFestival): array
     {
         $idFestival = htmlspecialchars($idFestival);
 
@@ -105,7 +101,7 @@ class FestivalsAjoutsService
         }
         $taille_max = max($tailles);
 
-        // on ajoutes les tailles inferieures au max car elles sont aussi possibles
+        // on ajoute les tailles inférieures au max, car elles sont aussi possibles
         for ($i = $taille_max; $i >= 0; $i--) {
             if (!in_array($i, $tailles)) {
                 $tailles[] = $i;
@@ -125,19 +121,17 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        $spectacles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $spectacles;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
      * Récupère tous les spectacles enregistrés.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
-     * @param string $idFestival Identifiant du festival.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param int $idFestival Identifiant du festival.
      * @return array Tableau de tous les spectacles enregistrés.
      */
-    public function getSpectacles(\PDO $pdo, $idFestival): array
+    public function getSpectacles(PDO $pdo, int $idFestival): array
     {
         $idFestival = htmlspecialchars($idFestival);
 
@@ -156,7 +150,7 @@ class FestivalsAjoutsService
         }
         $taille_max = max($tailles);
 
-        // on ajoutes les tailles inferieures au max car elles sont aussi possibles
+        // on ajoute les tailles inférieures au max, car elles sont aussi possibles
         for ($i = $taille_max; $i > 0; $i--) {
             if (!in_array($i, $tailles)) {
                 $tailles[] = $i;
@@ -169,19 +163,17 @@ class FestivalsAjoutsService
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        $spectacles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $spectacles;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
      * Récupère les membres possibles pour un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
-     * @param string $idFestival Identifiant du festival.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param int $idFestival Identifiant du festival.
      * @return array Tableau des membres possibles pour le festival.
      */
-    public function getMembresPossibles(\PDO $pdo, $idFestival): array
+    public function getMembresPossibles(PDO $pdo, int $idFestival): array
     {
         $idFestival = htmlspecialchars($idFestival);
 
@@ -193,38 +185,34 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        $membres = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $membres;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
      * Récupère tous les membres enregistrés.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Tableau de tous les membres enregistrés.
      */
-    public function getMembres(\PDO $pdo)
+    public function getMembres(PDO $pdo): array
     {
         $requete = "SELECT idUser, nomUser, prenomUser FROM users";
 
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        $membres = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $membres;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
      * Ajoute un spectacle à un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string|null $idFestival Identifiant du festival.
      * @param string|null $idSpectacle Identifiant du spectacle.
      * @return void
      */
-    public function ajouterSpectacle(\PDO $pdo, ?string $idFestival, ?string $idSpectacle)
+    public function ajouterSpectacle(PDO $pdo, ?string $idFestival, ?string $idSpectacle): void
     {
         $idFestival = htmlspecialchars($idFestival);
         $idSpectacle = htmlspecialchars($idSpectacle);
@@ -240,12 +228,12 @@ class FestivalsAjoutsService
     /**
      * Ajoute un membre à un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string $idFestival Identifiant du festival.
      * @param string $idUser Identifiant du membre.
      * @return void
      */
-    public function ajouterMembre(\PDO $pdo, string $idFestival, string $idUser)
+    public function ajouterMembre(PDO $pdo, string $idFestival, string $idUser): void
     {
         $idFestival = htmlspecialchars($idFestival);
         $idUser = htmlspecialchars($idUser);
@@ -261,12 +249,12 @@ class FestivalsAjoutsService
     /**
      * Ajoute une scène à un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string|null $idFestival Identifiant du festival.
      * @param string|null $idScene Identifiant de la scène.
      * @return void
      */
-    public function ajouterScene(\PDO $pdo, ?string $idFestival, ?string $idScene)
+    public function ajouterScene(PDO $pdo, ?string $idFestival, ?string $idScene): void
     {
         $idFestival = htmlspecialchars($idFestival);
         $idScene = htmlspecialchars($idScene);
@@ -282,12 +270,12 @@ class FestivalsAjoutsService
     /**
      * Retire un spectacle d'un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string|null $idFestival Identifiant du festival.
      * @param string|null $idSpectacle Identifiant du spectacle.
      * @return void
      */
-    public function retirerSpectacle(\PDO $pdo, ?string $idFestival, ?string $idSpectacle)
+    public function retirerSpectacle(PDO $pdo, ?string $idFestival, ?string $idSpectacle): void
     {
         $idFestival = htmlspecialchars($idFestival);
         $idSpectacle = htmlspecialchars($idSpectacle);
@@ -303,12 +291,12 @@ class FestivalsAjoutsService
     /**
      * Retire un membre d'un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string|null $idFestival Identifiant du festival.
      * @param string|null $idUser Identifiant du membre.
      * @return void
      */
-    public function retirerMembre(\PDO $pdo, ?string $idFestival, ?string $idUser)
+    public function retirerMembre(PDO $pdo, ?string $idFestival, ?string $idUser): void
     {
         $idFestival = htmlspecialchars($idFestival);
         $idUser = htmlspecialchars($idUser);
@@ -324,12 +312,12 @@ class FestivalsAjoutsService
     /**
      * Retire une scène d'un festival.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string|null $idFestival Identifiant du festival.
      * @param string|null $idScene Identifiant de la scène.
      * @return void
      */
-    public function retirerScene(\PDO $pdo, ?string $idFestival, ?string $idScene)
+    public function retirerScene(PDO $pdo, ?string $idFestival, ?string $idScene): void
     {
         $idFestival = htmlspecialchars($idFestival);
         $idScene = htmlspecialchars($idScene);

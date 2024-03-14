@@ -92,8 +92,12 @@ function verifInput($key, $value): bool
     }
 }
 
-function creer_festival(array $liste_valeurs)
+function creer_festival(array $liste_valeurs): Festival
 {
+    if ($liste_valeurs["categories"] == '') {
+        $liste_valeurs["categories"] = array();
+    }
+
     $festival = new Festival(
         $liste_valeurs["nom"],
         $liste_valeurs["description"],

@@ -2,8 +2,8 @@
 
 namespace services;
 
-use Exception;
 use PDO;
+use PDOException;
 
 /**
  * Classe fournissant des services de planification pour les spectacles d'un festival.
@@ -21,9 +21,9 @@ class PlanificationServices
      *
      * @param PDO    $pdo         Instance PDO pour la connexion à la base de données.
      * @param string $idFestival  Identifiant du festival pour lequel on souhaite récupérer la planification.
-     * @return void
+     * @return array
      */
-    public function getPlanification(PDO $pdo, $idFestival) : array
+    public function getPlanification(PDO $pdo, string $idFestival) : array
     {
         $infoSpectacle = $this->getSpectacles($pdo, $idFestival);
 
@@ -69,7 +69,7 @@ class PlanificationServices
         return $jour;
     }
 
-    private function gererSpectacle(PDO $pdo, $data, $idFestival, $heureActuelle, $dureeEntreSpectacles, &$jour, $compteurJour, $compteurNumeroSpectacle)
+    private function gererSpectacle(PDO $pdo, $data, $idFestival, $heureActuelle, $dureeEntreSpectacles, &$jour, $compteurJour, $compteurNumeroSpectacle): ?string
     {
 
         $data["heureDebutSpectacle"] = $heureActuelle; // Création d'une valeur heureDebut du spectacle
@@ -82,7 +82,7 @@ class PlanificationServices
         return $heureActuelle;
     }
 
-    private function initialiserNouveauJour(PDO $pdo, $data, $idFestival, $dureeEntreSpectacles, &$jour, $compteurJour, $compteurNumeroSpectacle)
+    private function initialiserNouveauJour(PDO $pdo, $data, $idFestival, $dureeEntreSpectacles, &$jour, $compteurJour, $compteurNumeroSpectacle): ?string
     {
         $heureActuelle = $data["heureDebut"]; // Affectation à heure actuelle l'heure de début d'une journée du festival
         $data["heureDebutSpectacle"] = $heureActuelle;
@@ -117,6 +117,7 @@ class PlanificationServices
 
         // on vérifie que la scène a la taille requise pour le spectacle
         $tailleSceneOk = false;
+        $sceneAleatoire = [];
         while(!$tailleSceneOk) {
             $cleAleatoire = array_rand($listeScenes);
             $sceneAleatoire = $listeScenes[$cleAleatoire];
@@ -167,7 +168,7 @@ class PlanificationServices
                 return null;
             }
             return $result["soustraireDuree(?, ?)"];
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo "Erreur : " . $e->getMessage();
             return null;
         }
@@ -187,7 +188,7 @@ class PlanificationServices
                 return null;
             }
             return $result["ajouterDuree(?, ?)"];
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo "Erreur : " . $e->getMessage();
             return null;
         }
@@ -202,8 +203,7 @@ class PlanificationServices
         $minutesFormatted = ($minutesLeft < 10) ? '0' . $minutesLeft : $minutesLeft;
 
 
-        $resultat = $hoursFormatted . ":" . $minutesFormatted . ":00";
-        return $resultat; 
+        return $hoursFormatted . ":" . $minutesFormatted . ":00";
     }
 
     private function getScenes(PDO $pdo,  $idFestival) : array {
@@ -223,6 +223,7 @@ class PlanificationServices
     }
 
     private function calculeNbJourFestival(PDO $pdo, $idFestival)  {
+        $retour = [];
         $sql = 'SELECT DATEDIFF(dateFinFestival, dateDebutFestival) FROM festivals WHERE idFestival=:idFestival';
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam('idFestival', $idFestival);
