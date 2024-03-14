@@ -2,17 +2,28 @@
 
 use api\API;
 
-$login = $_GET['login'] ?? null;
-$mdp = $_GET['mdp'] ?? null;
+// on récupère le contenu de la requête
+$json_str = file_get_contents('php://input');
+
+// on le transforme en objet
+$json_obj = json_decode($json_str);
+
+$idU = $json_obj->idUser ?? null;
+$idF = $json_obj->idFestival ?? null;
 
 
-if (!empty($login) && !empty($mdp)) {
-    $result = $API->login($login, $mdp);
-    if ($result instanceof PDOException) {
-        API::send_error($result->getMessage(), 500);
+if (!empty($idU) && !empty($idF)) {
+    $result = $API->ajouterFavori($idU, $idF);
+    // si le résultat est une string, c'est qu'il y a une erreur
+    if (is_string($result)) {
+        API::send_error($result, 500);
     } else {
-        API::send_json($result, 200);
+        if ($result) {
+            API::send_json(["status" => "OK", "message" => "Favori ajouté"], 200);
+        } else {
+            API::send_error("Favori non ajouté", 500);
+        }
     }
 } else {
-    API::send_error("Login ou mot de passe manquant", 400);
+    API::send_error("identifiant d'utilsateur ou identifiant de festival manquant", 400);
 }
