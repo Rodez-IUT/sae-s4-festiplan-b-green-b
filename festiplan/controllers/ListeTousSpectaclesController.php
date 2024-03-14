@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\ListeTousSpectaclesServices;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -41,14 +42,12 @@ class ListeTousSpectaclesController
     {
         // Récupère l'identifiant de l'utilisateur depuis les paramètres de la requête.
         $idUtilisateur = HttpHelper::getParam("user_id");
-        // Initialise la liste des spectacles.
-        $liste_spectacles = array();
 
         try {
             // Récupère la liste de tous les spectacles.
             $liste_spectacles = $this->tousSpectacleServices->getListeSpectacles($pdo);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException) {
             // En cas d'erreur PDO, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération de la liste des spectacles";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -72,7 +71,7 @@ class ListeTousSpectaclesController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de la liste de tous les spectacles avec le menu déroulant ouvert.
      */
-    function showMenu($pdo): View
+    function showMenu(PDO $pdo): View
     {
         // Affiche la liste de tous les spectacles avec le menu déroulant ouvert.
         $view = $this->index($pdo);

@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use yasmf\View;
 use services\AccueilService;
 
@@ -37,12 +38,11 @@ class HomeController {
      */
     public function index(PDO $pdo): View
     {
-        $searchStmt = null;
         try {
             // Récupère la présentation des festivals à afficher sur la page d'accueil.
             $searchStmt = $this->accueilService->getFestivalsPresentation($pdo);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException) {
             // En cas d'erreur, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération des données";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -64,7 +64,7 @@ class HomeController {
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de la page d'accueil avec le menu déroulant ouvert.
      */
-    public function showMenu($pdo): View
+    public function showMenu(PDO $pdo): View
     {
         // Affiche la page d'accueil avec le menu déroulant ouvert.
         $view = $this->index($pdo);

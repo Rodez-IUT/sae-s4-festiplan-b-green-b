@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use PDOException;
 use services\CreationGriJServices;
 
 use yasmf\View;
@@ -42,7 +43,7 @@ class GrijController {
             $liste_valeurs = $this->creationGriJService->getListeValeurs($_POST);
             $liste_classes = $this->creationGriJService->getListeClasses($_POST);
 
-        } catch(\PDOException $e) {
+        } catch(PDOException) {
             // En cas d'erreur, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération des données";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -79,7 +80,7 @@ class GrijController {
             // Insère la contrainte de grille journalière dans la base de données.
             $this->creationGriJService->insertGriJ($pdo, $_POST);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException) {
             // En cas d'erreur lors de l'insertion, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de l'insertion des données";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
