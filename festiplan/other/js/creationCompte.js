@@ -71,7 +71,7 @@ function cacherMotDePasse(event) {
 
 /**
  * La fonction verifInputNom vérifie la longueur de tous les champs.
- * Si ils ne sont pas valides, elle change la couleur des labels 
+ * S'ils ne sont pas valides, elle change la couleur des labels
  * en rouge et empeche l'envoi du formulaire.
  */
 function verifAllInput(event) {
@@ -94,7 +94,7 @@ function verifAllInput(event) {
 }
 
 /**
- * La fonction vérifie la longueur de la valeur de inputNom.
+ * La fonction vérifie la longueur de la valeur de 'inputNom'.
  * Si elle est inférieure à 2 caractères, elle change la couleur de 
  * l'étiquette en rouge. 
  * Sinon, elle change la couleur de l'étiquette en noir.
@@ -115,7 +115,7 @@ function verifInputTexte(input, label) {
 }
 
 /**
- * La fonction verifInputEmail vérifie la longueur de la valeur de inputEmail.
+ * La fonction verifInputEmail vérifie la longueur de la valeur de 'inputEmail'.
  * Si elle est ne vérifie pas la regepx des mails, elle change la couleur de 
  * l'étiquette en rouge. 
  * Sinon, elle change la couleur de l'étiquette en noir.
@@ -139,8 +139,8 @@ function verifInputEmail() {
 /**
  * La fonction verifMotDePasse vérifie que le champ "confirmer mot de passe"
  * est bien le même que "mot de passe". Si ces deux champs sont diffrents 
- * l'étiquette de change de couleur en rouge
- * elle retourne true si les deux champs sont égaux et false sinon
+ * l'étiquette de change de couleur en rouge.
+ * Elle retourne true si les deux champs sont égaux et false sinon
  */
 function verifMotDePasse() {
     let motDePasse = inputMotDePasse.value.trim();
