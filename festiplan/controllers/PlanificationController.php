@@ -54,7 +54,7 @@ class PlanificationController
         }
 
         // Initialisation de la vue avec les résultats de la planification et d'autres variables nécessaires.
-        $view = new View("view/planification");
+        $view = new View("view/planification/planification");
         $view->setVar("searchStmt", $searchStmt);
         $view->setVar("controller", "Planification");
         $view->setVar("titre", "Planification");

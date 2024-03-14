@@ -50,7 +50,7 @@ class GrijController {
         }
 
         // Initialise la vue avec les données récupérées.
-        $view = new View("view/contraintesGrilleJournaliere");
+        $view = new View("view/planification/contraintesGrilleJournaliere");
         $view->setVar('liste_valeurs', $liste_valeurs);
         $view->setVar('liste_classes', $liste_classes);
 

@@ -22,7 +22,7 @@ if (!isset($_SESSION["session_id"])
 <body>
 
 <?php
-require("header.php");
+require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/header.php");
 SetupHeadersAndDialog($titre, $controller, $open);
 ?>
 
@@ -68,7 +68,7 @@ SetupHeadersAndDialog($titre, $controller, $open);
 
     <br><br>
 
-        <?php require("footer.php"); ?>
+        <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
 </body>
 </html>
