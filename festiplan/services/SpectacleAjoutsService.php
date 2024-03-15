@@ -50,7 +50,7 @@ class SpectacleAjoutsService
         $list = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            array_push($list, $row["idIntervenant"]);
+            $list[] = $row["idIntervenant"];
         }
 
         return $list;

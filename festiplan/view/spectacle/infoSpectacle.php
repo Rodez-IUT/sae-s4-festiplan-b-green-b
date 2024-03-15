@@ -132,8 +132,7 @@
                                 </div>
                             </div>
                         </div>
-                            <div class="col-12">&nbsp;</div>
-                    </div>
+                        <div class="col-12">&nbsp;</div>
                     </div>
                 </div>
             </div>
