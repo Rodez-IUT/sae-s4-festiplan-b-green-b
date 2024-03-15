@@ -2,9 +2,8 @@
 
 namespace services;
 
-use PDO;
-
 use other\classes\Spectacle;
+use PDO;
 use function utils\add_image_to_db;
 use function utils\creer_Spectacle;
 use function utils\get_image_size;
@@ -14,7 +13,7 @@ use function utils\is_image_valid;
 include "utils/fonctions.php";
 
 /**
- * La classe CreationSpectacleServices fournit des méthodes 
+ * La classe CreationSpectacleServices fournit des méthodes
  * pour la gestion des spectacles.
  *
  * @author clement.denamiel
@@ -24,7 +23,7 @@ include "utils/fonctions.php";
  */
 class CreationSpectacleServices
 {
-    
+
     const LISTE_CHAMPS = array(
         "titre",
         "tailleScene",
@@ -51,15 +50,15 @@ class CreationSpectacleServices
         );
 
 
-        $liste = array();
+        $listeStatement = array();
 
         foreach ($requetes as $requete) {
             $stmt = $pdo->prepare($requete);
             $stmt->execute(array(":id" => $id));
-            $liste[] = $stmt->fetchAll();
+            $listeStatement[] = $stmt;
         }
 
-        foreach ($liste[0] as $spectacle) {
+        while ($spectacle = $listeStatement[0]->fetch()) {
             $liste_valeurs = array(
                 "titre" => $spectacle["titre"],
                 "tailleScene" => $spectacle["tailleScene"],
@@ -67,27 +66,27 @@ class CreationSpectacleServices
                 "image" => $spectacle["image"],
                 "duree" => $spectacle["duree"],
                 "responsable" => $spectacle["responsable"],
-
             );
         }
 
         $categories = array();
-        foreach ($liste[4] as $categorie) {
+        while ($categorie = $listeStatement[4]->fetch()) {
             $categories[] = $categorie["categories"];
         }
 
-        $intervenantScene = array();
-        foreach ($liste[2] as $intervenantScene) {
-            $intervenantScene[] = $intervenantScene["intervenantScene"];
+        $intervenantsScene = array();
+        while ($intervenantScene = $listeStatement[2]->fetch()) {
+            $intervenantScene[] = $intervenantsScene["intervenantScene"];
         }
-        $intervenantHors = array();
-        foreach ($liste[3] as $intervenantHors) {
-            $intervenantHors[] = $intervenantHors["intervenantHors"];
+
+        $intervenantsHors = array();
+        while ($intervenantHors = $listeStatement[3]->fetch()) {
+            $intervenantsHors[] = $intervenantHors["intervenantHors"];
         }
 
 
-        $liste_valeurs["intervenantScene"] = $intervenantScene;
-        $liste_valeurs["intervenantHors"] = $intervenantHors;
+        $liste_valeurs["intervenantScene"] = $intervenantsScene;
+        $liste_valeurs["intervenantHors"] = $intervenantsHors;
         $liste_valeurs["categories"] = $categories;
 
         return $liste_valeurs;
@@ -106,7 +105,7 @@ class CreationSpectacleServices
             if (!isset($liste[$key])) {
                 if (in_array($key, ["categories"])) {
                     $liste_classes[$key] = "invalide";
-                } else if (in_array($key, ["intervenantScene", "intervenantHors"])){
+                } else if (in_array($key, ["intervenantScene", "intervenantHors"])) {
                     $liste_classes[$key] = "ok";
                 } else {
                     $liste_classes[$key] = "";
@@ -145,7 +144,7 @@ class CreationSpectacleServices
                 return filter_var($value, FILTER_VALIDATE_EMAIL);
 
             case 'tailleScene':
-                return in_array(strtolower($value) ,["1","2","3"]);
+                return in_array(strtolower($value), ["1", "2", "3"]);
 
             case 'image':
                 $taille_nom_image = strlen($value);
@@ -192,7 +191,7 @@ class CreationSpectacleServices
 
             $valid_size = is_image_valid($size);
 
-            if ($valid_size){
+            if ($valid_size) {
                 $image_id = add_image_to_db($pdo, $file_name, $complete_file_path);
             }
 
@@ -274,7 +273,12 @@ class CreationSpectacleServices
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $categories = array();
+        while ($categorie = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $categories[] = $categorie;
+        }
+
+        return $categories;
     }
 
     /**
@@ -289,7 +293,12 @@ class CreationSpectacleServices
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $intervenantsScene = array();
+        while ($intervenantScene = $stmt->fetch()) {
+            $intervenantsScene[] = $intervenantScene;
+        }
+
+        return $intervenantsScene;
     }
 
     /**
@@ -304,7 +313,12 @@ class CreationSpectacleServices
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $intervenantsHors = array();
+        while ($intervenantHors = $stmt->fetch()) {
+            $intervenantsHors[] = $intervenantHors;
+        }
+
+        return $intervenantsHors;
     }
 
     /**
@@ -340,14 +354,11 @@ class CreationSpectacleServices
 
     public function supprimerSpectacle($pdo, string $idSpectacle): void
     {
-        $requetes = array(
-            "DELETE FROM spectacles WHERE idSpectacle = :id",
-        );
-        foreach ($requetes as $requete) {
-            $stmt = $pdo->prepare($requete);
-            $stmt->bindParam(":id", $idSpectacle);
-            $stmt->execute();
-        }
+        $requete = "DELETE FROM spectacles WHERE idSpectacle = :id";
+
+        $stmt = $pdo->prepare($requete);
+        $stmt->bindParam(":id", $idSpectacle);
+        $stmt->execute();
     }
 
     /**

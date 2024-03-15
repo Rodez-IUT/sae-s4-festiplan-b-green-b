@@ -61,22 +61,34 @@ class GestionFestivalsServices
         );
 
 
-        $liste = array();
+        $listeStatement = array();
 
         foreach ($requetes as $requete) {
             $stmt = $pdo->prepare($requete);
             $stmt->execute(array(":id" => $id));
-            $liste[] = $stmt->fetchAll();
+
+            $resultat = array();
+            while ($row = $stmt->fetch()) {
+                $resultat[] = $row;
+            }
+
+            $listeStatement[] = $resultat;
         }
 
-        foreach ($liste[0] as $festival) {
+        foreach ($listeStatement[0] as $festival) {
             $idGriJ = $festival["grille"];
 
             $requete = "SELECT heureDebut as debutGriJ, heureFin as finGriJ, dureeMinimaleEntreDeuxSpectacles as dureeGriJ FROM grilleJournaliere WHERE idGriJ = :id";
             $stmt = $pdo->prepare($requete);
             $stmt->bindParam(":id", $idGriJ);
             $stmt->execute();
-            $temp[] = $stmt->fetchAll();
+
+            $grilles = array();
+            while ($row = $stmt->fetch()) {
+                $grilles[] = $row;
+            }
+
+            $temp[] = $grilles;
 
             $liste_valeurs = array(
                 "nom" => $festival["nom"],
@@ -94,22 +106,22 @@ class GestionFestivalsServices
         }
 
         $membres = array();
-        foreach ($liste[2] as $membre) {
+        foreach ($listeStatement[2] as $membre) {
             $membres[] = $membre["membres"];
         }
 
         $spectacles = array();
-        foreach ($liste[3] as $spectacle) {
+        foreach ($listeStatement[3] as $spectacle) {
             $spectacles[] = $spectacle["spectacles"];
         }
 
         $categories = array();
-        foreach ($liste[4] as $categorie) {
+        foreach ($listeStatement[4] as $categorie) {
             $categories[] = $categorie["categories"];
         }
 
         $scenes = array();
-        foreach ($liste[5] as $scene) {
+        foreach ($listeStatement[5] as $scene) {
             $scenes[] = $scene["scenes"];
         }
 
@@ -311,7 +323,12 @@ class GestionFestivalsServices
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $categories = array();
+        while ($row = $stmt->fetch()) {
+            $categories[] = $row;
+        }
+
+        return $categories;
     }
 
     /**
@@ -325,7 +342,13 @@ class GestionFestivalsServices
         $requete = "SELECT * FROM scenes";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        return $stmt->fetchAll();
+
+        $scenes = array();
+        while ($row = $stmt->fetch()) {
+            $scenes[] = $row;
+        }
+
+        return $scenes;
     }
 
     /**
@@ -340,7 +363,12 @@ class GestionFestivalsServices
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $grilles = array();
+        while ($row = $stmt->fetch()) {
+            $grilles[] = $row;
+        }
+
+        return $grilles;
     }
 
     /**
@@ -355,7 +383,12 @@ class GestionFestivalsServices
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $spectacles = array();
+        while ($row = $stmt->fetch()) {
+            $spectacles[] = $row;
+        }
+
+        return $spectacles;
     }
 
     /**
@@ -370,7 +403,12 @@ class GestionFestivalsServices
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $users = array();
+        while ($row = $stmt->fetch()) {
+            $users[] = $row;
+        }
+
+        return $users;
     }
 
     /**

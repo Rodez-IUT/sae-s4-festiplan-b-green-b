@@ -28,7 +28,13 @@ class SpectacleAjoutsService
         $sql = "SELECT * FROM intervenants";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $intervenants = array();
+        while ($intervenant = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $intervenants[] = $intervenant;
+        }
+
+        return $intervenants;
     }
 
     /**
@@ -105,7 +111,14 @@ class SpectacleAjoutsService
         $stmt->bindParam(":recherche1", $recherche);
         $stmt->bindParam(":recherche2", $recherche);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $intervenantsTrouves = array();
+
+        while ($intervenant = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $intervenantsTrouves[] = $intervenant;
+        }
+
+        return $intervenantsTrouves;
     }
 
     /**
@@ -228,7 +241,12 @@ class SpectacleAjoutsService
         $stmt-> bindParam(":id", $idIntervenant);
         $stmt->execute();
 
-        return $stmt->fetch();
+        $intervenants = array();
+        while ($intervenant = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $intervenants[] = $intervenant;
+        }
+
+        return $intervenants;
 
     }
 

@@ -32,7 +32,13 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $scenes = array();
+        while ($row = $stmt->fetch()) {
+            $scenes[] = $row;
+        }
+
+        return $scenes;
+
 
     }
 
@@ -53,8 +59,12 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $scenesPossible = array();
+        while ($row = $stmt->fetch()) {
+            $scenesPossible[] = $row;
+        }
 
+        return $scenesPossible;
     }
 
     /**
@@ -71,8 +81,12 @@ class FestivalsAjoutsService
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $scenes = array();
+        while ($row = $stmt->fetch()) {
+            $scenes[] = $row;
+        }
 
+        return $scenes;
     }
 
     /**
@@ -121,7 +135,12 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $scenesPossible = array();
+        while ($row = $stmt->fetch()) {
+            $scenesPossible[] = $row;
+        }
+
+        return $scenesPossible;
     }
 
     /**
@@ -163,7 +182,12 @@ class FestivalsAjoutsService
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $spectacles = array();
+        while ($row = $stmt->fetch()) {
+            $spectacles[] = $row;
+        }
+
+        return $spectacles;
     }
 
     /**
@@ -185,7 +209,12 @@ class FestivalsAjoutsService
         $stmt->bindValue(":idFestival", $idFestival);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $membres = array();
+        while ($row = $stmt->fetch()) {
+            $membres[] = $row;
+        }
+
+        return $membres;
     }
 
     /**
@@ -201,7 +230,12 @@ class FestivalsAjoutsService
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $membres = array();
+        while ($row = $stmt->fetch()) {
+            $membres[] = $row;
+        }
+
+        return $membres;
     }
 
     /**

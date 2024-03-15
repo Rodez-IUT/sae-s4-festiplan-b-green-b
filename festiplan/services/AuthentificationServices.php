@@ -65,12 +65,15 @@ class AuthentificationServices
                 WHERE idResponsable = :id";
 
         $stmt = $pdo->prepare($sql);
-
         $stmt->bindParam(":id", $id);
-
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $festivals = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $festivals[] = $row;
+        }
+
+        return $festivals;
     }
 
     /**
@@ -87,12 +90,15 @@ class AuthentificationServices
                 WHERE idResponsableSpectacle = :id";
 
         $stmt = $pdo->prepare($sql);
-
         $stmt->bindParam(":id", $id);
-
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $spectacles = array();
+        while ($spectacle = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $spectacles[] = $spectacle;
+        }
+
+        return $spectacles;
     }
 
     /**

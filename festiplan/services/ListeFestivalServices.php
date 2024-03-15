@@ -24,23 +24,30 @@ class ListeFestivalServices
      */
     public function getFestivals(PDO $pdo, int $idUtilisateur): ?array
     {
-        $stmt = $pdo->prepare("SELECT idFestival, nomFestival FROM festivals WHERE idResponsable = :idUtilisateur");
+        $requete = "SELECT idFestival, nomFestival FROM festivals WHERE idResponsable = :idUtilisateur";
 
+        $stmt = $pdo->prepare($requete);
         $stmt->bindParam(":idUtilisateur", $idUtilisateur);
-
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $festivals = array();
+        while ($row = $stmt->fetch()) {
+            $festivals[] = $row;
+        }
+
+        return $festivals;
     }
 
     public function getListeSpectaclesFestivals($pdo, $festival): array
     {
         foreach($festival as $i=> $liste_festival) {
             $idFestival = $liste_festival["idFestival"];
+
             $sql = "SELECT idSpectacle FROM festivals
                     INNER JOIN composer 
                     ON composer.idFestival = festivals.idFestival
                     WHERE festivals.idFestival = :idFestival";
+
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam("idFestival", $idFestival);
             if($stmt->execute()) {
@@ -66,9 +73,7 @@ class ListeFestivalServices
                 WHERE idResponsable = :id";
 
         $stmt = $pdo->prepare($sql);
-
         $stmt->bindParam(":id", $id);
-
         $stmt->execute();
 
         $result = $stmt->fetch();
