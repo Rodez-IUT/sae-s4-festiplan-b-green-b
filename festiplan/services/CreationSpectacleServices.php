@@ -346,10 +346,33 @@ class CreationSpectacleServices
 
     public function update_Spectacle($pdo, string $id, array $nouvelles): void
     {
-        $spectacle = $this->create_Spectacle($nouvelles);
-        $this->supprimerSpectacle($pdo, $id);
 
-        insertion_Spectacle($pdo, $spectacle);
+        $requeteUpdateSpectacle = "UPDATE spectacles 
+                    SET titreSpectacle = :titre, surfaceSceneRequise = :tailleScene, descriptionSpectacle = :description, idImage = :image, dureeSpectacle = :duree 
+                    WHERE idSpectacle = :id";
+
+        $requeteDeleteCategorie = "DELETE FROM categoriespectacle WHERE idSpectacle = :id";
+        $requeteAjouterCategorie = "INSERT INTO categoriespectacle (idSpectacle, idCategorie) VALUES (:id, :categorie)";
+
+        $stmt = $pdo->prepare($requeteUpdateSpectacle);
+        $stmt->bindParam(":titre", $nouvelles["titre"]);
+        $stmt->bindParam(":tailleScene", $nouvelles["tailleScene"]);
+        $stmt->bindParam(":description", $nouvelles["description"]);
+        $stmt->bindParam(":image", $nouvelles["image"]);
+        $stmt->bindParam(":duree", $nouvelles["duree"]);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        $stmt = $pdo->prepare($requeteDeleteCategorie);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        foreach ($nouvelles["categories"] as $categorie) {
+            $stmt = $pdo->prepare($requeteAjouterCategorie);
+            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":categorie", $categorie);
+            $stmt->execute();
+        }
     }
 
     public function supprimerSpectacle($pdo, string $idSpectacle): void
