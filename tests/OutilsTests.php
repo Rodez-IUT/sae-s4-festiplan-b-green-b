@@ -2,26 +2,24 @@
 
 use yasmf\DataSource;
 
+/**
+ * Classe OutilsTests
+ * Cette classe contient des méthodes pour interagir avec la base de données.
+ */
 class OutilsTests
 {
     private $pdo;
 
     /**
-     * @throws Exception
+     * Constructeur de la classe OutilsTests.
+     * Il crée une nouvelle instance de DataSource et obtient l'objet PDO à partir de celle-ci.
+     *
+     * @throws Exception si une erreur se produit lors de la connexion à la base de données.
      */
     public function __construct()
     {
         try {
-            // Création d'un nouvel objet DataSource avec les paramètres nécessaires
-            $datasource = new DataSource(
-                'localhost',
-                '3306',
-                'festiplan',
-                'root',
-                '',
-                'utf8mb4');
-
-            // Obtention de l'objet PDO à partir de l'objet DataSource
+            $datasource = new DataSource('localhost', '3306', 'festiplan', 'root', '', 'utf8mb4');
             $this->pdo = $datasource->getPdo();
         } catch (PDOException $e) {
             throw new Exception("Erreur lors de la connexion à la base de données");
@@ -78,6 +76,15 @@ class OutilsTests
         $stmt->execute([$idFestival, $idUser]);
     }
 
+    /**
+     * Insère une nouvelle scène dans la base de données.
+     *
+     * @param string $nomScene Le nom de la scène.
+     * @param string $tailleScene La taille de la scène.
+     * @param int $spectateurMax Le nombre maximum de spectateurs.
+     * @param string $coordonneesGPS Les coordonnées GPS de la scène.
+     * @return int L'ID de la scène nouvellement insérée.
+     */
     public function insertScene($nomScene, $tailleScene, $spectateurMax, $coordonneesGPS): int
     {
         $stmt = $this->pdo->prepare("INSERT INTO scenes (nomScene, tailleScene, spectateurMax, coordonneesGPS) VALUES (?, ?, ?, ?)");
@@ -85,12 +92,29 @@ class OutilsTests
         return (int)$this->pdo->lastInsertId();
     }
 
+    /**
+     * Associe une scène à un festival dans la base de données.
+     *
+     * @param int $idFestival L'ID du festival.
+     * @param int $idScene L'ID de la scène.
+     */
     public function insertSceneFestival($idFestival, $idScene): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO accueillir (idFestival, idScene) VALUES (?, ?)");
         $stmt->execute([$idFestival, $idScene]);
     }
 
+    /**
+     * Insère un nouveau spectacle dans la base de données.
+     *
+     * @param string $titreSpectacle Le titre du spectacle.
+     * @param string $descriptionSpectacle La description du spectacle.
+     * @param int $idImage L'ID de l'image du spectacle.
+     * @param string $dureeSpectacle La durée du spectacle.
+     * @param string $surfaceScneRequise La surface de scène requise pour le spectacle.
+     * @param int $idResponsableSpectacle L'ID du responsable du spectacle.
+     * @return int L'ID du spectacle nouvellement inséré.
+     */
     public function insertShow($titreSpectacle, $descriptionSpectacle, $idImage, $dureeSpectacle, $surfaceScneRequise, $idResponsableSpectacle): int
     {
         $stmt = $this->pdo->prepare("INSERT INTO spectacles (titreSpectacle, descriptionSpectacle, idImage, dureeSpectacle, surfaceSceneRequise, idResponsableSpectacle) VALUES (?, ?, ?, ?, ?, ?)");
@@ -98,6 +122,12 @@ class OutilsTests
         return (int)$this->pdo->lastInsertId();
     }
 
+    /**
+     * Associe un spectacle à un festival dans la base de données.
+     *
+     * @param int $idFestival L'ID du festival.
+     * @param int $idSpectacle L'ID du spectacle.
+     */
     public function insertShowFestival($idFestival, $idSpectacle): void
     {
         $stmt = $this->pdo->prepare("INSERT INTO composer (idFestival, idSpectacle) VALUES (?, ?)");
