@@ -228,9 +228,6 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($shows);
     }
 
-    /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
     public function testGetOrganizerFestivalWithDatabaseFailure()
     {
         // GIVEN: un objet PDO qui lance une exception lorsqu'on prépare une requête
