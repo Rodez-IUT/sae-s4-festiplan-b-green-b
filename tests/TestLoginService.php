@@ -9,6 +9,7 @@ class TestLoginService extends \PHPUnit\Framework\TestCase
 {
     private PDO $pdo;
     private LoginService $loginService;
+    private OutilsTests $outilsTests;
 
     public function setUp(): void
     {
@@ -25,23 +26,9 @@ class TestLoginService extends \PHPUnit\Framework\TestCase
         $this->pdo = $datasource->getPdo();
 
         $this->loginService = new LoginService();
-    }
 
-    /**
-     * Insère un nouvel utilisateur dans la base de données.
-     *
-     * @param string $nomUser Le nom de l'utilisateur.
-     * @param string $prenomUser Le prénom de l'utilisateur.
-     * @param string $emailUser L'adresse e-mail de l'utilisateur.
-     * @param string $loginUser Le nom d'utilisateur de l'utilisateur.
-     * @param string $passwordUser Le mot de passe de l'utilisateur.
-     * @return int L'ID de l'utilisateur nouvellement inséré.
-     */
-    private function insertUser($nomUser, $prenomUser, $emailUser, $loginUser, $passwordUser): int
-    {
-        $stmt = $this->pdo->prepare("INSERT INTO users (nomUser, prenomUser, emailUser, loginUser, passwordUser) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$nomUser, $prenomUser, $emailUser, $loginUser, $passwordUser]);
-        return (int)$this->pdo->lastInsertId();
+        // Création d'un nouvel objet OutilsTests
+        $this->outilsTests = new OutilsTests();
     }
 
     public function testLoginWithCorrectCredentials()
@@ -52,7 +39,7 @@ class TestLoginService extends \PHPUnit\Framework\TestCase
             $passwordHash = password_hash("password", PASSWORD_BCRYPT);
 
             // GIVEN: un utilisateur
-            $idUser = $this->insertUser('Doe', 'John', 'test@mail.fr', 'johndoe', $passwordHash);
+            $idUser = $this->outilsTests->insertUser('Doe', 'John', 'test@mail.fr', 'johndoe', $passwordHash);
 
             // WHEN: on appelle la méthode login avec les bons identifiants
             $user = $this->loginService->login($this->pdo, 'johndoe', 'password');
