@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\PlanificationServices;
 use yasmf\View;
 use yasmf\HttpHelper;
@@ -41,12 +42,11 @@ class PlanificationController
         // Identifiant du festival (à remplacer par une variable dynamique si nécessaire).
         $idFestival = HttpHelper::getParam("idFestival");
         // Initialisation de la variable pour stocker les résultats de la planification.
-        $searchStmt = [];
 
         try {
             // Récupération des données de planification pour le festival.
             $searchStmt = $this->planificationServices->getPlanification($pdo, $idFestival);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération des spectacles";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -69,7 +69,7 @@ class PlanificationController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de la page de planification avec le menu déroulant ouvert.
      */
-    public function showMenu($pdo): View
+    public function showMenu(PDO $pdo): View
     {
         // Affiche la page de planification avec le menu déroulant ouvert.
         $view = $this->index($pdo);

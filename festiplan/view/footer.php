@@ -1,7 +1,7 @@
 <?php
     /*
         Ici est seulement le footer 
-        à inclure dans tout les fichiers ou le footer est présent
+        à inclure dans tous les fichiers ou le footer est présent
     */
 ?>
 

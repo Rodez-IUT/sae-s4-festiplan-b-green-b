@@ -60,7 +60,7 @@ class ListeSpectacleServices
 
         $result = $stmt->fetch();
 
-        return $result ? true : false;
+        return (bool)$result;
     }
 
     /**
@@ -84,7 +84,7 @@ class ListeSpectacleServices
 
         $result = $stmt->fetch();
 
-        return $result ? true : false;
+        return (bool)$result;
     }
 
 }

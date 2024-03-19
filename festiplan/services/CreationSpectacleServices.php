@@ -2,9 +2,8 @@
 
 namespace services;
 
-use PDO;
-
 use other\classes\Spectacle;
+use PDO;
 use function utils\add_image_to_db;
 use function utils\creer_Spectacle;
 use function utils\get_image_size;
@@ -14,7 +13,7 @@ use function utils\is_image_valid;
 include "utils/fonctions.php";
 
 /**
- * La classe CreationSpectacleServices fournit des méthodes 
+ * La classe CreationSpectacleServices fournit des méthodes
  * pour la gestion des spectacles.
  *
  * @author clement.denamiel
@@ -24,7 +23,7 @@ include "utils/fonctions.php";
  */
 class CreationSpectacleServices
 {
-    
+
     const LISTE_CHAMPS = array(
         "titre",
         "tailleScene",
@@ -37,7 +36,7 @@ class CreationSpectacleServices
         "intervenantHors",
     );
 
-    public function getSpectacle(\PDO $pdo, string $id)
+    public function getSpectacle(PDO $pdo, string $id): array
     {
         $requetes = array(
             "SELECT titreSpectacle as titre,surfaceSceneRequise as tailleScene, descriptionSpectacle as description, idImage as image, 
@@ -51,15 +50,15 @@ class CreationSpectacleServices
         );
 
 
-        $liste = array();
+        $listeStatement = array();
 
         foreach ($requetes as $requete) {
             $stmt = $pdo->prepare($requete);
             $stmt->execute(array(":id" => $id));
-            $liste[] = $stmt->fetchAll();
+            $listeStatement[] = $stmt;
         }
 
-        foreach ($liste[0] as $spectacle) {
+        while ($spectacle = $listeStatement[0]->fetch()) {
             $liste_valeurs = array(
                 "titre" => $spectacle["titre"],
                 "tailleScene" => $spectacle["tailleScene"],
@@ -67,27 +66,27 @@ class CreationSpectacleServices
                 "image" => $spectacle["image"],
                 "duree" => $spectacle["duree"],
                 "responsable" => $spectacle["responsable"],
-
             );
         }
 
         $categories = array();
-        foreach ($liste[4] as $categorie) {
+        while ($categorie = $listeStatement[4]->fetch()) {
             $categories[] = $categorie["categories"];
         }
 
-        $intervenantScene = array();
-        foreach ($liste[2] as $intervenantScene) {
-            $intervenantScene[] = $intervenantScene["intervenantScene"];
+        $intervenantsScene = array();
+        while ($intervenantScene = $listeStatement[2]->fetch()) {
+            $intervenantScene[] = $intervenantsScene["intervenantScene"];
         }
-        $intervenantHors = array();
-        foreach ($liste[3] as $intervenantHors) {
-            $intervenantHors[] = $intervenantHors["intervenantHors"];
+
+        $intervenantsHors = array();
+        while ($intervenantHors = $listeStatement[3]->fetch()) {
+            $intervenantsHors[] = $intervenantHors["intervenantHors"];
         }
 
 
-        $liste_valeurs["intervenantScene"] = $intervenantScene;
-        $liste_valeurs["intervenantHors"] = $intervenantHors;
+        $liste_valeurs["intervenantScene"] = $intervenantsScene;
+        $liste_valeurs["intervenantHors"] = $intervenantsHors;
         $liste_valeurs["categories"] = $categories;
 
         return $liste_valeurs;
@@ -106,7 +105,7 @@ class CreationSpectacleServices
             if (!isset($liste[$key])) {
                 if (in_array($key, ["categories"])) {
                     $liste_classes[$key] = "invalide";
-                } else if (in_array($key, ["intervenantScene", "intervenantHors"])){
+                } else if (in_array($key, ["intervenantScene", "intervenantHors"])) {
                     $liste_classes[$key] = "ok";
                 } else {
                     $liste_classes[$key] = "";
@@ -145,7 +144,7 @@ class CreationSpectacleServices
                 return filter_var($value, FILTER_VALIDATE_EMAIL);
 
             case 'tailleScene':
-                return in_array(strtolower($value) ,["1","2","3"]);
+                return in_array(strtolower($value), ["1", "2", "3"]);
 
             case 'image':
                 $taille_nom_image = strlen($value);
@@ -192,7 +191,7 @@ class CreationSpectacleServices
 
             $valid_size = is_image_valid($size);
 
-            if ($valid_size){
+            if ($valid_size) {
                 $image_id = add_image_to_db($pdo, $file_name, $complete_file_path);
             }
 
@@ -207,7 +206,7 @@ class CreationSpectacleServices
      * @param array $liste Tableau des données à vérifier.
      * @return array Tableau des classes CSS associées à chaque champ.
      */
-    public function getListeClasses($pdo, array $liste): array
+    public function getListeClasses(PDO $pdo, array $liste): array
     {
         $liste_classes = $this->verif_inputs($liste);
 
@@ -229,15 +228,13 @@ class CreationSpectacleServices
      * @param array $liste Tableau des données à traiter.
      * @return array Tableau des valeurs pour chaque champ.
      */
-    public function getListeValeurs($pdo, array $liste): array
+    public function getListeValeurs(PDO $pdo, array $liste): array
     {
         $liste_valeurs = [];
         foreach ($this::LISTE_CHAMPS as $key) {
-            if (isset($liste[$key])) {
-                $value = $liste[$key];
-            } else {
-                $value = null;
-            }
+
+            $value = $liste[$key] ?? null;
+
             if (isset($value)) {
                 if (gettype($value) == "array") {
                     $values = array();
@@ -270,14 +267,18 @@ class CreationSpectacleServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Liste des catégories de spectacle.
      */
-    public function getCategoriesSpectacle($pdo): array
+    public function getCategoriesSpectacle(PDO $pdo): array
     {
-        $liste_categories = [];
         $requete = "SELECT * FROM categories";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $liste_categories = $stmt->fetchAll();
-        return $liste_categories;
+
+        $categories = array();
+        while ($categorie = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $categories[] = $categorie;
+        }
+
+        return $categories;
     }
 
     /**
@@ -286,14 +287,18 @@ class CreationSpectacleServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Liste des intervenants sur scène.
      */
-    public function getIntervenantScene($pdo): array
+    public function getIntervenantScene(PDO $pdo): array
     {
-        $listeIntervenants = [];
         $requete = "SELECT * FROM intervenants WHERE estSurScene = 1";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $listeIntervenants = $stmt->fetchAll();
-        return $listeIntervenants;
+
+        $intervenantsScene = array();
+        while ($intervenantScene = $stmt->fetch()) {
+            $intervenantsScene[] = $intervenantScene;
+        }
+
+        return $intervenantsScene;
     }
 
     /**
@@ -302,14 +307,18 @@ class CreationSpectacleServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return array Liste des intervenants hors scène.
      */
-    public function getIntervenantHors($pdo): array
+    public function getIntervenantHors(PDO $pdo): array
     {
-        $listeIntervenants = [];
         $requete = "SELECT * FROM intervenants WHERE estSurScene = 0";
         $stmt = $pdo->prepare($requete);
         $stmt->execute();
-        $listeIntervenants = $stmt->fetchAll();
-        return $listeIntervenants;
+
+        $intervenantsHors = array();
+        while ($intervenantHors = $stmt->fetch()) {
+            $intervenantsHors[] = $intervenantHors;
+        }
+
+        return $intervenantsHors;
     }
 
     /**
@@ -330,29 +339,49 @@ class CreationSpectacleServices
      * @param Spectacle $spectacle Instance de Spectacle à insérer.
      * @return void
      */
-    public function insert_Spectacle($pdo, Spectacle $spectacle): void
+    public function insert_Spectacle(PDO $pdo, Spectacle $spectacle): void
     {
         insertion_Spectacle($pdo, $spectacle);
     }
 
-    public function update_Spectacle($pdo, string $id, array $nouvelles)
+    public function update_Spectacle($pdo, string $id, array $nouvelles): void
     {
-        $spectacle = $this->create_Spectacle($nouvelles);
-        $this->supprimerSpectacle($pdo, $id);
 
-        insertion_Spectacle($pdo, $spectacle);
-    }
+        $requeteUpdateSpectacle = "UPDATE spectacles 
+                    SET titreSpectacle = :titre, surfaceSceneRequise = :tailleScene, descriptionSpectacle = :description, idImage = :image, dureeSpectacle = :duree 
+                    WHERE idSpectacle = :id";
 
-    public function supprimerSpectacle($pdo, string $idSpectacle)
-    {
-        $requetes = array(
-            "DELETE FROM spectacles WHERE idSpectacle = :id",
-        );
-        foreach ($requetes as $requete) {
-            $stmt = $pdo->prepare($requete);
-            $stmt->bindParam(":id", $idSpectacle);
+        $requeteDeleteCategorie = "DELETE FROM categoriespectacle WHERE idSpectacle = :id";
+        $requeteAjouterCategorie = "INSERT INTO categoriespectacle (idSpectacle, idCategorie) VALUES (:id, :categorie)";
+
+        $stmt = $pdo->prepare($requeteUpdateSpectacle);
+        $stmt->bindParam(":titre", $nouvelles["titre"]);
+        $stmt->bindParam(":tailleScene", $nouvelles["tailleScene"]);
+        $stmt->bindParam(":description", $nouvelles["description"]);
+        $stmt->bindParam(":image", $nouvelles["image"]);
+        $stmt->bindParam(":duree", $nouvelles["duree"]);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        $stmt = $pdo->prepare($requeteDeleteCategorie);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        foreach ($nouvelles["categories"] as $categorie) {
+            $stmt = $pdo->prepare($requeteAjouterCategorie);
+            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":categorie", $categorie);
             $stmt->execute();
         }
+    }
+
+    public function supprimerSpectacle($pdo, string $idSpectacle): void
+    {
+        $requete = "DELETE FROM spectacles WHERE idSpectacle = :id";
+
+        $stmt = $pdo->prepare($requete);
+        $stmt->bindParam(":id", $idSpectacle);
+        $stmt->execute();
     }
 
     /**
@@ -361,7 +390,7 @@ class CreationSpectacleServices
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return bool Retourne true si toutes les données sont valides, sinon false.
      */
-    public function getEverythingOK($pdo)
+    public function getEverythingOK(PDO $pdo): bool
     {
         $everything_ok = true;
 

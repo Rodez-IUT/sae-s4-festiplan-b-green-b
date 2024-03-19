@@ -36,12 +36,14 @@ SetupHeadersAndDialog($titre, $controller, $open);
                     echo '<div class="col-12"><h1 class="center primary">Jour '.$compteurJour .'</h1></div>';
                     echo '<div class="col-12"> &nbsp;</div>';
                     $compteurJour++;
-                
+
                     foreach ($spectaclesDuJour as $spectacle) {
-                        echo '<div class="col-5 offset-1 row bordure fond-primary">';
-                            echo '<div class="col-12">
-                                    <h2 class="center">'.$spectacle["titreSpectacle"].'</h2>
-                                </div>';
+                        ?>
+                        <div class="col-5 offset-1 row bordure fond-primary">
+                            <div class="col-12">
+                                <h2 class="center"><?php echo $spectacle["titreSpectacle"] ?></h2>
+                            </div>
+                            <?php
                             $image_name = $spectacle['nomImage'];
                             ?>
                             <div class="col-6">

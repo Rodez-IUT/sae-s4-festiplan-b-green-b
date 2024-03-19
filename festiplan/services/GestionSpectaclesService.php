@@ -2,6 +2,8 @@
 
 namespace services;
 
+use PDO;
+
 /**
  * GestionSpectaclesService - Service de gestion des spectacles.
  * 
@@ -15,10 +17,10 @@ class GestionSpectaclesService
     /**
      * Supprime un spectacle de la base de données.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string $id Identifiant du spectacle à supprimer.
      */
-    public function supprimerSpectacle(\PDO $pdo, string $id)
+    public function supprimerSpectacle(PDO $pdo, string $id): void
     {
         // Requête SQL pour supprimer un spectacle en utilisant un paramètre nommé.
         $sql = "DELETE FROM spectacles WHERE idSpectacle = :id";

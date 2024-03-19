@@ -23,7 +23,7 @@ class ModifInfoPersoService
      * @param int $idUtilisateur Identifiant de l'utilisateur.
      * @return array Tableau contenant les informations de l'utilisateur.
      */
-    function getListeValeurs(PDO $pdo, $idUtilisateur): array
+    function getListeValeurs(PDO $pdo, int $idUtilisateur): array
     {
         $sql= "SELECT nomUser, prenomUser, emailUser, loginUser FROM users WHERE idUser = :idUser";
         $stmt = $pdo->prepare($sql);
@@ -43,7 +43,7 @@ class ModifInfoPersoService
      * @param array $liste_information Tableau contenant les anciennes informations de l'utilisateur.
      * @return array Tableau associatif indiquant l'état de validation de chaque champ.
      */
-    public function verif_changes(PDO $pdo, array $liste,$idUtilisateur, $liste_information): array
+    public function verif_changes(PDO $pdo, array $liste, int $idUtilisateur, array $liste_information): array
     {
         $sql= "SELECT passwordUser FROM users WHERE idUser = :idUser";
         $stmt = $pdo->prepare($sql);
@@ -111,7 +111,7 @@ class ModifInfoPersoService
      * @param int $idUtilisateur Identifiant de l'utilisateur.
      * @return void
      */
-    public function updateUser(PDO $pdo, array $liste, $idUtilisateur): void
+    public function updateUser(PDO $pdo, array $liste, int $idUtilisateur): void
     {
         $password = $liste['nouveauMotDePasse'] != null ? password_hash(htmlspecialchars($liste['nouveauMotDePasse'] ), PASSWORD_DEFAULT): password_hash(htmlspecialchars($liste['ancienMotDePasse'] ), PASSWORD_DEFAULT);
         $sql= "UPDATE users SET nomUser = :nomUser, prenomUser = :prenomUser, emailUser = :emailUser, loginUser = :loginUser, passwordUser = :passwordUser WHERE idUser = :idUser";

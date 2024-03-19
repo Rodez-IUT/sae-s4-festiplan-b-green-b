@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\SpectacleAjoutsService;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -45,7 +46,7 @@ class SpectacleAjoutsController
             // Récupération des intervenants disponibles et présents pour le spectacle.
             $liste_intervenant = $this->spectacleAjoutsService->getIntervenants($pdo);
             $intervenants_present = $this->spectacleAjoutsService->getIntervenantsPresent($pdo, $id);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
             $liste_intervenant = [];
             $intervenants_present = [];
@@ -72,7 +73,7 @@ class SpectacleAjoutsController
     }
 
     /**
-     * Crée un nouvel intervenant et le lie au spectacle.
+     * Crée un nouvel intervenant et l'associe au spectacle.
      *
      * @param PDO $pdo Connexion à la base de données.
      * @return void Redirige vers la page d'ajouts d'intervenants pour le spectacle.
@@ -88,13 +89,13 @@ class SpectacleAjoutsController
 
         $idSpec = HttpHelper::getParam("idSpectacle");
 
-        // Conversion de la valeur de estSurScene en entier.
+        // Conversion de la valeur de 'estSurScene' en entier.
         $estSurScene = ($estSurSceneValue == "1") ? 1 : 0;
 
         try {
             // Appel du service pour créer l'intervenant.
             $this->spectacleAjoutsService->creerIntervenant($pdo, $nom, $prenom, $mail, $estSurScene, $idCreateur, $idSpec);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
             die();
         }
@@ -131,7 +132,7 @@ class SpectacleAjoutsController
         try {
             // Appel du service pour charger les intervenants depuis le fichier CSV.
             $this->spectacleAjoutsService->fromCSVFile($pdo, $file_name, $file_path, $idCreateur, $idSpec);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, retourne à la page d'ajouts avec un message d'erreur.
             $view = $this->index($pdo);
             $view->setVar("file_erreor", $e->getMessage());
@@ -158,7 +159,7 @@ class SpectacleAjoutsController
         try {
             // Appel du service pour ajouter l'intervenant au spectacle.
             $this->spectacleAjoutsService->ajouterIntervenant($pdo, $idSpectacle, $idIntervenant);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
         }
 
@@ -182,7 +183,7 @@ class SpectacleAjoutsController
         try {
             // Appel du service pour retirer l'intervenant du spectacle.
             $this->spectacleAjoutsService->retirerIntervenant($pdo, $idSpectacle, $idIntervenant);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
         }
 
@@ -209,7 +210,7 @@ class SpectacleAjoutsController
         try {
             // Appel du service pour effectuer la recherche.
             $liste_intervenants = $this->spectacleAjoutsService->recherche($pdo, $recherche);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
         }
 
@@ -236,7 +237,7 @@ class SpectacleAjoutsController
         try {
             // Appel du service pour supprimer l'intervenant de la base de données.
             $this->spectacleAjoutsService->supprimerIntervenant($pdo, $idIntervenant);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
             die();
         }
@@ -258,12 +259,14 @@ class SpectacleAjoutsController
             $idIntervenant = HttpHelper::getParam("idIntervenant");
             $idSpectacle = HttpHelper::getParam("idSpectacle");
 
+            $valeurIntervenant = [];
+
             try {
                 // Récupération de la liste des intervenants, des intervenants présents, et des informations de l'intervenant.
                 $liste_intervenant = $this->spectacleAjoutsService->getIntervenants($pdo);
                 $intervenants_present = $this->spectacleAjoutsService->getIntervenantsPresent($pdo, $idSpectacle);
                 $valeurIntervenant = $this->spectacleAjoutsService->getIntervenant($pdo, $idIntervenant);
-            } catch (\PDOException $e) {
+            } catch (PDOException $e) {
                 echo $e;
                 $liste_intervenant = [];
                 $intervenants_present = [];
@@ -297,13 +300,13 @@ class SpectacleAjoutsController
        $estSurSceneValue = HttpHelper::getParam("estSurScene");
        $idCreateur = HttpHelper::getParam("idCreateur");
 
-       // Conversion de la valeur de estSurScene en entier.
+       // Conversion de la valeur de 'estSurScene' en entier.
        $estSurScene = ($estSurSceneValue == "1") ? 1 : 0;
 
        try {
            // Appel du service pour effectuer la modification de l'intervenant.
            $this->spectacleAjoutsService->modifierIntervenant($pdo, $idIntervenant, $nom, $prenom, $mail, $estSurScene);
-       } catch (\PDOException $e) {
+       } catch (PDOException $e) {
            echo $e;
            die();
        }

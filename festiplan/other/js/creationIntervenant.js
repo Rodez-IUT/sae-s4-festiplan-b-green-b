@@ -27,11 +27,11 @@ function initialiserPage() {
 
 /**
  * La fonction verifInputNom vérifie la longueur de tous les champs.
- * Si ils ne sont pas valides, elle change la couleur des labels 
+ * S'ils ne sont pas valides, elle change la couleur des labels
  * en rouge et empeche.
  */
 function verifAllInput(event) {
-    // on verifie que les champs sont corrects
+    // on vérifie que les champs sont corrects
     let nomOK = verifInputTexte(inputNom, labelNom);
     let prenomOK = verifInputTexte(inputPrenom, labelPrenom);
     let emailOK = verifInputEmail();
@@ -45,7 +45,7 @@ function verifAllInput(event) {
 }
 
 /**
- * La fonction vérifie la longueur de la valeur de inputNom.
+ * La fonction vérifie la longueur de la valeur de 'inputNom'.
  * Si elle est inférieure à 2 caractères, elle change la couleur de 
  * l'étiquette en rouge. 
  * Sinon, elle change la couleur de l'étiquette en noir.
@@ -64,7 +64,7 @@ function verifInputTexte(input, label) {
 
 
 /**
- * La fonction verifInputEmail vérifie la longueur de la valeur de inputEmail.
+ * La fonction verifInputEmail vérifie la longueur de la valeur de 'inputEmail'.
  * Si elle est ne vérifie pas la regepx des mails, elle change la couleur de 
  * l'étiquette en rouge. 
  * Sinon, elle change la couleur de l'étiquette en noir.

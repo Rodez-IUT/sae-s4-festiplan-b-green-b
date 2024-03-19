@@ -7,8 +7,6 @@ let inputDescription;
 
 
 let boutonValider;
-// let selectionCategorie;
-// let selectionScene;
 
 function initialiserDonnees() {
     boutonValider = document.getElementById("btn-valider");
@@ -22,16 +20,14 @@ function initialiserDonnees() {
  */
 function validerCreationFestival(event) {
     console.log(verifAllCheckList());
-    if(verifAllInput() && verifAllCheckList()) {
-        return true;
-    }
-    return false;
+    return !!(verifAllInput() && verifAllCheckList());
+
 }
 
 /**
- * la fonction verifie tous les input de type texte du formulaire
+ * la fonction verifie toutes les zones de saisie de type texte du formulaire
  * @param event 
- * @return true si tous les input texte sont valides et false sinon
+ * @return true si toutes les zones de saisie de type texte sont valides et false sinon
  */
 function verifAllInput(event) {
     labelNom = document.getElementById("labelNom");
@@ -44,8 +40,8 @@ function verifAllInput(event) {
 }
 
 /**
- * la fonction vérifie toutes les checklist du formulaire
- * @returns true si toutes les checklist sont valide
+ * la fonction vérifie toutes les 'checklist' du formulaire
+ * @returns true si toutes les 'checklist' sont valides
  */
 function verifAllCheckList() {
     let listeLabel = ["labelCategorie", "labelScene", "labelGrille", "labelSpectacle", "labelMembre", "labelOrganisateur"];
@@ -53,12 +49,12 @@ function verifAllCheckList() {
     for(let i = 0; i < listeLabel.length; i++) {
         // on récupère le label
         let label = document.getElementById(listeLabel[i]);
-        // on teste la validité d ela checkbox
+        // on teste la validité dela checkbox
         if(!verifCheckList(listeCheckbox[i])) {
             label.classList.add("invalide");
             return false;
         }
-        //on ajoute la bonne couleur au label lorsque il est ok
+        //on ajoute la bonne couleur au label lorsqu'il est ok
         if(listeCheckbox[i] == "categories[]" || listeCheckbox[i] == "scenes[]") {
             label.classList.add("ok");
         } else {
@@ -70,7 +66,7 @@ function verifAllCheckList() {
 
 /**
  * la fonction permet de vérifier la validité d'un input de type texte
- * Ici il faut qu'il ait plus de deux caractères pour qu'il soit valide
+ * Ici, il faut qu'il ait plus de deux caractères pour qu'il soit valide
  * @param input 
  * @param label 
  * @returns true si l'input est valide et false sinon
@@ -99,8 +95,5 @@ function verifCheckList(name) {
             nbCaseCocher++
         }
     }
-    if(nbCaseCocher > 0) {
-        return true;
-    }
-    return false;
+    return nbCaseCocher > 0;
 }

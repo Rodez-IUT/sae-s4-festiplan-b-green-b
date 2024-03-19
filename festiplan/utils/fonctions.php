@@ -23,12 +23,10 @@ function get_image_size($file_path): ?array
         return null;
     }
 
-    $size = array(
+    return array(
         "width" => $informations[0],
         "height" => $informations[1]
     );
-
-    return $size;
 }
 
 function is_image_valid($size): bool 
@@ -92,9 +90,13 @@ function verifInput($key, $value): bool
     }
 }
 
-function creer_festival(array $liste_valeurs)
+function creer_festival(array $liste_valeurs): Festival
 {
-    $festival = new Festival(
+    if ($liste_valeurs["categories"] == '') {
+        $liste_valeurs["categories"] = array();
+    }
+
+    return new Festival(
         $liste_valeurs["nom"],
         $liste_valeurs["description"],
         $liste_valeurs["image"],
@@ -109,8 +111,6 @@ function creer_festival(array $liste_valeurs)
         $liste_valeurs["finGriJ"],
         $liste_valeurs["dureeGriJ"]
     );
-
-    return $festival;
 }
 
 function insertion_festival(PDO $pdo, Festival $festival): void
@@ -181,17 +181,15 @@ function insertion_festival(PDO $pdo, Festival $festival): void
     
 }
 
-function create_visiteur(array $liste_valeurs)
+function create_visiteur(array $liste_valeurs): Visiteur
 {
-    $visiteur = new Visiteur(
+    return new Visiteur(
         $liste_valeurs["nom"],
         $liste_valeurs["prenom"],
         $liste_valeurs["email"],
         $liste_valeurs["identifiant"],
         $liste_valeurs["motDePasse"]
     );
-
-    return $visiteur;
 }
 
 function insert_visiteur(Visiteur $visiteur) 
@@ -217,9 +215,7 @@ function insert_visiteur(Visiteur $visiteur)
 
     $stmt->execute();
 
-    $visiteur_id = $pdo->lastInsertId();
-
-    return $visiteur_id;
+    return $pdo->lastInsertId();
 }
 
 function is_client_valid ($identifiant, $password): bool
@@ -247,7 +243,7 @@ function is_client_valid ($identifiant, $password): bool
 }
 
 
-function creer_Spectacle(array $liste_valeurs)
+function creer_Spectacle(array $liste_valeurs): Spectacle
 {
     if (gettype($liste_valeurs["intervenantScene"])!= array()) {
         $liste_valeurs["intervenantScene"] = array();
@@ -256,7 +252,8 @@ function creer_Spectacle(array $liste_valeurs)
         $liste_valeurs["intervenantHors"] = array();
     }
     $id = HttpHelper::getParam("user_id");
-    $spectacle = new Spectacle(
+
+    return new Spectacle(
         $liste_valeurs["titre"],
         $liste_valeurs["description"],
         $liste_valeurs["tailleScene"],
@@ -267,8 +264,6 @@ function creer_Spectacle(array $liste_valeurs)
         $liste_valeurs["intervenantScene"],
         $liste_valeurs["intervenantHors"]
     );
-
-    return $spectacle;
 }
 
 function insertion_Spectacle(PDO $pdo, Spectacle $spectacle): void
