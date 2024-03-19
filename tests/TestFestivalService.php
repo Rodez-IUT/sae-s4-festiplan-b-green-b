@@ -65,6 +65,31 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
             $this->pdo->rollBack();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
+            $this->fail($e->getMessage());
+        }
+    }
+
+    public function testGetDetailsFestival()
+    {
+        try {
+            $this->pdo->beginTransaction();
+            // GIVEN: un festival
+            $idFestival = $this->outilsTests->insertFestival('FestivalTest', 'DescriptionTest', 1, '2021-12-12', '2022-12-12', 1, 1, 'Lille', 59000);
+
+            // WHEN: on récupère les détails du festival
+            $stmt = $this->pdo->prepare("SELECT * FROM festivals WHERE idFestival = :idFestival");
+            $stmt->bindParam(':idFestival', $idFestival);
+            $stmt->execute();
+            $festival = $stmt->fetch();
+
+            // THEN: on obtient un tableau contenant les détails du festival
+            $festivalFromService = $this->festivalService->getDetailsFestival($this->pdo, $idFestival);
+            $this->assertEquals($festival, $festivalFromService[0]);
+
+            $this->pdo->rollBack();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            $this->fail($e->getMessage());
         }
     }
 
@@ -86,6 +111,7 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
             $this->pdo->rollBack();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
+            $this->fail($e->getMessage());
         }
     }
 
@@ -204,6 +230,18 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($organizers);
     }
 
+    public function testGetdetailsFestivalWithIncorrectId()
+    {
+        // GIVEN: un id de festival incorrect
+        $incorrectId = -1;
+
+        // WHEN: on essaie de récupérer les détails du festival avec l'id incorrect
+        $details = $this->festivalService->getDetailsFestival($this->pdo, $incorrectId);
+
+        // THEN: on devrait obtenir un tableau vide
+        $this->assertEmpty($details);
+    }
+
     public function testGetScenesFestivalWithIncorrectId()
     {
         // GIVEN: un id de festival incorrect
@@ -214,6 +252,18 @@ class TestFestivalService extends \PHPUnit\Framework\TestCase
 
         // THEN: we should get an empty array
         $this->assertEmpty($scenes);
+    }
+
+    public function testGetDetailsFestivalWithDatabaseFailure()
+    {
+        // GIVEN: un objet PDO qui lance une exception lorsqu'on prépare une requête
+        $this->pdo = $this->createMock(PDO::class);
+        $this->pdo->method('prepare')->will($this->throwException(new PDOException()));
+
+        // WHEN: on essaie de récupérer les détails du festival
+        // THEN: une exception PDO est levée
+        $this->expectException(PDOException::class);
+        $this->festivalService->getDetailsFestival($this->pdo, 1);
     }
 
     public function testGetShowsFestivalWithIncorrectId()
