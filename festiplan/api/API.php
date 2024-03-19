@@ -22,11 +22,6 @@ class API
      */
     private DataSource $dataSource;
 
-    /**
-     * Constructeur de l'API.
-     *
-     * Initialise l'objet source de données. S'il y a une erreur lors de la connexion, il envoie une réponse d'erreur.
-     */
     public function __construct()
     {
         try {
@@ -35,6 +30,7 @@ class API
             API::send_error("Erreur lors de la connexion à la base de données", 500);
         }
     }
+
 
     /**
      * Obtenir tous les festivals.
