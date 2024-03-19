@@ -50,7 +50,7 @@ class CreationCompteController
             exit();
         }
 
-        $view = new View("view/creationCompte");
+        $view = new View("view/compte_utilisateur/creationCompte");
         $view->setVar("liste_classes", $liste_classes);
         $view->setVar("liste_valeurs", $liste_valeurs);
         $view->setVar("oldController", "Home");

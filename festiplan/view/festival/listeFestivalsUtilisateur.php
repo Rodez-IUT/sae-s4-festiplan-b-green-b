@@ -34,7 +34,7 @@ $_SESSION["organisateur"] = $organisateur;
     </div>
     
         <?php
-            require("header.php");
+            require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/header.php");
             SetupHeadersAndDialog($titre, $controller, $open);
         ?>
     
@@ -123,7 +123,7 @@ $_SESSION["organisateur"] = $organisateur;
     <br><br><br><br><br><br><br><br><br>
 
     <?php
-        require("footer.php");
+        require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php");
     ?>
 
 </body>

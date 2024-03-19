@@ -51,7 +51,7 @@ class InfoSpectacleController
             exit();
         }
         // Initialise la vue avec les informations du spectacle.
-        $view = new View("view/infoSpectacle");
+        $view = new View("view/spectacle/infoSpectacle");
         $view->setVar('searchStmt', $searchStmt);
         $view->setVar('controller', 'Home');
         $view->setVar('titre', "Spectacle");

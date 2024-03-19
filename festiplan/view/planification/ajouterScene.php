@@ -312,7 +312,7 @@ if (isset($open)) {
     <div class="col-12">&nbsp;</div>
 
     
-    <?php require("footer.php"); ?>
+    <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
 </body>
 </html>

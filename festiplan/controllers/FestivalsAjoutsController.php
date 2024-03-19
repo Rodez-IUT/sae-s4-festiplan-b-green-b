@@ -55,7 +55,7 @@ class FestivalsAjoutsController
             exit();
         }
 
-        $view = new View("view/festivalsAjouts");
+        $view = new View("view/planification/festivalsAjouts");
         $view->setVar("titre", "Ajouts");
         $view->setVar("controller", "Ajouts");
         $view->setVar("open", "");

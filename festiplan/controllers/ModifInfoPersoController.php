@@ -56,7 +56,7 @@ class ModifInfoPersoController
         }
 
         // Initialise la vue avec la liste des valeurs et d'autres variables nécessaires.
-        $view = new View("view/modifInformation");
+        $view = new View("view/compte_utilisateur/modifInformation");
         $view->setVar("liste_valeurs", $liste_valeurs);
         $view->setVar("titre", "Modification données personnelles");
         $view->setVar("controller", "ModifInfoPerso");

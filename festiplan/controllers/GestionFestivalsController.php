@@ -62,7 +62,7 @@ class GestionFestivalsController
         $liste_valeurs = $this->gestionFestivalsServices->getListeValeurs($pdo, $_POST);
 
         // Initialisation de la vue avec les données récupérées.
-        $view = new View("view/creationFestival");
+        $view = new View("view/festival/creationFestival");
         $view->setVar("liste_categories", $liste_categories);
         $view->setVar("liste_scenes", $liste_scenes);
         $view->setVar("liste_grilles", $liste_grilles);

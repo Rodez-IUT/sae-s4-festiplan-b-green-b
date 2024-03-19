@@ -52,7 +52,7 @@ class SpectacleAjoutsController
         }
 
         // Initialisation de la vue avec les résultats de la recherche et d'autres variables nécessaires.
-        $view = new View("view/spectaclesAjouts");
+        $view = new View("view/spectacle/spectaclesAjouts");
 
         $view->setVar("liste_intervenant", $liste_intervenant);
         $view->setVar("intervenants_present", $intervenants_present);
