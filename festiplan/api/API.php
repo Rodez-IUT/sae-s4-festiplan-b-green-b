@@ -92,11 +92,24 @@ class API
     }
 
     /**
-     * Obtenir les favoris d'un utilisateur spécifique.
+     * Obtenir les détails d'un festival spécifique.
+     * @return array | string Renvoie un tableau de détails sur le festival ou une string si une erreur s'est produite.
+     */
+    public function getDetailsFestival($id)
+    {
+        try {
+            return FestivalService::getDetailsFestival($this->dataSource->getpdo(), $id);
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * Connexion d'un utilisateur.
      *
      * @param string $login
      * @param string $mdp
-     * @return PDOException|bool|array Renvoie un tableau de favoris ou une PDOException s'il y a une erreur.
+     * @return string|array Renvoie un tableau d'informations sur l'utilisateur ou une string si une erreur s'est produite.
      */
     public function login(string $login, string $mdp): string | bool | array
     {
@@ -184,6 +197,8 @@ class API
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+
 
 
 }

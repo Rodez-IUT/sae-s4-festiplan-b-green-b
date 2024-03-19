@@ -70,4 +70,19 @@ class FestivalService
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    /**
+     * Récupère les détails d'un festival spécifique.
+     *
+     * @param $pdo L'objet PDO pour la connexion à la base de données.
+     * @param $id L'ID du festival.
+     * @return array|PDOException Les détails du festival ou une exception PDO en cas d'erreur.
+     */
+    public static function getDetailsFestival($pdo, $id): array|PDOException
+    {
+        $stmt = $pdo->prepare("SELECT * FROM festivals WHERE idFestival = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
