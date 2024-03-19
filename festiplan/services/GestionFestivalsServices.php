@@ -431,63 +431,6 @@ class GestionFestivalsServices
      */
     public function update_festival(PDO $pdo, string $id, array $nouvelles): void
     {
-        //$requeteUpdateFestival = "UPDATE festivals SET nomFestival = :nom, descriptionFestival = :description,
-        //                          dateDebutFestival = :dateDebut, dateFinFestival = :dateFin,
-        //                          idImage = :image, idGriJ = :grille, idResponsable = :responsable,
-        //                          ville = :ville, codePostal = :codePostal WHERE idFestival = :id";
-//
-        //$requeteUpdateGriJ = "UPDATE grilleJournaliere SET heureDebut = :debut, heureFin = :fin,
-        //                      dureeMinimaleEntreDeuxSpectacles = :duree WHERE idGriJ = :id";
-//
-        //$requeteDeleteCategories = "DELETE FROM categorieFestival WHERE idFestival = :id";
-        //$requeteAjouterCategories = "INSERT INTO categorieFestival (idFestival, idCategorie) VALUES (:id, :categorie)";
-//
-        //$requeteDeleteScenes = "DELETE FROM accueillir WHERE idFestival = :id";
-        //$requeteAjouterScenes = "INSERT INTO accueillir (idFestival, idScene) VALUES (:id, :scene)";
-//
-        //$stmt = $pdo->prepare($requeteUpdateFestival);
-        //$stmt->bindParam(":nom", $nouvelles["nom"]);
-        //$stmt->bindParam(":description", $nouvelles["description"]);
-        //$stmt->bindParam(":dateDebut", $nouvelles["dateDebut"]);
-        //$stmt->bindParam(":dateFin", $nouvelles["dateFin"]);
-        //$stmt->bindParam(":image", $nouvelles["image"]);
-        //$stmt->bindParam(":grille", $nouvelles["grille"]);
-        //$stmt->bindParam(":responsable", $nouvelles["responsable"]);
-        //$stmt->bindParam(":ville", $nouvelles["ville"]);
-        //$stmt->bindParam(":codePostal", $nouvelles["codePostal"]);
-        //$stmt->bindParam(":id", $id);
-        //$stmt->execute();
-//
-        //$stmt = $pdo->prepare($requeteUpdateGriJ);
-        //$stmt->bindParam(":debut", $nouvelles["debutGriJ"]);
-        //$stmt->bindParam(":fin", $nouvelles["finGriJ"]);
-        //$stmt->bindParam(":duree", $nouvelles["dureeGriJ"]);
-        //$stmt->bindParam(":id", $nouvelles["grille"]);
-        //$stmt->execute();
-//
-        //$stmt = $pdo->prepare($requeteDeleteCategories);
-        //$stmt->bindParam(":id", $id);
-        //$stmt->execute();
-//
-        //foreach ($nouvelles["categories"] as $categorie) {
-        //    $stmt = $pdo->prepare($requeteAjouterCategories);
-        //    $stmt->bindParam(":id", $id);
-        //    $stmt->bindParam(":categorie", $categorie);
-        //    $stmt->execute();
-        //}
-//
-        //$stmt = $pdo->prepare($requeteDeleteScenes);
-        //$stmt->bindParam(":id", $id);
-        //$stmt->execute();
-//
-        //foreach ($nouvelles["scenes"] as $scene) {
-        //    $stmt = $pdo->prepare($requeteAjouterScenes);
-        //    $stmt->bindParam(":id", $id);
-        //    $stmt->bindParam(":scene", $scene);
-        //    $stmt->execute();
-        //}
-
-
         $festival = creer_festival($nouvelles);
 
         $this->supprimerFestival($pdo, $id);
