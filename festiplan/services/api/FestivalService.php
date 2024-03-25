@@ -80,9 +80,13 @@ class FestivalService
      */
     public static function getDetailsFestival($pdo, $id): array|PDOException
     {
-        $stmt = $pdo->prepare("SELECT * FROM festivals WHERE idFestival = :id");
+        $stmt = $pdo->prepare("SELECT festivals.*, images.nomImage FROM festivals 
+                           INNER JOIN images ON festivals.idImage = images.idImage 
+                           WHERE idFestival = :id");
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $result =  $stmt->fetchAll();
+
+        return $result;
     }
 }

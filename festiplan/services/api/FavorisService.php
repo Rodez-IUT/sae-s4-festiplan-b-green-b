@@ -34,15 +34,15 @@ class FavorisService
      * Cette méthode ajoute un nouveau favori pour un utilisateur spécifique.
      *
      * @param PDO $pdo L'objet PDO pour la connexion à la base de données.
-     * @param int $isUser L'identifiant de l'utilisateur.
+     * @param int $idUser L'identifiant de l'utilisateur.
      * @param int $idFestival L'identifiant du festival.
      * @return bool|string Retourne true si le favori a été ajouté avec succès, false sinon.
      */
-    public static function addFavori($pdo, $isUser, $idFestival): bool|string
+    public static function addFavori($pdo, $idUser, $idFestival): bool|string
     {
         // on verifie que la favori n'existe pas déjà
         $stmt = $pdo->prepare("SELECT * FROM favoris WHERE idUser = :idUser AND idFestival = :idFestival");
-        $stmt->bindParam(':idUser', $isUser);
+        $stmt->bindParam(':idUser', $idUser);
         $stmt->bindParam(':idFestival', $idFestival);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
@@ -50,7 +50,7 @@ class FavorisService
         }
 
         $stmt = $pdo->prepare("INSERT INTO favoris VALUES (:idUser, :idFestival)");
-        $stmt->bindParam(':idUser', $isUser);
+        $stmt->bindParam(':idUser', $idUser);
         $stmt->bindParam(':idFestival', $idFestival);
         $stmt->execute();
         return $stmt->rowCount() > 0;
@@ -62,14 +62,14 @@ class FavorisService
      * Cette méthode supprime un favori spécifique d'un utilisateur spécifique.
      *
      * @param PDO $pdo L'objet PDO pour la connexion à la base de données.
-     * @param int $isUser L'identifiant de l'utilisateur.
+     * @param int $idUser L'identifiant de l'utilisateur.
      * @param int $idFestival L'identifiant du festival.
      * @return bool|PDOException Retourne true si le favori a été supprimé avec succès, false sinon.
      */
-    public static function deleteFavori($pdo, $isUser, $idFestival): bool|PDOException
+    public static function deleteFavori($pdo, $idUser, $idFestival): bool|PDOException
     {
         $stmt = $pdo->prepare("DELETE FROM favoris WHERE idUser = :idUser AND idFestival = :idFestival");
-        $stmt->bindParam(':idUser', $isUser);
+        $stmt->bindParam(':idUser', $idUser);
         $stmt->bindParam(':idFestival', $idFestival);
         $stmt->execute();
         return $stmt->rowCount() > 0;
