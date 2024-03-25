@@ -7,7 +7,7 @@ if (isset($url[1])) {
     $result = $API->getDetailsFestival($url[1]);
     if (is_array($result)) {
         if (count($result) == 0) {
-            API::send_error("Festival introuvable", 404);
+            API::send_error("Festival introuvable", 400);
         }
         API::send_json($result, 200);
     } else {

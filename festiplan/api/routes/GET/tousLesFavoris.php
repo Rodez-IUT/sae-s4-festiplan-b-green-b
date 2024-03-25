@@ -7,7 +7,7 @@ if (isset($url[1]) && is_numeric($url[1])) {
     $result = $API->getAllFavorites($url[1]);
     if (is_array($result)) {
         if (count($result) == 0) {
-            API::send_error("Utilisateur introuvable", 404);
+            API::send_error("Utilisateur introuvable", 400);
         }
         API::send_json($result, 200);
     } else {
