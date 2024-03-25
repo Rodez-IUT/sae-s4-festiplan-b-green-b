@@ -156,13 +156,13 @@ class TestFavorisService extends \PHPUnit\Framework\TestCase
             $idUser = $this->outilsTests->insertUser('Doe', 'John', 'test@mail.fr', 'johndoe', 'password');
             // WHEN: l'utilisateur essaie d'ajouter un festival non existant à ses favoris
             $result = $this->favorisService->addFavori($this->pdo, $idUser, -1);
-            // THEN: une exception est levée
-            $this->pdo->rollBack();
-            $this->fail("Une exception aurait dû être levée");
+            // THEN: un message d'erreur est retourné
+            $this->assertEquals("le festival n'existe pas", $result);
 
+            $this->pdo->rollBack();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            $this->assertInstanceOf(PDOException::class, $e);
+            $this->fail($e->getMessage());
         }
     }
 

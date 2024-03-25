@@ -40,6 +40,14 @@ class FavorisService
      */
     public static function addFavori($pdo, $idUser, $idFestival): bool|string
     {
+        // on verifie que le festival existe
+        $stmt = $pdo->prepare("SELECT * FROM festivals WHERE idFestival = :idFestival");
+        $stmt->bindParam(':idFestival', $idFestival);
+        $stmt->execute();
+        if ($stmt->rowCount() == 0) {
+            return "le festival n'existe pas";
+        }
+
         // on verifie que la favori n'existe pas déjà
         $stmt = $pdo->prepare("SELECT * FROM favoris WHERE idUser = :idUser AND idFestival = :idFestival");
         $stmt->bindParam(':idUser', $idUser);
