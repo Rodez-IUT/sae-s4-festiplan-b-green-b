@@ -39,7 +39,7 @@ class API
      */
     public function getAllFestival(): string | array
     {
-        try {
+        try {;
             return FestivalService::getAllFestival($this->dataSource->getpdo());
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -139,6 +139,7 @@ class API
     public function ajouterFavori($idU, $mdp): string | bool
     {
         try {
+            $this->auth($idU);
             return FavorisService::addFavori($this->dataSource->getpdo(), $idU, $mdp);
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -155,6 +156,7 @@ class API
     public function supprimerFavori($idU, $mdp): string | bool
     {
         try {
+            $this->auth($idU);
             return FavorisService::deleteFavori($this->dataSource->getpdo(), $idU, $mdp);
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -170,6 +172,7 @@ class API
     public function getAllFavorites($idU): string | array
     {
         try {
+            $this->auth($idU);
             return FavorisService::getFavoris($this->dataSource->getpdo(), $idU);
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -206,6 +209,29 @@ class API
         die();
     }
 
+    /**
+     * Teste si la clé API fournie est valide.
+     * Si invalide renvoie un message d'erreur et arrete le processus
+     * @return void
+     */
+    public function auth($idUser)
+    {
+        // Sécurisation avec clé API
+        if (isset($_SERVER["HTTP_APIKEY"])) {
+            $key = $_SERVER["HTTP_APIKEY"];
+
+            if ($key == (new LoginService())->get_API_key($this->dataSource->getpdo(), $idUser, false)) {
+                return;
+            } else {
+                API::send_error("Clé API invalide", 401);
+                die();
+            }
+        } else {
+            API::send_error("Clé API absente", 401);
+            die();
+        }
+
+    }
 
 
 
