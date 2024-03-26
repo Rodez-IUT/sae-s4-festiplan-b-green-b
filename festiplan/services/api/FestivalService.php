@@ -65,7 +65,10 @@ class FestivalService
      */
     public static function getShowsFestival($pdo, $id): array|PDOException
     {
-        $stmt = $pdo->prepare("SELECT * FROM spectacles INNER JOIN composer ON spectacles.idSpectacle = composer.idSpectacle WHERE composer.idFestival = :id");
+        $stmt = $pdo->prepare("SELECT spectacles.*, images.nomImage FROM spectacles
+                               INNER JOIN composer ON spectacles.idSpectacle = composer.idSpectacle
+                               INNER JOIN images ON spectacles.idImage = images.idImage
+                               WHERE composer.idFestival = :id");
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetchAll();

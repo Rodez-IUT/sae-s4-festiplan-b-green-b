@@ -85,7 +85,12 @@ class API
     public function getShowsFestival($id): array | string
     {
         try {
-            return FestivalService::getShowsFestival($this->dataSource->getpdo(), $id);
+            $result = FestivalService::getShowsFestival($this->dataSource->getpdo(), $id);
+            // on modifi le chemin pour accéder à l'image
+            foreach ($result as $key => $value) {
+                $result[$key]['imagePath'] = "/sae-s4-festiplan-b-green-b/festiplan/stockage/images/" . $value['nomImage'];
+            }
+            return $result;
         } catch (PDOException $e) {
             return $e->getMessage();
         }
@@ -98,7 +103,10 @@ class API
     public function getDetailsFestival($id)
     {
         try {
-            return FestivalService::getDetailsFestival($this->dataSource->getpdo(), $id);
+            $result = FestivalService::getDetailsFestival($this->dataSource->getpdo(), $id);
+            // on modifi le chemin pour accéder à l'image
+            $result[0]['imagePath'] =  "/sae-s4-festiplan-b-green-b/festiplan/stockage/images/" . $result[0]['nomImage'];
+            return $result;
         } catch (PDOException $e) {
             return $e->getMessage();
         }
