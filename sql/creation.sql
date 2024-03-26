@@ -147,3 +147,10 @@ CREATE TABLE favoris (
     FOREIGN KEY (idFestival) references festivals(idFestival),
     PRIMARY KEY (idUser, idFestival)
 );
+
+CREATE TABLE api_keys (
+    idUser INT NOT NULL, -- foreign key
+    APIKey VARCHAR(32) NOT NULL,
+    FOREIGN KEY (idUser) references users(idUser),
+    PRIMARY KEY (idUser)
+);
