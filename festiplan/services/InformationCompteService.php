@@ -2,6 +2,7 @@
 
 namespace services;
 
+use Exception;
 use PDO;
 
 /**
@@ -21,13 +22,14 @@ class InformationCompteService
      *
      * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @param string $user_id Identifiant de l'utilisateur dont les informations sont recherchées.
-     * @return mixed Tableau contenant les informations de l'utilisateur (nom, prénom, email, login), ou false si aucun résultat.
-     * @throws \Exception Si l'objet PDO est null.
+     * @return array Tableau contenant les informations de l'utilisateur (nom, prénom, email, login), ou false si aucun résultat.
+     * @throws Exception Si l'objet PDO est null.
      */
-    function GetInfoFromAccount(PDO $pdo, string $user_id) {
+    function GetInfoFromAccount(PDO $pdo, string $user_id): array
+    {
 
         if (is_null($pdo)) {
-            throw new \Exception("InformationCompteService Exception : PDO object is null");
+            throw new Exception("InformationCompteService Exception : PDO object is null");
         }
 
         $requete = "SELECT nomUser, prenomUser, emailUser, loginUser 

@@ -14,7 +14,7 @@
 
 
         <?php
-            require("header.php");
+            require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/header.php");
             SetupHeadersAndDialog($titre, $controller, $open);
         ?>
 
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="col-7 fond-primary">
                                     <?php echo (int)($searchStmt["dureeSpectacle"]/60);?> heures
-                                    <?php echo (int)($searchStmt["dureeSpectacle"]%60);?> minutes
+                                    <?php echo $searchStmt["dureeSpectacle"]%60;?> minutes
                                 </div>
                                 <div class="col-12">&nbsp;</div>
                                 <div class="col-5">
@@ -132,8 +132,7 @@
                                 </div>
                             </div>
                         </div>
-                            <div class="col-12">&nbsp;</div>
-                    </div>
+                        <div class="col-12">&nbsp;</div>
                     </div>
                 </div>
             </div>
@@ -141,7 +140,7 @@
 
         <br><br>
 
-        <?php require("footer.php"); ?>
+        <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
     </body>
 </html>

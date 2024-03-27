@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\GestionFestivalsServices;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -36,7 +37,7 @@ class GestionFestivalsController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de création de festival.
      */
-    public function index($pdo): View
+    public function index(PDO $pdo): View
     {
         // Initialisation des listes avec des valeurs par défaut.
         $liste_categories = $liste_scenes = $liste_grilles = $liste_spectacles = $liste_membres = $liste_responsables = array();
@@ -48,7 +49,7 @@ class GestionFestivalsController
             $liste_grilles = $this->gestionFestivalsServices->getGrilles($pdo);
             $liste_spectacles = $this->gestionFestivalsServices->getSpectacles($pdo);
             $liste_membres = $liste_responsables = $this->gestionFestivalsServices->getUsers($pdo);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             $message_erreur = "Erreur lors de la récupération des données";
         }
 
@@ -62,7 +63,7 @@ class GestionFestivalsController
         $liste_valeurs = $this->gestionFestivalsServices->getListeValeurs($pdo, $_POST);
 
         // Initialisation de la vue avec les données récupérées.
-        $view = new View("view/creationFestival");
+        $view = new View("view/festival/creationFestival");
         $view->setVar("liste_categories", $liste_categories);
         $view->setVar("liste_scenes", $liste_scenes);
         $view->setVar("liste_grilles", $liste_grilles);
@@ -87,7 +88,7 @@ class GestionFestivalsController
      * @param PDO $pdo Connexion à la base de données.
      * @return View|null Vue de la liste des festivals ou null en cas d'échec.
      */
-    public function creerFestival($pdo): ?View
+    public function creerFestival(PDO $pdo): ?View
     {
         // Vérifie si toutes les conditions pour la création du festival sont remplies.
         $everything_ok = $this->gestionFestivalsServices->getEverythingOK($pdo);
@@ -102,7 +103,7 @@ class GestionFestivalsController
 
                 // Insère le festival dans la base de données.
                 $this->gestionFestivalsServices->insert_festival($pdo, $festival);
-            } catch (\PDOException $e) {
+            } catch (PDOException $e) {
                 // En cas d'erreur, redirige vers la page d'erreur avec le message d'erreur.
                 $message_erreur = "Erreur lors de la création du festival\n\n message erreur :" . $e->getMessage() . "\n";
                 header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -120,7 +121,7 @@ class GestionFestivalsController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function ajouts(PDO $pdo)
+    public function ajouts(PDO $pdo): void
     {
         header("Location: ?controller=Ajouts&idFestival=" . HttpHelper::getParam("idFestival"));
         exit();
@@ -160,7 +161,7 @@ class GestionFestivalsController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function validationModification(PDO $pdo)
+    public function validationModification(PDO $pdo): void
     {
         // Récupère l'identifiant du festival à modifier depuis les paramètres de la requête.
         $id = HttpHelper::getParam("idFestival");
@@ -204,7 +205,7 @@ class GestionFestivalsController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function suppression(PDO $pdo)
+    public function suppression(PDO $pdo): void
     {
         // Récupère l'identifiant du festival à supprimer depuis les paramètres de la requête.
         $id = HttpHelper::getParam("id");
@@ -222,7 +223,7 @@ class GestionFestivalsController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue du menu de gestion des festivals.
      */
-    public function showMenu(\PDO $pdo): View
+    public function showMenu(PDO $pdo): View
     {
         $view = $this->index($pdo);
         $view->setVar('open', 'open');

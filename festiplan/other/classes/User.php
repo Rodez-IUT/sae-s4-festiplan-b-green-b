@@ -2,6 +2,8 @@
 
 namespace other\classes;
 
+use Exception;
+
 class User
 {
 
@@ -49,13 +51,13 @@ class User
      * @param string $identifiant L'identifiant de l'utilisateur.
      * @param string $password Le mot de passe de l'utilisateur.
      *
-     * @throws \Exception Si un des champs est vide.
+     * @throws Exception Si un des champs est vide.
      */
     public function __construct(string $nom, string $prenom, string $email, string $identifiant, string $password)
     {
         // Vérifie si un des champs est vide et lance une exception le cas échéant
         if (empty($nom) || empty($prenom) || empty($identifiant) || empty($email) || empty($password)) {
-            throw new \Exception("Un des champs est vide.");
+            throw new Exception("Un des champs est vide.");
         }
 
         // Initialise les propriétés de l'utilisateur

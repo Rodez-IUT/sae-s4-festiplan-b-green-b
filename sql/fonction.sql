@@ -13,7 +13,7 @@ BEGIN
 END //
 DELIMITER ;
 
-SELECT calculeDureeJournee("15:00:00", "19:00:00");
+SELECT calculeDureeJournee('15:00:00', '19:00:00');
 
 
 
@@ -82,7 +82,7 @@ END //
 
 DELIMITER ;
 
-SELECT ajouterDuree("18:30:00", "00:45:00");
+SELECT ajouterDuree('18:30:00', '00:45:00');
 
 
 DROP TRIGGER IF EXISTS delete_festival;

@@ -2,7 +2,10 @@
 
 namespace controllers;
 
+use Exception;
 use PDO;
+use PDOException;
+use TypeError;
 use yasmf\HttpHelper;
 use yasmf\View;
 use services\InformationCompteService;
@@ -35,35 +38,28 @@ class InformationCompteController
      *
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue des informations du compte utilisateur.
+     * @throws Exception En cas d'erreur PDO ou de type.
      */
     public function index(PDO $pdo): View {
 
-        $data = null;        
         try {
             // Récupère les informations du compte utilisateur.
             $data = $this->informationsCompteService->GetInfoFromAccount($pdo, HttpHelper::getParam("user_id"));
 
-        } catch (\PDOException $e) {
+        } catch (PDOException) {
             // En cas d'erreur PDO, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération de vos informations";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
-        } catch (\TypeError $e) {
+        } catch (TypeError) {
             // En cas d'erreur de type, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur inattendue";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
         }
 
-        if (is_null($data)) {
-            // Si les données sont nulles, il y a eu une erreur. Redirige vers la page d'erreur.
-            $message_erreur = "Erreur lors de la récupération des données";
-            header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
-            exit();
-        }
-
         // Initialise la vue avec les informations du compte utilisateur.
-        $view = new View("view/informationsCompte");
+        $view = new View("view/compte_utilisateur/informationsCompte");
         $view->setVar("identifiant", $data["loginUser"]);
         $view->setVar("nom", $data["nomUser"]);
         $view->setVar("prenom", $data["prenomUser"]);
@@ -79,8 +75,10 @@ class InformationCompteController
      *
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue des informations du compte utilisateur avec le menu déroulant ouvert.
+     * @throws Exception
      */
-    public function showMenu(PDO $pdo) {
+    public function showMenu(PDO $pdo): View
+    {
         // Affiche les informations du compte utilisateur avec le menu déroulant ouvert.
         $view = $this->index($pdo);
         $view->setVar("open", "open");

@@ -172,7 +172,7 @@
                 <div class="row">
                     <div class="col-4 row">
                         <div class="col-5">
-                            <a href="/?controller=Home">
+                            <a href="?controller=Home">
                                 <img src ="../festiplan/ressources/images/logo.png" alt="logo" id="logo">
                             </a>
                         </div>
@@ -223,11 +223,13 @@
                         <!-- champ heure début -->
                         <div class="col-10 offset-1">
                             <label for="heureDebut" id="labelHeureDebut" 
-                                   class="<?php echo $liste_classes["heureDebut"]?>">
+                                   class="<?php /** @noinspection PhpUndefinedVariableInspection */
+                                   echo $liste_classes["heureDebut"]?>">
                                 Heure de début :
                             </label>
                             <input required type="time" name="heureDebut" id="inputHeureDebut" 
-                                   value="<?php echo $liste_valeurs["heureDebut"]?>">
+                                   value="<?php /** @noinspection PhpUndefinedVariableInspection */
+                                   echo $liste_valeurs["heureDebut"]?>">
                         </div>
 
                         <!-- spacing -->

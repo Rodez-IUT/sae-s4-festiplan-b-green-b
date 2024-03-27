@@ -26,7 +26,7 @@ function initialiserPage() {
  * Dans le cas contraire, elle change sa couleur en noir.
  */
 function verifInputDuree() {
-    // on recupere la valeur de l'input
+    // on récupère la valeur de l'input
     let valeur = inputDuree.value.trim();
     // la durée doit être un nombre positif
     if (valeur < 0) {

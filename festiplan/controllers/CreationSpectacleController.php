@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\CreationSpectacleServices;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -48,7 +49,7 @@ class CreationSpectacleController
             $listeIntervenantHors = $this->creationSpectacleServices->getIntervenantHors($pdo);
             $listeIntervenantScene = $this->creationSpectacleServices->getIntervenantScene($pdo);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, redirige vers une page d'erreur.
             $message_erreur = "Erreur lors de la récupération des données";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -60,7 +61,7 @@ class CreationSpectacleController
         $liste_valeurs = $this->creationSpectacleServices->getListeValeurs($pdo, $_POST);
 
         // Initialisation de la vue avec les données nécessaires.
-        $view = new View("view/creationSpectacle");
+        $view = new View("view/spectacle/creationSpectacle");
         $view->setVar("liste_categories", $listeCategorieSpectacle);
         $view->setVar("listeIntervenantHors", $listeIntervenantHors);
         $view->setVar("listeIntervenantScene", $listeIntervenantScene);
@@ -94,7 +95,7 @@ class CreationSpectacleController
                 $spectacle = $this->creationSpectacleServices->create_Spectacle($liste_valeurs);
                 $this->creationSpectacleServices->insert_Spectacle($pdo, $spectacle);
 
-            } catch (\PDOException $e) {
+            } catch (PDOException $e) {
                 // En cas d'erreur PDO lors de la création, redirige vers une page d'erreur.
                 $message_erreur = "Erreur lors de la création du festival des données";
                 header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -143,7 +144,7 @@ class CreationSpectacleController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function validationModification(PDO $pdo)
+    public function validationModification(PDO $pdo): void
     {
         // Récupère l'identifiant du spectacle à modifier.
         $id = HttpHelper::getParam("idSpectacle");
@@ -165,7 +166,7 @@ class CreationSpectacleController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de création de spectacle avec menu ouvert.
      */
-    public function showMenu($pdo): View
+    public function showMenu(PDO $pdo): View
     {
         // Initialise la vue avec le menu ouvert.
         $view = $this->index($pdo);

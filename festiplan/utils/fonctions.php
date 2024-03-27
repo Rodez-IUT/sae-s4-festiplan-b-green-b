@@ -2,15 +2,17 @@
 
 namespace utils;
 
+use Exception;
 use PDO;
 use other\classes\Festival;
 use other\classes\Spectacle;
+use other\classes\Visiteur;
 use yasmf\HttpHelper;
 
 const MAX_IMAGE_WIDTH  = 800;
 const MAX_IMAGE_HEIGHT = 600;
 
-function get_image_size($file_path): ?array 
+function get_image_size(string $file_path): ?array
 {
 
     if (empty($file_path)) {
@@ -23,15 +25,13 @@ function get_image_size($file_path): ?array
         return null;
     }
 
-    $size = array(
+    return array(
         "width" => $informations[0],
         "height" => $informations[1]
     );
-
-    return $size;
 }
 
-function is_image_valid($size): bool 
+function is_image_valid(array $size): bool
 {
 
     if (empty($size)) {
@@ -64,7 +64,7 @@ function add_image_to_db(PDO $pdo, string $fileName, string $tmp_path): int
     return $pdo->lastInsertId();
 }
 
-function verifInput($key, $value): bool
+function verifInput(string $key, string $value): bool
 {
     switch ($key) { 
         case 'nom':
@@ -92,9 +92,13 @@ function verifInput($key, $value): bool
     }
 }
 
-function creer_festival(array $liste_valeurs)
+function creer_festival(array $liste_valeurs): Festival
 {
-    $festival = new Festival(
+    if ($liste_valeurs["categories"] == '') {
+        $liste_valeurs["categories"] = array();
+    }
+
+    return new Festival(
         $liste_valeurs["nom"],
         $liste_valeurs["description"],
         $liste_valeurs["image"],
@@ -109,8 +113,6 @@ function creer_festival(array $liste_valeurs)
         $liste_valeurs["finGriJ"],
         $liste_valeurs["dureeGriJ"]
     );
-
-    return $festival;
 }
 
 function insertion_festival(PDO $pdo, Festival $festival): void
@@ -181,20 +183,21 @@ function insertion_festival(PDO $pdo, Festival $festival): void
     
 }
 
-function create_visiteur(array $liste_valeurs)
+/**
+ * @throws Exception
+ */
+function create_visiteur(array $liste_valeurs): Visiteur
 {
-    $visiteur = new Visiteur(
+    return new Visiteur(
         $liste_valeurs["nom"],
         $liste_valeurs["prenom"],
         $liste_valeurs["email"],
         $liste_valeurs["identifiant"],
         $liste_valeurs["motDePasse"]
     );
-
-    return $visiteur;
 }
 
-function insert_visiteur(Visiteur $visiteur) 
+function insert_visiteur(Visiteur $visiteur) :int
 {
     global $pdo;
 
@@ -217,12 +220,10 @@ function insert_visiteur(Visiteur $visiteur)
 
     $stmt->execute();
 
-    $visiteur_id = $pdo->lastInsertId();
-
-    return $visiteur_id;
+    return $pdo->lastInsertId();
 }
 
-function is_client_valid ($identifiant, $password): bool
+function is_client_valid (string $identifiant, string $password): bool
 {
     global $pdo;
 
@@ -247,7 +248,7 @@ function is_client_valid ($identifiant, $password): bool
 }
 
 
-function creer_Spectacle(array $liste_valeurs)
+function creer_Spectacle(array $liste_valeurs): Spectacle
 {
     if (gettype($liste_valeurs["intervenantScene"])!= array()) {
         $liste_valeurs["intervenantScene"] = array();
@@ -256,7 +257,8 @@ function creer_Spectacle(array $liste_valeurs)
         $liste_valeurs["intervenantHors"] = array();
     }
     $id = HttpHelper::getParam("user_id");
-    $spectacle = new Spectacle(
+
+    return new Spectacle(
         $liste_valeurs["titre"],
         $liste_valeurs["description"],
         $liste_valeurs["tailleScene"],
@@ -267,8 +269,6 @@ function creer_Spectacle(array $liste_valeurs)
         $liste_valeurs["intervenantScene"],
         $liste_valeurs["intervenantHors"]
     );
-
-    return $spectacle;
 }
 
 function insertion_Spectacle(PDO $pdo, Spectacle $spectacle): void

@@ -21,7 +21,7 @@ if (!isset($_SESSION["session_id"])
 <body>
 
         <?php
-            require("header.php");
+            require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/header.php");
             SetupHeadersAndDialog($titre, $controller, $open);
         ?>
 
@@ -289,7 +289,7 @@ if (!isset($_SESSION["session_id"])
         </div>
     </form>
 
-    <?php require("footer.php"); ?>
+    <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
     <script src="../festiplan/other/js/creationFestival.js"></script>
 </body>

@@ -2,7 +2,6 @@
 
 namespace other\classes;
 
-use yasmf\NoControllerAvailableForNameException;
 
 class Spectacle
 {

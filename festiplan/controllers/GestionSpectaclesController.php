@@ -23,7 +23,7 @@ class GestionSpectaclesController
     /**
      * Constructeur de la classe.
      *
-     * @param GestionspectaclesService $gestionSpectaclesService Service de gestion des spectacles.
+     * @param GestionSpectaclesService $param
      */
     public function __construct(GestionspectaclesService $param)
     {
@@ -35,7 +35,7 @@ class GestionSpectaclesController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function index(\PDO $pdo)
+    public function index(PDO $pdo): void
     {
         header("Location: ?controller=CreationSpectacle");
     }
@@ -46,7 +46,7 @@ class GestionSpectaclesController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de confirmation de suppression d'un spectacle.
      */
-    public function confirmationSuppression(\PDO $pdo)
+    public function confirmationSuppression(PDO $pdo): View
     {
         $view = new View("view/confirmation");
 
@@ -69,7 +69,7 @@ class GestionSpectaclesController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function suppression(PDO $pdo)
+    public function suppression(PDO $pdo): void
     {
         // Récupère l'identifiant du spectacle à supprimer depuis les paramètres de la requête.
         $id = HttpHelper::getParam("id");

@@ -2,6 +2,8 @@
 
 namespace controllers;
 
+use PDO;
+use PDOException;
 use services\ListeFestivalServices;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -35,7 +37,7 @@ class ListeFestivalController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de la liste des festivals pour un utilisateur.
      */
-    public function index($pdo): View
+    public function index(PDO $pdo): View
     {
         $idUtilisateur = HttpHelper::getParam('user_id');
 
@@ -52,7 +54,7 @@ class ListeFestivalController
             // Vérifie si l'utilisateur est organisateur ou responsable.
             $est_organisateur = $this->listeFestivalService->is_organisateur($pdo, $idUtilisateur);
             $est_organisateur = $est_organisateur || $this->listeFestivalService->is_responsable($pdo, $idUtilisateur);
-        } catch (\PDOException $e) {
+        } catch (PDOException) {
             // En cas d'erreur PDO, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération des données";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -62,7 +64,7 @@ class ListeFestivalController
 
         unset($_GET['cree']);
         // Initialise la vue avec la liste des festivals et d'autres variables nécessaires.
-        $view = new View("view/listeFestivalsUtilisateur");
+        $view = new View("view/festival/listeFestivalsUtilisateur");
         $view->setVar('cree', $cree);
         $view->setVar("liste_festivals", $festivals);
         $view->setVar("controller", "ListeFestival");
@@ -78,7 +80,7 @@ class ListeFestivalController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de la liste des festivals avec le menu déroulant ouvert.
      */
-    public function showMenu($pdo): View
+    public function showMenu(PDO $pdo): View
     {
         // Affiche la liste des festivals avec le menu déroulant ouvert.
         $view = $this->index($pdo);
