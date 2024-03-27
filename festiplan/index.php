@@ -14,7 +14,7 @@ $dataSource = new DataSource(
     $port = 3306,
     $db = 'festiplan',
     $user = 'root',
-    $pass = 'root',
+    $pass = '',
     $charset = 'utf8mb4'
 );
 

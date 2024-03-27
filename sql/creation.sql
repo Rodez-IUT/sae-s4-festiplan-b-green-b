@@ -139,3 +139,18 @@ CREATE TABLE composer (
     FOREIGN KEY (idFestival) references festivals(idFestival) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (idSpectacle, idFestival)
 );
+
+CREATE TABLE favoris (
+    idUser INT NOT NULL, -- foreign key
+    idFestival INT NOT NULL, -- foreign key
+    FOREIGN KEY (idUser) references users(idUser),
+    FOREIGN KEY (idFestival) references festivals(idFestival),
+    PRIMARY KEY (idUser, idFestival)
+);
+
+CREATE TABLE api_keys (
+    idUser INT NOT NULL, -- foreign key
+    APIKey VARCHAR(32) NOT NULL,
+    FOREIGN KEY (idUser) references users(idUser),
+    PRIMARY KEY (idUser)
+);
