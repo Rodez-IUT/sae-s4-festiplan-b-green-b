@@ -37,7 +37,7 @@ class GestionFestivalsController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de création de festival.
      */
-    public function index($pdo): View
+    public function index(PDO $pdo): View
     {
         // Initialisation des listes avec des valeurs par défaut.
         $liste_categories = $liste_scenes = $liste_grilles = $liste_spectacles = $liste_membres = $liste_responsables = array();
@@ -88,7 +88,7 @@ class GestionFestivalsController
      * @param PDO $pdo Connexion à la base de données.
      * @return View|null Vue de la liste des festivals ou null en cas d'échec.
      */
-    public function creerFestival($pdo): ?View
+    public function creerFestival(PDO $pdo): ?View
     {
         // Vérifie si toutes les conditions pour la création du festival sont remplies.
         $everything_ok = $this->gestionFestivalsServices->getEverythingOK($pdo);
@@ -121,7 +121,7 @@ class GestionFestivalsController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function ajouts(PDO $pdo)
+    public function ajouts(PDO $pdo): void
     {
         header("Location: ?controller=Ajouts&idFestival=" . HttpHelper::getParam("idFestival"));
         exit();
@@ -161,7 +161,7 @@ class GestionFestivalsController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function validationModification(PDO $pdo)
+    public function validationModification(PDO $pdo): void
     {
         // Récupère l'identifiant du festival à modifier depuis les paramètres de la requête.
         $id = HttpHelper::getParam("idFestival");
@@ -205,7 +205,7 @@ class GestionFestivalsController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function suppression(PDO $pdo)
+    public function suppression(PDO $pdo): void
     {
         // Récupère l'identifiant du festival à supprimer depuis les paramètres de la requête.
         $id = HttpHelper::getParam("id");
@@ -223,7 +223,7 @@ class GestionFestivalsController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue du menu de gestion des festivals.
      */
-    public function showMenu(\PDO $pdo): View
+    public function showMenu(PDO $pdo): View
     {
         $view = $this->index($pdo);
         $view->setVar('open', 'open');

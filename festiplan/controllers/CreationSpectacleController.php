@@ -144,7 +144,7 @@ class CreationSpectacleController
      *
      * @param PDO $pdo Connexion à la base de données.
      */
-    public function validationModification(PDO $pdo)
+    public function validationModification(PDO $pdo): void
     {
         // Récupère l'identifiant du spectacle à modifier.
         $id = HttpHelper::getParam("idSpectacle");
@@ -166,7 +166,7 @@ class CreationSpectacleController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de création de spectacle avec menu ouvert.
      */
-    public function showMenu($pdo): View
+    public function showMenu(PDO $pdo): View
     {
         // Initialise la vue avec le menu ouvert.
         $view = $this->index($pdo);

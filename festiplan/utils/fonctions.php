@@ -2,6 +2,7 @@
 
 namespace utils;
 
+use Exception;
 use PDO;
 use other\classes\Festival;
 use other\classes\Spectacle;
@@ -182,6 +183,9 @@ function insertion_festival(PDO $pdo, Festival $festival): void
     
 }
 
+/**
+ * @throws Exception
+ */
 function create_visiteur(array $liste_valeurs): Visiteur
 {
     return new Visiteur(
