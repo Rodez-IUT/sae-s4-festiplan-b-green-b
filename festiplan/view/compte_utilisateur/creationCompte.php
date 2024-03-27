@@ -48,12 +48,14 @@
 
                     <div class="col-10 offset-1">
                         <label for="nom" id="labelNom"
-                        class="<?php echo $liste_classes["nom"]; ?>">
+                        class="<?php /** @noinspection PhpUndefinedVariableInspection */
+                        echo $liste_classes["nom"]; ?>">
                             Nom :
                         </label>
                         <input required class="col-12"
                             type="text" placeholder="Entrez votre nom" 
-                            value="<?php echo $liste_valeurs["nom"] ?>" 
+                            value="<?php /** @noinspection PhpUndefinedVariableInspection */
+                            echo $liste_valeurs["nom"] ?>"
                             name="nom" id="inputNom">
                     </div>
     

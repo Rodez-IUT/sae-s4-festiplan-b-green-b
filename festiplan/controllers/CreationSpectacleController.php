@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\CreationSpectacleServices;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -48,7 +49,7 @@ class CreationSpectacleController
             $listeIntervenantHors = $this->creationSpectacleServices->getIntervenantHors($pdo);
             $listeIntervenantScene = $this->creationSpectacleServices->getIntervenantScene($pdo);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, redirige vers une page d'erreur.
             $message_erreur = "Erreur lors de la récupération des données";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -94,7 +95,7 @@ class CreationSpectacleController
                 $spectacle = $this->creationSpectacleServices->create_Spectacle($liste_valeurs);
                 $this->creationSpectacleServices->insert_Spectacle($pdo, $spectacle);
 
-            } catch (\PDOException $e) {
+            } catch (PDOException $e) {
                 // En cas d'erreur PDO lors de la création, redirige vers une page d'erreur.
                 $message_erreur = "Erreur lors de la création du festival des données";
                 header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");

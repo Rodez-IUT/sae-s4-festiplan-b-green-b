@@ -17,9 +17,6 @@ use yasmf\View;
  */
 class ErreurBDController
 {
-    /** @var ErreurBDService $erreurBDService Le service de gestion des erreurs de base de données. */
-    private ErreurBDService $erreurBDService;
-
     /**
      * Affiche la vue d'erreur de base de données avec le message d'erreur fourni.
      *

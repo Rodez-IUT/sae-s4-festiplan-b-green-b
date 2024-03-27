@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\GestionFestivalsServices;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -48,7 +49,7 @@ class GestionFestivalsController
             $liste_grilles = $this->gestionFestivalsServices->getGrilles($pdo);
             $liste_spectacles = $this->gestionFestivalsServices->getSpectacles($pdo);
             $liste_membres = $liste_responsables = $this->gestionFestivalsServices->getUsers($pdo);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             $message_erreur = "Erreur lors de la récupération des données";
         }
 
@@ -102,7 +103,7 @@ class GestionFestivalsController
 
                 // Insère le festival dans la base de données.
                 $this->gestionFestivalsServices->insert_festival($pdo, $festival);
-            } catch (\PDOException $e) {
+            } catch (PDOException $e) {
                 // En cas d'erreur, redirige vers la page d'erreur avec le message d'erreur.
                 $message_erreur = "Erreur lors de la création du festival\n\n message erreur :" . $e->getMessage() . "\n";
                 header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");

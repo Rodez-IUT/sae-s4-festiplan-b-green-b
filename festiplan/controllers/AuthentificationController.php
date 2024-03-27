@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use yasmf\HttpHelper;
 use yasmf\View;
 use services\AuthentificationServices;
@@ -56,7 +57,7 @@ class AuthentificationController {
         try {
             $result = $this->authentificationService->is_user_valid($pdo, $identifiant, $password);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, redirige vers une page d'erreur.
             $message_erreur = "Erreur lors de la recuperation des donnees";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");

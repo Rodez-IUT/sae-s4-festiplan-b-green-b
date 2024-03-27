@@ -2,6 +2,8 @@
 
 namespace controllers;
 
+use Exception;
+use PDO;
 use services\FestivalsAjoutsService;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -30,16 +32,16 @@ class FestivalsAjoutsController
     /**
      * Méthode pour afficher la page d'ajouts.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante à la page d'ajouts.
      */
-    public function index(\PDO $pdo): View
+    public function index(PDO $pdo): View
     {
         $idFestival = HttpHelper::getParam("idFestival") ?: 0;
 
         try {
             if ($idFestival == 0) {
-                throw new \Exception("idFestival non renseigné");
+                throw new Exception("idFestival non renseigné");
             }
 
             $spectacles_ajout = $this->ajoutsService->getSpectaclesPossibles($pdo, $idFestival);
@@ -49,7 +51,7 @@ class FestivalsAjoutsController
             $membres_tous = $this->ajoutsService->getMembres($pdo);
             $scenes_tous = $this->ajoutsService->getScenes($pdo, $idFestival);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message_erreur = "Erreur lors de la recuperation des donnees";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
@@ -74,10 +76,10 @@ class FestivalsAjoutsController
     /**
      * Méthode pour ajouter un spectacle.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante après l'ajout du spectacle.
      */
-    public function ajouterSpectacle(\PDO $pdo): View
+    public function ajouterSpectacle(PDO $pdo): View
     {
         $idFestival = HttpHelper::getParam("idFestival");
         $idSpectacle = HttpHelper::getParam("idSpectacle");
@@ -85,7 +87,7 @@ class FestivalsAjoutsController
         try {
             $this->ajoutsService->ajouterSpectacle($pdo, $idFestival, $idSpectacle);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message_erreur = "Erreur lors de l'ajout du spectacle";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
@@ -98,10 +100,10 @@ class FestivalsAjoutsController
     /**
      * Méthode pour ajouter un membre.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante après l'ajout du membre.
      */
-    public function ajouterMembre(\PDO $pdo): View
+    public function ajouterMembre(PDO $pdo): View
     {
         $idFestival = HttpHelper::getParam("idFestival");
         $idUser = HttpHelper::getParam("idUser");
@@ -109,7 +111,7 @@ class FestivalsAjoutsController
         try {
             $this->ajoutsService->ajouterMembre($pdo, $idFestival, $idUser);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message_erreur = "Erreur lors de l'ajout du membre";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
@@ -122,17 +124,17 @@ class FestivalsAjoutsController
     /**
      * Méthode pour ajouter une scène.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante après l'ajout de la scène.
      */
-    public function ajouterScene(\PDO $pdo): View
+    public function ajouterScene(PDO $pdo): View
     {
         $idFestival = HttpHelper::getParam("idFestival");
         $idScene = HttpHelper::getParam("idScene");
         try {
             $this->ajoutsService->ajouterScene($pdo, $idFestival, $idScene);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message_erreur = "Erreur lors de l'ajout de la scene";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
@@ -145,10 +147,10 @@ class FestivalsAjoutsController
     /**
      * Méthode pour retirer un spectacle.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante après la suppression du spectacle.
      */
-    public function retirerSpectacle(\PDO $pdo): View
+    public function retirerSpectacle(PDO $pdo): View
     {
         $idFestival = HttpHelper::getParam("idFestival");
         $idSpectacle = HttpHelper::getParam("idSpectacle");
@@ -156,7 +158,7 @@ class FestivalsAjoutsController
         try {
             $this->ajoutsService->retirerSpectacle($pdo, $idFestival, $idSpectacle);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message_erreur = "Erreur lors de la suppression du spectacle";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
@@ -169,17 +171,17 @@ class FestivalsAjoutsController
     /**
      * Méthode pour retirer un membre.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante après la suppression du membre.
      */
-    public function retirerMembre(\PDO $pdo): View
+    public function retirerMembre(PDO $pdo): View
     {
         $idFestival = HttpHelper::getParam("idFestival");
         $idUser = HttpHelper::getParam("idUser");
         try {
             $this->ajoutsService->retirerMembre($pdo, $idFestival, $idUser);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message_erreur = "Erreur lors de la suppression du membre";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
@@ -192,10 +194,10 @@ class FestivalsAjoutsController
     /**
      * Méthode pour retirer une scène.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante après la suppression de la scène.
      */
-    public function retirerScene(\PDO $pdo): View
+    public function retirerScene(PDO $pdo): View
     {
         $idFestival = HttpHelper::getParam("idFestival");
         $idScene = HttpHelper::getParam("idScene");
@@ -203,7 +205,7 @@ class FestivalsAjoutsController
         try {
             $this->ajoutsService->retirerScene($pdo, $idFestival, $idScene);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $message_erreur = "Erreur lors de la suppression de la scene";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
             exit();
@@ -216,10 +218,10 @@ class FestivalsAjoutsController
     /**
      * Méthode pour afficher le menu d'ajouts.
      *
-     * @param \PDO $pdo Instance de PDO pour la connexion à la base de données.
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
      * @return View La vue correspondante au menu d'ajouts.
      */
-    public function showMenu(\PDO $pdo): View
+    public function showMenu(PDO $pdo): View
     {
         $view = $this->index($pdo);
         $view->setVar('open', 'open');

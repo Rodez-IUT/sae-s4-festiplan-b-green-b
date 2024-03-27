@@ -5,12 +5,13 @@ namespace utils;
 use PDO;
 use other\classes\Festival;
 use other\classes\Spectacle;
+use other\classes\Visiteur;
 use yasmf\HttpHelper;
 
 const MAX_IMAGE_WIDTH  = 800;
 const MAX_IMAGE_HEIGHT = 600;
 
-function get_image_size($file_path): ?array 
+function get_image_size(string $file_path): ?array
 {
 
     if (empty($file_path)) {
@@ -29,7 +30,7 @@ function get_image_size($file_path): ?array
     );
 }
 
-function is_image_valid($size): bool 
+function is_image_valid(array $size): bool
 {
 
     if (empty($size)) {
@@ -62,7 +63,7 @@ function add_image_to_db(PDO $pdo, string $fileName, string $tmp_path): int
     return $pdo->lastInsertId();
 }
 
-function verifInput($key, $value): bool
+function verifInput(string $key, string $value): bool
 {
     switch ($key) { 
         case 'nom':
@@ -192,7 +193,7 @@ function create_visiteur(array $liste_valeurs): Visiteur
     );
 }
 
-function insert_visiteur(Visiteur $visiteur) 
+function insert_visiteur(Visiteur $visiteur) :int
 {
     global $pdo;
 
@@ -218,7 +219,7 @@ function insert_visiteur(Visiteur $visiteur)
     return $pdo->lastInsertId();
 }
 
-function is_client_valid ($identifiant, $password): bool
+function is_client_valid (string $identifiant, string $password): bool
 {
     global $pdo;
 

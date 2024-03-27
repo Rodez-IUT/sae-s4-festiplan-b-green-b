@@ -19,7 +19,7 @@
 
 namespace application;
 
-use controllers\CreationSceneController;
+//use controllers\CreationSceneController;
 use controllers\FestivalsAjoutsController;
 use controllers\CreationCompteController;
 use controllers\CreationSpectacleController;
@@ -36,7 +36,7 @@ use controllers\ListeTousSpectaclesController;
 use controllers\ModifInfoPersoController;
 use controllers\PlanificationController;
 use controllers\SpectacleAjoutsController;
-use services\CreationSceneService;
+//use services\CreationSceneService;
 use services\FestivalsAjoutsService;
 use services\CreationGriJServices;
 use services\GestionSpectaclesService;
@@ -92,7 +92,7 @@ class DefaultComponentFactory implements ComponentFactory
             "SpectacleAjouts" => $this->buildSpectacleAjoutsController(),
             "ModifInfoPerso" => $this->buildModifInfoPersoController(),
             "GestionSpectacles" => $this->buildGestionSpectaclesController(),
-            "CreationScene" => $this->buildCreationSceneController(),
+            //"CreationScene" => $this->buildCreationSceneController(),
             default => throw new NoControllerAvailableForNameException($controller_name)
         };
     }
@@ -153,7 +153,7 @@ class DefaultComponentFactory implements ComponentFactory
      */
     private function buildErreurBDController(): ErreurBDController
     {
-        return new ErreurBDController(new ErreurBDService());
+        return new ErreurBDController();
     }
 
     /**
@@ -190,7 +190,7 @@ class DefaultComponentFactory implements ComponentFactory
         return new GrijController(new CreationGriJServices());
     }
 
-    private function buildListeTousSpectaclesController()
+    private function buildListeTousSpectaclesController(): ListeTousSpectaclesController
     {
         return new ListeTousSpectaclesController(new ListeTousSpectaclesServices());
     }
@@ -198,40 +198,40 @@ class DefaultComponentFactory implements ComponentFactory
     /**
      * @return PlanificationController
      */
-    private function buildPlanificationController()
+    private function buildPlanificationController(): PlanificationController
     {
         return new PlanificationController(new PlanificationServices());
     }
 
-    private function buildInfoSpectacleController()
+    private function buildInfoSpectacleController(): InfoSpectacleController
     {
         return new InfoSpectacleController(new InfoSpectacleService());
     }
 
-    private function buildFestivalAjoutsController()
+    private function buildFestivalAjoutsController(): FestivalsAjoutsController
     {
         return new FestivalsAjoutsController(new FestivalsAjoutsService());
     }
 
-    private function buildModifInfoPersoController()
+    private function buildModifInfoPersoController(): ModifInfoPersoController
     {
         return new ModifInfoPersoController(new ModifInfoPersoService());
     }
 
-    private function buildSpectacleAjoutsController()
+    private function buildSpectacleAjoutsController(): SpectacleAjoutsController
     {
         return new SpectacleAjoutsController(new SpectacleAjoutsService());
     }
 
-    private function buildGestionSpectaclesController()
+    private function buildGestionSpectaclesController(): GestionSpectaclesController
     {
         return new GestionSpectaclesController(new GestionSpectaclesService());
     }
 
-    private function buildCreationSceneController()
-    {
-        return new CreationSceneController(new CreationSceneService());
-    }
+    //private function buildCreationSceneController(): CreationSceneController
+    //{
+    //    return new CreationSceneController(new CreationSceneService());
+    //}
 
 
 }
