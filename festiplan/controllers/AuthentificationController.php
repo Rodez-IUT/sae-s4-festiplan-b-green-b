@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use yasmf\HttpHelper;
 use yasmf\View;
 use services\AuthentificationServices;
@@ -35,7 +36,7 @@ class AuthentificationController {
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue d'authentification.
      */
-    public function index($pdo): View
+    public function index(PDO $pdo): View
     {
         $view = new View("view/compte_utilisateur/authentification");
         return $view;
@@ -47,7 +48,7 @@ class AuthentificationController {
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue d'authentification.
      */
-    public function auth($pdo): View
+    public function auth(PDO $pdo): View
     {
         $identifiant = HttpHelper::getParam("identifiant");
         $password = HttpHelper::getParam("motDePasse");
@@ -56,7 +57,7 @@ class AuthentificationController {
         try {
             $result = $this->authentificationService->is_user_valid($pdo, $identifiant, $password);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, redirige vers une page d'erreur.
             $message_erreur = "Erreur lors de la recuperation des donnees";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -91,7 +92,7 @@ class AuthentificationController {
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue d'authentification.
      */
-    public function deconnexion($pdo): View
+    public function deconnexion(PDO $pdo): View
     {
         $view = new View("view/compte_utilisateur/authentification");
         return $view;

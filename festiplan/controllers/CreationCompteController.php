@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\CreationCompteServices;
 use yasmf\View;
 
@@ -43,7 +44,7 @@ class CreationCompteController
             $liste_classes = $this->creationCompteServices->getListeClasses($pdo, $_POST);
             $liste_valeurs = $this->creationCompteServices->getListeValeurs($_POST);
 
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, redirige vers une page d'erreur.
             $message_erreur = "Erreur lors de la recuperation des donnees";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -87,7 +88,7 @@ class CreationCompteController
                 // Tente d'insérer l'utilisateur dans la base de données.
                 $this->creationCompteServices->insertUser($pdo, $user);
 
-            } catch (\PDOException $e) {
+            } catch (PDOException $e) {
                 // En cas d'erreur PDO lors de l'insertion, gère les erreurs spécifiques.
                 $view = $this->index($pdo);
 

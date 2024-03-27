@@ -5,6 +5,7 @@ if (!isset($_SESSION["session_id"])
     header("Location: ?controller=Authentification");
     exit();
 }
+/** @noinspection PhpUndefinedVariableInspection */
 $_SESSION["organisateur"] = $organisateur;
 
 ?>

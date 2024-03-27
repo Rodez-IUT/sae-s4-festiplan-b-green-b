@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="col-7 fond-primary">
                                     <?php echo (int)($searchStmt["dureeSpectacle"]/60);?> heures
-                                    <?php echo (int)($searchStmt["dureeSpectacle"]%60);?> minutes
+                                    <?php echo $searchStmt["dureeSpectacle"]%60;?> minutes
                                 </div>
                                 <div class="col-12">&nbsp;</div>
                                 <div class="col-5">

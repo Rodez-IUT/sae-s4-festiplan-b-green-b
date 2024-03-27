@@ -5,8 +5,11 @@ $_SESSION = array();
 if (isset($user_ok) && $user_ok) {
     $_SESSION = array();
     $_SESSION["session_id"] = session_id();
+    /** @noinspection PhpUndefinedVariableInspection */
     $_SESSION["user_id"] = $user_id;
+    /** @noinspection PhpUndefinedVariableInspection */
     $_SESSION["user_nom"] = $user_nom;
+    /** @noinspection PhpUndefinedVariableInspection */
     $_SESSION["user_prenom"] = $user_prenom;
     header("Location: ?controller=Home");
     exit();
