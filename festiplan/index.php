@@ -11,7 +11,7 @@ use yasmf\Router;
 
 $dataSource = new DataSource(
     $host = 'localhost',
-    $port = '3306',
+    $port = 3306,
     $db = 'festiplan',
     $user = 'root',
     $pass = '',

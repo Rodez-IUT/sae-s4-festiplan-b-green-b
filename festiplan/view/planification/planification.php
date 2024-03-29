@@ -22,7 +22,7 @@ if (!isset($_SESSION["session_id"])
 <body>
 
 <?php
-require("header.php");
+require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/header.php");
 SetupHeadersAndDialog($titre, $controller, $open);
 ?>
 
@@ -36,12 +36,14 @@ SetupHeadersAndDialog($titre, $controller, $open);
                     echo '<div class="col-12"><h1 class="center primary">Jour '.$compteurJour .'</h1></div>';
                     echo '<div class="col-12"> &nbsp;</div>';
                     $compteurJour++;
-                
+
                     foreach ($spectaclesDuJour as $spectacle) {
-                        echo '<div class="col-5 offset-1 row bordure fond-primary">';
-                            echo '<div class="col-12">
-                                    <h2 class="center">'.$spectacle["titreSpectacle"].'</h2>
-                                </div>';
+                        ?>
+                        <div class="col-5 offset-1 row bordure fond-primary">
+                            <div class="col-12">
+                                <h2 class="center"><?php echo $spectacle["titreSpectacle"] ?></h2>
+                            </div>
+                            <?php
                             $image_name = $spectacle['nomImage'];
                             ?>
                             <div class="col-6">
@@ -68,7 +70,7 @@ SetupHeadersAndDialog($titre, $controller, $open);
 
     <br><br>
 
-        <?php require("footer.php"); ?>
+        <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
 </body>
 </html>

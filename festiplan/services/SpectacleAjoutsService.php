@@ -2,6 +2,10 @@
 
 namespace services;
 
+
+use PDO;
+use PDOException;
+
 /**
  * SpectacleAjoutsService - Service de gestion des intervenants et des spectacles.
  * 
@@ -16,27 +20,33 @@ class SpectacleAjoutsService
     /**
      * Récupère la liste de tous les intervenants.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @return array Tableau associatif des intervenants.
      */
-    public function getIntervenants(\PDO $pdo)
+    public function getIntervenants(PDO $pdo): array
     {
         $sql = "SELECT * FROM intervenants";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $intervenants = array();
+        while ($intervenant = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $intervenants[] = $intervenant;
+        }
+
+        return $intervenants;
     }
 
     /**
      * Récupère la liste des intervenants présents dans un spectacle donné.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string $idSpectacle Identifiant du spectacle.
      * @return array Liste des identifiants d'intervenants présents dans le spectacle.
      */
-    public function getIntervenantsPresent(\PDO $pdo, $idSpectacle)
+    public function getIntervenantsPresent(PDO $pdo, string $idSpectacle): array
     {
-        // on selectionne les intervenants qui sont dans le spectacle
+        // on sélectionne les intervenants qui sont dans le spectacle
         $sql = "select idIntervenant from intervenir where idSpectacle = :idSpectacle";
 
         $stmt = $pdo->prepare($sql);
@@ -45,8 +55,8 @@ class SpectacleAjoutsService
 
         $list = array();
 
-        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            array_push($list, $row["idIntervenant"]);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $list[] = $row["idIntervenant"];
         }
 
         return $list;
@@ -55,12 +65,12 @@ class SpectacleAjoutsService
     /**
      * Ajoute un intervenant à un spectacle.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string|null $idSpectacle Identifiant du spectacle.
      * @param string|null $idIntervenant Identifiant de l'intervenant.
      * @return void
      */
-    public function ajouterIntervenant(\PDO $pdo, ?string $idSpectacle, ?string $idIntervenant)
+    public function ajouterIntervenant(PDO $pdo, ?string $idSpectacle, ?string $idIntervenant): void
     {
         $sql = "INSERT INTO intervenir (idSpectacle, idIntervenant) VALUES (:idSpectacle, :idIntervenant)";
         $stmt = $pdo->prepare($sql);
@@ -72,12 +82,12 @@ class SpectacleAjoutsService
     /**
      * Retire un intervenant d'un spectacle.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string|null $idSpectacle Identifiant du spectacle.
      * @param string|null $idIntervenant Identifiant de l'intervenant.
      * @return void
      */
-    public function retirerIntervenant(\PDO $pdo, ?string $idSpectacle, ?string $idIntervenant)
+    public function retirerIntervenant(PDO $pdo, ?string $idSpectacle, ?string $idIntervenant): void
     {
         $sql = "DELETE FROM intervenir WHERE idSpectacle = :idSpectacle AND idIntervenant = :idIntervenant";
         $stmt = $pdo->prepare($sql);
@@ -89,11 +99,11 @@ class SpectacleAjoutsService
     /**
      * Effectue une recherche d'intervenants par nom ou prénom.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string $recherche Chaîne de recherche.
      * @return array Résultat de la recherche.
      */
-    public function recherche(\PDO $pdo, string $recherche)
+    public function recherche(PDO $pdo, string $recherche): array
     {
         $recherche = "%" . $recherche . "%";
         $sql = "SELECT * FROM intervenants WHERE nomIntervenant LIKE :recherche1 OR prenomIntervenant LIKE :recherche2";
@@ -101,13 +111,20 @@ class SpectacleAjoutsService
         $stmt->bindParam(":recherche1", $recherche);
         $stmt->bindParam(":recherche2", $recherche);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $intervenantsTrouves = array();
+
+        while ($intervenant = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $intervenantsTrouves[] = $intervenant;
+        }
+
+        return $intervenantsTrouves;
     }
 
     /**
      * Crée un nouvel intervenant et l'ajoute à un spectacle.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string|null $nom Nom de l'intervenant.
      * @param string|null $prenom Prénom de l'intervenant.
      * @param string|null $mail Adresse email de l'intervenant.
@@ -116,7 +133,7 @@ class SpectacleAjoutsService
      * @param string|null $idSpectacle Identifiant du spectacle.
      * @return void
      */
-    public function creerIntervenant(\PDO $pdo, ?string $nom, ?string $prenom, ?string $mail, int $estSurScene, ?string $idCreateur, ?string $idSpectacle)
+    public function creerIntervenant(PDO $pdo, ?string $nom, ?string $prenom, ?string $mail, int $estSurScene, ?string $idCreateur, ?string $idSpectacle): void
     {
         $nom = htmlspecialchars($nom);
         $prenom = htmlspecialchars($prenom);
@@ -145,12 +162,14 @@ class SpectacleAjoutsService
     /**
      * Charge les données d'un fichier CSV pour créer des intervenants.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param mixed $file_name Nom du fichier CSV.
      * @param mixed $file_path Chemin du fichier CSV.
+     * @param string $idCreateur
+     * @param string $idSpectacle
      * @return void
      */
-    public function fromCSVFile(\PDO $pdo, mixed $file_name, mixed $file_path, string $idCreateur, string $idSpectacle)
+    public function fromCSVFile(PDO $pdo, mixed $file_name, mixed $file_path, string $idCreateur, string $idSpectacle): void
     {
         $server_path = getenv("DOCUMENT_ROOT") . "/festiplan/stockage/images/" . $file_name;
 
@@ -164,7 +183,7 @@ class SpectacleAjoutsService
 
             if ($compteur == 0) {
                 if ($data[0] != "nom" || $data[1] != "prenom" || $data[2] != "mail" || $data[3] != "estSurScene") {
-                    throw new \PDOException("Le fichier CSV n'est pas au bon format");
+                    throw new PDOException("Le fichier CSV n'est pas au bon format");
                 }
                 $compteur++;
             } else {
@@ -174,7 +193,7 @@ class SpectacleAjoutsService
                 $estSurScene = htmlspecialchars($data[3]);
 
                 if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-                    throw new \PDOException("Le fichier CSV n'est pas au bon format");
+                    throw new PDOException("Le fichier CSV n'est pas au bon format");
                 }
 
                 $this->creerIntervenant($pdo, $nom, $prenom, $mail, $estSurScene, $idCreateur, $idSpectacle);
@@ -187,21 +206,21 @@ class SpectacleAjoutsService
     /**
      * Modifie les informations d'un intervenant existant.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string $idIntervenant Identifiant de l'intervenant à modifier.
-     * @param string $nom Nouveau nom de l'intervenant.
-     * @param string $prenom Nouveau prénom de l'intervenant.
-     * @param string $mail Nouvelle adresse email de l'intervenant.
+     * @param string $nouveauNom Nouveau nom de l'intervenant.
+     * @param string $nouveauPrenom Nouveau prénom de l'intervenant.
+     * @param string $nouveauMail Nouvelle adresse email de l'intervenant.
      * @param int $estSurScene Nouvel indicateur de présence sur scène.
      * @return void
      */
-    public function modifierIntervenant(\PDO $pdo, string $idIntervenant, string $nom, string $prenom, string $mail, int $estSurScene)
+    public function modifierIntervenant(PDO $pdo, string $idIntervenant, string $nouveauNom, string $nouveauPrenom, string $nouveauMail, int $estSurScene): void
     {
         $sql = "UPDATE intervenants SET nomIntervenant = :nom, prenomIntervenant = :prenom, emailIntervenant = :mail, estSurScene = :estSurScene WHERE idIntervenant = :idIntervenant";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":nom", $nom);
-        $stmt->bindParam(":prenom", $prenom);
-        $stmt->bindParam(":mail", $mail);
+        $stmt->bindParam(":nom", $nouveauNom);
+        $stmt->bindParam(":prenom", $nouveauPrenom);
+        $stmt->bindParam(":mail", $nouveauMail);
         $stmt->bindParam(":estSurScene", $estSurScene);
         $stmt->bindParam(":idIntervenant", $idIntervenant);
         $stmt->execute();
@@ -211,29 +230,34 @@ class SpectacleAjoutsService
     /**
      * Récupère les informations d'un intervenant.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string $idIntervenant Identifiant de l'intervenant.
      * @return array Informations de l'intervenant.
      */
-    public function getIntervenant($pdo, string $idIntervenant)
+    public function getIntervenant(PDO $pdo, string $idIntervenant): array
     {
         $requete = "SELECT * FROM intervenants where idIntervenant = :id";
         $stmt = $pdo->prepare($requete);
         $stmt-> bindParam(":id", $idIntervenant);
         $stmt->execute();
 
-        return $stmt->fetch();
+        $intervenants = array();
+        while ($intervenant = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $intervenants[] = $intervenant;
+        }
+
+        return $intervenants;
 
     }
 
     /**
      * Supprime un intervenant et les liens associés dans la base de données.
      *
-     * @param \PDO $pdo Objet PDO représentant la connexion à la base de données.
+     * @param PDO $pdo Objet PDO représentant la connexion à la base de données.
      * @param string $idIntervenant Identifiant de l'intervenant à supprimer.
      * @return void
      */
-    public function supprimerIntervenant(\PDO $pdo, string $idIntervenant)
+    public function supprimerIntervenant(PDO $pdo, string $idIntervenant): void
     {
         $sql = array(
             "DELETE FROM intervenir WHERE idIntervenant = :idIntervenant",

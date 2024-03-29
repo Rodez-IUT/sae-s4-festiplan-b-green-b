@@ -3,6 +3,7 @@
 namespace services;
 
 use PDO;
+use PDOException;
 
 /**
  * La classe AuthentificationServices fournit des méthodes
@@ -64,12 +65,15 @@ class AuthentificationServices
                 WHERE idResponsable = :id";
 
         $stmt = $pdo->prepare($sql);
-
         $stmt->bindParam(":id", $id);
-
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $festivals = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $festivals[] = $row;
+        }
+
+        return $festivals;
     }
 
     /**
@@ -79,19 +83,22 @@ class AuthentificationServices
      * @param string $id Identifiant de l'utilisateur.
      * @return array Retourne un tableau contenant les identifiants des spectacles associés à l'utilisateur.
      */
-    private function get_user_spectacles_id(PDO $pdo, string $id)
+    private function get_user_spectacles_id(PDO $pdo, string $id): array
     {
         $sql = "SELECT idSpectacle
                 FROM spectacles
                 WHERE idResponsableSpectacle = :id";
 
         $stmt = $pdo->prepare($sql);
-
         $stmt->bindParam(":id", $id);
-
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        $spectacles = array();
+        while ($spectacle = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $spectacles[] = $spectacle;
+        }
+
+        return $spectacles;
     }
 
     /**
@@ -148,7 +155,7 @@ class AuthentificationServices
 
             $reussite &= $stmt->execute();
 
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             echo $e;
         }
 
@@ -176,7 +183,7 @@ class AuthentificationServices
 
         $result = $stmt->fetch();
 
-        return $result ? true : false;
+        return (bool)$result;
     }
 
     /**
@@ -200,7 +207,7 @@ class AuthentificationServices
 
         $result = $stmt->fetch();
 
-        return $result ? true : false;
+        return (bool)$result;
     }
 
 }

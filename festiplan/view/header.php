@@ -1,6 +1,7 @@
 <?php
 
-function SetupHeadersAndDialog(string $nomPage="festiplan", string $controller="Home", $open="", $action="index") {
+function SetupHeadersAndDialog(string $nomPage="festiplan", string $controller="Home", $open="", $action="index"): void
+{
 
     ?>
     <dialog <?php

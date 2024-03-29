@@ -10,7 +10,8 @@ class Autoloader {
      * Define the __autoload function on
      * Autoloader::festiplan_autoloader()
      */
-    public static function autoload() {
+    public static function autoload(): void
+    {
         spl_autoload_register(array(__CLASS__, "festiplan_autoloader"));
     }
 
@@ -18,7 +19,8 @@ class Autoloader {
      * Manages autoload by including files
      * with their path defined in the namespace
      */
-    public static function festiplan_autoloader($namespace) {
+    public static function festiplan_autoloader($namespace): void
+    {
         $path = str_replace("\\","/", $namespace);
         $path = str_replace("festiplan", "", $path);
         $path = $path[0] == "/" ? substr($path, 1) : $path;

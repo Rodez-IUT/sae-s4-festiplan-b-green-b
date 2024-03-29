@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\ListeSpectacleServices;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -41,13 +42,11 @@ class ListeSpectacleController
     {
         $idUtilisateur = HttpHelper::getParam("user_id");
 
-        // Redirige vers la page d'authentification si l'identifiant d'utilisateur n'est pas défini ou est vide.
+        // Redirige vers la page d'authentification si l'identifiant d'utilisateur n'est pas défini ou s'il est vide.
         if (!isset($idUtilisateur) || empty($idUtilisateur)) {
             header("Location: ?controller=Authentification");
             exit();
         }
-
-        $liste_spectacles = array();
 
         try {
             // Récupère la liste des spectacles pour l'utilisateur.
@@ -55,7 +54,7 @@ class ListeSpectacleController
             // Vérifie si l'utilisateur est organisateur ou responsable.
             $est_organisateur = $this->spectacleServices->is_organisateur($pdo, $idUtilisateur);
             $est_organisateur = $est_organisateur || $this->spectacleServices->is_responsable($pdo, $idUtilisateur);
-        } catch (\PDOException $e) {
+        } catch (PDOException) {
             // En cas d'erreur PDO, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération de la liste des spectacles";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -63,7 +62,7 @@ class ListeSpectacleController
         }
 
         // Initialise la vue avec la liste des spectacles et d'autres variables nécessaires.
-        $view = new View("view/listeSpectaclesUtilisateur");
+        $view = new View("view/spectacle/listeSpectaclesUtilisateur");
         $view->setVar("organisateur", $est_organisateur);
         $view->setVar("liste_spectacles", $liste_spectacles);
         $view->setVar("titre", "Liste des spectacles");
@@ -79,7 +78,7 @@ class ListeSpectacleController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue de la liste des spectacles avec le menu déroulant ouvert.
      */
-    function showMenu($pdo): View
+    function showMenu(PDO $pdo): View
     {
         // Affiche la liste des spectacles avec le menu déroulant ouvert.
         $view = $this->index($pdo);

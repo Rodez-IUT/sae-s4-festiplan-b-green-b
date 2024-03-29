@@ -5,8 +5,11 @@ $_SESSION = array();
 if (isset($user_ok) && $user_ok) {
     $_SESSION = array();
     $_SESSION["session_id"] = session_id();
+    /** @noinspection PhpUndefinedVariableInspection */
     $_SESSION["user_id"] = $user_id;
+    /** @noinspection PhpUndefinedVariableInspection */
     $_SESSION["user_nom"] = $user_nom;
+    /** @noinspection PhpUndefinedVariableInspection */
     $_SESSION["user_prenom"] = $user_prenom;
     header("Location: ?controller=Home");
     exit();
@@ -312,7 +315,7 @@ if (isset($open)) {
     <div class="col-12">&nbsp;</div>
 
     
-    <?php require("footer.php"); ?>
+    <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
 </body>
 </html>

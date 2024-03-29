@@ -5,17 +5,16 @@ if (!isset($_SESSION["session_id"])
     header("Location: ?controller=Authentification");
     exit();
 }
-if(!$_SESSION["organisateur"]){
-    header("Location: ?controller=ListeSpectacle");
-    exit();
-}
+/** @noinspection PhpUndefinedVariableInspection */
+$_SESSION["organisateur"] = $organisateur;
+
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste de tous les spectacles</title>
+    <title>Liste des spectacles</title>
 
     <link rel="stylesheet" href="../festiplan/other/css/style.css">
 
@@ -23,7 +22,7 @@ if(!$_SESSION["organisateur"]){
 <body>
     
     <?php
-        require("header.php");
+        require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/header.php");
         SetupHeadersAndDialog($titre, $controller, $open);
     ?>
 
@@ -43,38 +42,55 @@ if(!$_SESSION["organisateur"]){
                     foreach ($liste_spectacles as $spectacle) {
                 ?>
 
-                <form class="col-10 liste-item fond-blanc" method="post" action="?">
-                    <input type="hidden" name="controller" value="InfoSpectacle">
-                    <input type="hidden" name="idSpectacle" value="<?php echo $spectacle["idSpectacle"] ?>">
-                    <button name="action" value="index"
-                            type="submit" class="col-12 btn-light btn">
+                <div class="col-9 liste-item fond-background nom">
                     <?php echo $spectacle["titreSpectacle"] ?>
+                </div>
+
+                <form class='col-1 text-center'>
+                    <input type="hidden" name="controller" value="SpectacleAjouts">
+                    <input type="hidden" name="idSpectacle" value="<?php echo $spectacle["idSpectacle"] ?>">
+                    <button type="submit" class="col-6">
+                        <span class="fa fa-plus"></span>
                     </button>
                 </form>
 
-                <?php if ($spectacle["idResponsableSpectacle"] == $idUtilisateur) {?>
-                <form class='col-2 liste-icon text-center'>
-                    <input type="hidden" name="controller" value="GestionSpectacle">
+                <form class='col-1 text-center'>
+                    <input type="hidden" name="controller" value="CreationSpectacle">
                     <input type="hidden" name="idSpectacle" value="<?php echo $spectacle["idSpectacle"] ?>">
                     <button name="action" value="modifier"
                             type="submit" class="col-6">
                         <span class="fa fa-pen-to-square"></span>
                     </button>
-                    <button name="action" value="supprimer"
+                </form>
+
+                <form class="col-1 text-center" action="">
+                    <input type="hidden" name="controller" value="GestionSpectacles">
+                    <input type="hidden" name="idSpectacle" value="<?php echo $spectacle["idSpectacle"] ?>">
+                    <button name="action" value="confirmationSuppression"
                             type="submit" class="col-6">
                         <span class="fa fa-trash-can"></span>
                     </button>
+
                 </form>
-                <?php } ?>
 
                 <div class="col-12">&nbsp;</div>
 
                 <?php
                     }
                 }
+
+                if ($_SESSION["organisateur"]) {
                 ?>
-            
-                <a href="?controller=CreationSpectacle" class="col-3 offset-9">
+
+                <a href="?controller=ListeTousSpectacles" class="col-4 ">
+                    <button class="col-12 btn-valide">
+                        Tous les spectacles
+                    </button>
+                </a>
+                    <a href="?controller=CreationSpectacle" class="col-3 offset-5">
+                <?php } else { ?>
+                     <a href="?controller=CreationSpectacle" class="col-3 offset-9">
+                <?php } ?>
                     <button class="col-12 btn-creer">
                         Créer    
                     </button>
@@ -88,7 +104,7 @@ if(!$_SESSION["organisateur"]){
 
     </div>
     <br/><br/>
-    <?php require("footer.php"); ?>
+    <?php require($_SERVER['DOCUMENT_ROOT'] . "/sae-s4-festiplan-b-green-b/festiplan/view/footer.php"); ?>
 
 </body>
 </html>

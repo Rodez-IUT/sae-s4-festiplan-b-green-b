@@ -3,6 +3,7 @@
 namespace controllers;
 
 use PDO;
+use PDOException;
 use services\ModifInfoPersoService;
 use yasmf\HttpHelper;
 use yasmf\View;
@@ -48,7 +49,7 @@ class ModifInfoPersoController
         try {
             // Récupère la liste des valeurs à afficher dans le formulaire.
             $liste_valeurs = $this->modifInfoService->getListeValeurs($pdo, $idUtilisateur);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, redirige vers la page d'erreur avec un message approprié.
             $message_erreur = "Erreur lors de la récupération des données";
             header("Location: ?controller=ErreurBD&message_erreur=$message_erreur");
@@ -56,7 +57,7 @@ class ModifInfoPersoController
         }
 
         // Initialise la vue avec la liste des valeurs et d'autres variables nécessaires.
-        $view = new View("view/modifInformation");
+        $view = new View("view/compte_utilisateur/modifInformation");
         $view->setVar("liste_valeurs", $liste_valeurs);
         $view->setVar("titre", "Modification données personnelles");
         $view->setVar("controller", "ModifInfoPerso");
@@ -78,7 +79,7 @@ class ModifInfoPersoController
         $liste_classes = $this->modifInfoService->verif_changes($pdo, $_POST, $id_user, $this->modifInfoService->getListeValeurs($pdo, $id_user));
 
         foreach ($liste_classes as $key => $value) {
-            // En cas d'erreur, réaffiche le formulaire de modification des informations personnelles.
+            // En cas d'erreur, on affiche à nouveau le formulaire de modification des informations personnelles.
             if ($value != "ok") {
                 $this->index($pdo);
             }
@@ -87,7 +88,7 @@ class ModifInfoPersoController
         try {
             // Tente de mettre à jour les informations de l'utilisateur dans la base de données.
             $this->modifInfoService->updateUser($pdo, $_POST, $id_user);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             // En cas d'erreur PDO, gère les erreurs spécifiques (identifiant unique, email unique).
             $view = $this->index($pdo);
             if (str_contains($e->getMessage(), "loginUser")) {
@@ -112,7 +113,7 @@ class ModifInfoPersoController
      * @param PDO $pdo Connexion à la base de données.
      * @return View Vue du formulaire de modification des informations personnelles avec le menu déroulant ouvert.
      */
-    function showMenu($pdo): View
+    function showMenu(PDO $pdo): View
     {
         // Affiche le formulaire de modification des informations personnelles avec le menu déroulant ouvert.
         $view = $this->index($pdo);

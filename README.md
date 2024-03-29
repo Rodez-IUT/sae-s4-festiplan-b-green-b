@@ -6,11 +6,11 @@ Description : Le projet "Festiplan" est une application web pour gérer la plani
 # Membres
 DENAMIEL Clément 
 - Mail iut : clement.denamiel@iut-rodez.fr
-- Identifiant github : cleeem 
+- Identifiant GitHub : cleeem 
 
 ROMA Rafael
 - Mail iut : rafael.roma@iut-rodez.fr
-- Identifiant github : rom0raf
+- Identifiant GitHub : rom0raf
 
 VEYRE Antonin
 - Mail iut : antonin.veyre@iut-rodez.fr
@@ -18,11 +18,11 @@ VEYRE Antonin
 
 VIGNALS Lohan
 - Mail iut : lohan.vignals@iut-rodez.fr
-- Identifiant github : lohanvig
+- Identifiant GitHub : lohanvig
 
 YOUDALE Guillaume
 - Mail iut : guillaume.youdale--beutler@iut-rodez.fr
-- Identifiant github : guillaume-youdale
+- Identifiant GitHub : guillaume-youdale
 
   
 Lien vers le board : https://github.com/users/cleeem/projects/2
