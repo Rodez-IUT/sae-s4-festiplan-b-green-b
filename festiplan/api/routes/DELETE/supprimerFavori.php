@@ -2,15 +2,8 @@
 
 use api\API;
 
-// Get JSON as a string
-$json_str = file_get_contents('php://input');
-
-// Get as an object
-$json_obj = json_decode($json_str);
-
-$idU = $json_obj->idUser ?? null;
-$idF = $json_obj->idFestival ?? null;
-
+$idU = $_GET['idUser'] ?? null;
+$idF = $_GET['idFestival'] ?? null;
 
 if (!empty($idU) && !empty($idF)) {
     $result = $API->supprimerFavori($idU, $idF);
