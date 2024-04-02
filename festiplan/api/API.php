@@ -40,7 +40,11 @@ class API
     public function getAllFestival(): string | array
     {
         try {;
-            return FestivalService::getAllFestival($this->dataSource->getpdo());
+            $result = FestivalService::getAllFestival($this->dataSource->getpdo());
+            foreach ($result as $key => $value) {
+                $result[$key]['imagePath'] = "/sae-s4-festiplan-b-green-b/festiplan/stockage/images/" . $value['nomImage'];
+            }
+            return $result;
         } catch (PDOException $e) {
             return $e->getMessage();
         }

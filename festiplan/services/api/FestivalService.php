@@ -21,7 +21,10 @@ class FestivalService
      */
     public static function getAllFestival($pdo): array|PDOException
     {
-        $stmt = $pdo->prepare("SELECT * FROM festivals ORDER BY dateDebutFestival");
+        $stmt = $pdo->prepare("SELECT festivals.* , images.nomImage
+                               FROM festivals
+                               INNER JOIN images ON festivals.idImage = images.idImage
+                               ORDER BY dateDebutFestival");
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -89,7 +92,6 @@ class FestivalService
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $result =  $stmt->fetchAll();
-
         return $result;
     }
 }
