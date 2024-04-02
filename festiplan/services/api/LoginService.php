@@ -22,7 +22,8 @@ class LoginService
      * @param PDO $pdo L'objet PDO pour la connexion à la base de données.
      * @param string $identifiant L'identifiant de l'utilisateur.
      * @param string $mdp Le mot de passe de l'utilisateur.
-     * @return array|bool|PDOException Retourne un tableau si l'utilisateur est valide, false si non valide, ou une exception PDO en cas d'erreur de la base de données.
+     * @return array|bool|PDOException Retourne un tableau si l'utilisateur est valide,
+     * false si non valide, ou une exception PDO en cas d'erreur de la base de données.
      */
     public static function login(PDO $pdo, string $identifiant, string $mdp): array|bool|PDOException
     {
